@@ -18,7 +18,7 @@ export default function Home() {
           src="/Hero.png"
           alt="APAE São Rafael"
           fill
-          className="object-cover object-center"
+          className="object-cover object-center scale-[1.02]"
           priority
         />
         <div className="absolute inset-0 bg-black" style={{ opacity: 0.65 }} />

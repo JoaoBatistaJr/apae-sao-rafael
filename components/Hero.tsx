@@ -58,14 +58,15 @@ export default function Hero() {
           </div>
 
           <div className="hidden justify-end lg:flex">
-            <Image
-              src="/heart.svg"
-              alt="APAE"
-              width={380}
-              height={380}
-              className="h-auto w-full object-contain drop-shadow-xl"
-              style={{ maxWidth: "580px", height: "auto" }}
-            />
+            <div className="relative aspect-square w-[clamp(320px,35vw,580px)]">
+              <Image
+                src="/heart.svg"
+                alt="APAE"
+                fill
+                priority
+                className="object-contain"
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default function Header() {
               width={170}
               height={50}
               className="object-contain"
-              style={{ height: "auto", padding: "20px" }}
+              style={{padding: "20px" }}
             />
           </Link>
 
