@@ -47,7 +47,7 @@ export default function Header() {
         <div className="flex h-20 items-center justify-between md:h-24">
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/logoAPAEhome.svg"
+              src="/LogoAPAEhome.svg"
               alt="APAE São Rafael"
               width={170}
               height={50}

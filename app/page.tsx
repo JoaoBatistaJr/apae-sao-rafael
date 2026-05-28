@@ -15,7 +15,7 @@ export default function Home() {
     <main className="w-full overflow-hidden">
       <div className="relative w-full">
         <Image
-          src="/hero.png"
+          src="/Hero.png"
           alt="APAE São Rafael"
           fill
           className="object-cover object-center"
