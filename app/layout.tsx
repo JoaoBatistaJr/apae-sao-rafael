@@ -1,11 +1,16 @@
 import { Poppins, Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import BottomNav from "@/components/BottomNav";
+import PuzzleBg from "@/components/PuzzleBg";
 
 export const metadata = {
   title: "APAE São Rafael - RN",
   description:
     "Associação de Pais e Amigos dos Excepcionais de São Rafael - RN",
+};
+
+export const viewport = {
+  viewportFit: "cover",
 };
 
 const poppins = Poppins({
@@ -30,8 +35,17 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${nunitoSans.variable}`}
         suppressHydrationWarning
-        style={{ position: "relative", background: "#fffdf9" }}
+        style={{ position: "relative", background: "#fffdf9", minHeight: "100vh", height: "100%" }}
       >
+        {/* Background decorativo - acompanha rolagem */}
+        <div
+          className="pointer-events-none absolute inset-0 z-0 overflow-visible w-full"
+          aria-hidden="true"
+          style={{ minHeight: "100%", height: "100%" }}
+        >
+          <PuzzleBg />
+        </div>
+
         {/* Conteúdo */}
         <div
           style={{
@@ -41,6 +55,7 @@ export default function RootLayout({
             flexDirection: "column",
             minHeight: "100vh",
           }}
+          className="pb-16 lg:pb-0"
         >
           {children}
         </div>

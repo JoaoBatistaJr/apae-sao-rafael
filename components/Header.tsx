@@ -44,7 +44,7 @@ export default function Header() {
   return (
     <header className="w-full">
       <div className="container-site">
-        <div className="flex h-20 items-center justify-between md:h-24">
+        <div className="flex h-20 items-center justify-center md:h-24 lg:justify-between">
           <Link href="/" className="flex items-center gap-3">
             <Image
               src="/LogoAPAEhome.svg"
@@ -52,7 +52,7 @@ export default function Header() {
               width={170}
               height={50}
               className="object-contain"
-              style={{padding: "20px" }}
+              style={{ padding: "20px" }}
             />
           </Link>
 

@@ -8,7 +8,7 @@ export default function Hero() {
       style={{ minHeight: "520px", paddingTop: "60px", paddingBottom: "100px" }}
     >
       <div
-        className="pointer-events-none absolute left-0 -bottom-20 select-none"
+        className="pointer-events-none absolute -bottom-16 left-0 select-none sm:-bottom-20"
         aria-hidden="true"
       >
         <Image
@@ -16,21 +16,23 @@ export default function Hero() {
           alt=""
           width={80}
           height={80}
-          className="w-12 sm:w-16 md:w-20"
+          className="w-16 sm:w-20 md:w-20"
         />
       </div>
       <div
-        className="pointer-events-none absolute -right-12 -bottom-19 select-none"
+        className="pointer-events-none absolute right-0 -bottom-16 select-none sm:-bottom-20"
         aria-hidden="true"
       >
         <Image
-          src="/decorations/autism-bow-2.svg"
+          src="/decorations/autism-bow.svg"
           alt=""
           width={80}
           height={80}
-          className="w-12 sm:w-16 md:w-32"
+          className="w-16 sm:w-20 md:w-20"
+          style={{ transform: "scaleX(-1)" }}
         />
       </div>
+
       <div className="container-site">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
           <div>
@@ -71,7 +73,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-0 right-0 max-md:hidden flex animate-bounce justify-center">
         <div
           style={{

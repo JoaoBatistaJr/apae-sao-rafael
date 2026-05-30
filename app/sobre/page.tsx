@@ -44,28 +44,28 @@ const servicos = [
 export default function SobrePage() {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Header sólido */}
       <div className="w-full bg-[#0F5A43]">
         <TopBar />
         <Header />
-      </div>
-      {/* Título da página */}
-      <div className="container-site flex flex-col items-center py-12 text-center" style={{paddingBlock: '60px'}}>
-        <h1 className="text-3xl font-extrabold text-black sm:text-4xl lg:text-5xl">
-          Sobre a APAE São Rafael
-        </h1>
-
-        <p className="mt-5 max-w-3xl text-lg leading-relaxed text-black/80">
-          Conheça nossa história, nossa equipe e o trabalho que transforma vidas
-          na nossa comunidade.
-        </p>
+        <div
+          className="container-site flex flex-col items-center text-center"
+          style={{ paddingBlock: "60px" }}
+        >
+          <h1 className="text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
+            Sobre a APAE São Rafael
+          </h1>
+          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-white/80">
+            Conheça nossa história, nossa equipe e o trabalho que transforma
+            vidas na nossa comunidade.
+          </p>
+        </div>
       </div>
 
       <main className="flex-1 bg-warm">
         {/* Imagem principal */}
-        <div className="container-site" >
+        <div className="container-site" style={{ paddingTop: "60px" }}>
           <div
-            className="relative w-full overflow-hidden "
+            className="relative w-full overflow-hidden"
             style={{ height: "400px", borderRadius: "20px" }}
           >
             <Image
@@ -229,7 +229,7 @@ export default function SobrePage() {
             </div>
             <div
               className="relative mt-12 overflow-hidden"
-              style={{ height: "320px", borderRadius: "20px"}}
+              style={{ height: "320px", borderRadius: "20px" }}
             >
               <Image
                 src="/sobre-estrutura.png"
@@ -335,15 +335,7 @@ export default function SobrePage() {
               ))}
             </div>
             <div className="mt-12 flex justify-center">
-              <Link
-                href="/contato"
-                className="btn-radius bg-white font-bold text-green-800 transition hover:bg-green-50"
-                style={{
-                  display: "inline-block",
-                  padding: "14px 36px",
-                  fontSize: "15px",
-                }}
-              >
+              <Link href="/contato" className="btn btn-outline-white btn-md">
                 Entre em contato
               </Link>
             </div>

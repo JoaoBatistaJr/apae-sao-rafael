@@ -15,17 +15,13 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-
   scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-body), sans-serif;
-
   color: #1f2937;
-
   text-rendering: optimizeLegibility;
-
   -webkit-font-smoothing: antialiased;
 }
 
@@ -43,8 +39,6 @@ img {
   max-width: 100%;
 }
 
-
-
 /* ───────────────────────────────────────────── */
 /* CONTAINER */
 /* ───────────────────────────────────────────── */
@@ -52,10 +46,8 @@ img {
 .container-site {
   width: 100%;
   max-width: 1160px;
-
   margin-left: auto;
   margin-right: auto;
-
   padding-left: 2rem;
   padding-right: 2rem;
 }
@@ -81,19 +73,12 @@ img {
 .card {
   display: flex;
   flex-direction: column;
-
   height: 100%;
-
   overflow: hidden;
-
   border-radius: 24px;
-
   border: 1px solid #efe7dc;
-
   background: #ffffff;
-
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
@@ -101,18 +86,14 @@ img {
 
 .card:hover {
   transform: translateY(-4px);
-
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
 }
 
 .card-body {
   display: flex;
   flex-direction: column;
-
   flex: 1;
-
   padding: 32px;
-
   gap: 16px;
 }
 
@@ -122,9 +103,7 @@ img {
 
 .card-grid {
   display: grid;
-
   grid-template-columns: 1fr;
-
   gap: 40px;
 }
 
@@ -134,26 +113,16 @@ img {
 
 .btn {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
   gap: 8px;
-
   border: none;
-
   border-radius: 14px;
-
   font-weight: 700;
-
   text-decoration: none;
-
   text-align: center;
-
   cursor: pointer;
-
   padding-block: 10px;
-
   transition:
     background 0.2s ease,
     color 0.2s ease,
@@ -169,100 +138,66 @@ img {
   padding: 12px 24px;
   font-size: 14px;
 }
-
 .btn-md {
   padding: 14px 32px;
   font-size: 15px;
 }
-
 .btn-lg {
   padding: 16px 32px;
   font-size: 16px;
 }
-
 .btn-xl {
   padding: 18px 36px;
   font-size: 18px;
 }
-
 .btn-full {
   width: 100%;
 }
-
-/* ───────────────────────────────────────────── */
-/* PRIMARY */
-/* ───────────────────────────────────────────── */
 
 .btn-primary {
   background: #e94e77;
   color: #ffffff;
 }
-
 .btn-primary:hover {
   background: #d93d67;
 }
-
-/* ───────────────────────────────────────────── */
-/* GREEN */
-/* ───────────────────────────────────────────── */
 
 .btn-green {
   background: #4faf7a;
   color: #ffffff;
 }
-
 .btn-green:hover {
   background: #3d9967;
 }
-
-/* ───────────────────────────────────────────── */
-/* YELLOW */
-/* ───────────────────────────────────────────── */
 
 .btn-yellow {
   background: #f6d77a;
   color: #705200;
 }
-
 .btn-yellow:hover {
   background: #eccb63;
 }
-
-/* ───────────────────────────────────────────── */
-/* PURPLE */
-/* ───────────────────────────────────────────── */
 
 .btn-purple {
   background: #b98ad9;
   color: #ffffff;
 }
-
 .btn-purple:hover {
   background: #a874cf;
 }
-
-/* ───────────────────────────────────────────── */
-/* PINK */
-/* ───────────────────────────────────────────── */
 
 .btn-pink {
   background: #f7b2c3;
   color: #7a1633;
 }
-
 .btn-pink:hover {
   background: #ee9eb4;
 }
-
-/* ───────────────────────────────────────────── */
-/* LIGHT BUTTONS */
-/* ───────────────────────────────────────────── */
 
 .btn-light-yellow {
   background: #fce7a8;
   color: #7a5a00;
 }
-
 .btn-light-yellow:hover {
   background: #f6dc8b;
 }
@@ -271,7 +206,6 @@ img {
   background: #cfeed8;
   color: #1c6b42;
 }
-
 .btn-light-green:hover {
   background: #bee5ca;
 }
@@ -280,7 +214,6 @@ img {
   background: #d8eef4;
   color: #145e75;
 }
-
 .btn-light-blue:hover {
   background: #c5e5ee;
 }
@@ -289,7 +222,6 @@ img {
   background: #ffd6d6;
   color: #8a2c2c;
 }
-
 .btn-light-red:hover {
   background: #ffc2c2;
 }
@@ -298,40 +230,27 @@ img {
   background: #eadaf7;
   color: #6c3d8a;
 }
-
 .btn-light-purple:hover {
   background: #dfc8f3;
 }
 
-/* ───────────────────────────────────────────── */
-/* OUTLINE */
-/* ───────────────────────────────────────────── */
-
 .btn-outline-green {
   background: transparent;
-
   border: 2px solid #0f5a43;
-
   color: #0f5a43;
 }
-
 .btn-outline-green:hover {
   background: #0f5a43;
-
   color: #ffffff;
 }
 
 .btn-outline-white {
   background: transparent;
-
   border: 2px solid #ffffff;
-
   color: #ffffff;
 }
-
 .btn-outline-white:hover {
   background: #ffffff;
-
   color: #0f5a43;
 }
 
@@ -342,10 +261,10 @@ img {
 .bg-warm {
   background-color: rgba(255, 253, 249, 0.85);
 }
-
 .bg-warm-muted {
   background-color: rgba(248, 243, 235, 0.85);
 }
+
 /* ───────────────────────────────────────────── */
 /* RESPONSIVE */
 /* ───────────────────────────────────────────── */
@@ -353,7 +272,6 @@ img {
 @media (min-width: 640px) {
   .card-grid {
     grid-template-columns: repeat(2, 1fr);
-
     gap: 32px;
   }
 }
@@ -362,7 +280,6 @@ img {
   .card-grid-3 {
     grid-template-columns: repeat(3, 1fr);
   }
-
   .card-grid-4 {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -395,9 +312,14 @@ img {
     padding: 15px 24px;
     font-size: 15px;
   }
-
   .btn-xl {
     padding: 16px 28px;
     font-size: 16px;
+  }
+}
+
+@media (max-width: 1023px) {
+  footer {
+    padding-bottom: 64px;
   }
 }
