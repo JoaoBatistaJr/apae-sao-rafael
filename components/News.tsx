@@ -66,7 +66,7 @@ export default function News() {
                 aria-hidden="true"
               />
             </h2>
-            <p className="mt-3 text-base text-gray-500">
+           <p className="mt-3 text-base text-gray-500 text-center">
               Fique por dentro do que acontece na APAE São Rafael.
             </p>
           </div>

@@ -49,7 +49,7 @@ export default function SobrePage() {
         <Header />
         <div
           className="container-site flex flex-col items-center text-center"
-          style={{ paddingBlock: "60px" }}
+          style={{ paddingBlock: "30px" }}
         >
           <h1 className="text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
             Sobre a APAE São Rafael
@@ -62,7 +62,6 @@ export default function SobrePage() {
       </div>
 
       <main className="flex-1 bg-warm">
-        {/* Imagem principal */}
         <div className="container-site" style={{ paddingTop: "60px" }}>
           <div
             className="relative w-full overflow-hidden"
@@ -78,7 +77,6 @@ export default function SobrePage() {
           </div>
         </div>
 
-        {/* Quem Somos */}
         <section
           className="bg-warm w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -124,7 +122,6 @@ export default function SobrePage() {
           </div>
         </section>
 
-        {/* Missão Visão Valores */}
         <section
           className="bg-warm-muted w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -154,7 +151,6 @@ export default function SobrePage() {
           </div>
         </section>
 
-        {/* História */}
         <section
           className="bg-warm w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -201,7 +197,6 @@ export default function SobrePage() {
           </div>
         </section>
 
-        {/* Nossa Estrutura */}
         <section
           className="bg-warm-muted w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -241,7 +236,6 @@ export default function SobrePage() {
           </div>
         </section>
 
-        {/* Como Funcionamos */}
         <section
           className="bg-warm w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -277,7 +271,6 @@ export default function SobrePage() {
           </div>
         </section>
 
-        {/* Horários e Contato */}
         <section
           className="w-full"
           style={{

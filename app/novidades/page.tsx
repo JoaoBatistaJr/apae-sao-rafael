@@ -78,12 +78,15 @@ export default function NoticiasPage() {
       <div className="w-full bg-[#0F5A43]">
         <TopBar />
         <Header />
-        <div className="container-site py-10 text-center sm:py-14">
+        <div
+          className="container-site flex flex-col items-center text-center"
+          style={{ paddingBlock: "30px" }}
+        >
           <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
             Novidades e Eventos
           </h1>
           <p
-            className="mx-auto mt-3 text-sm text-white/80 sm:text-base"
+            className="mt-3 text-sm text-white/80 sm:text-base"
             style={{ maxWidth: "520px" }}
           >
             Fique por dentro de tudo que acontece na APAE São Rafael.
@@ -94,7 +97,6 @@ export default function NoticiasPage() {
       <main className="flex-1 bg-warm">
         <section className="section bg-warm w-full">
           <div className="container-site">
-            {/* Destaque */}
             {noticiaPrincipal && (
               <Link
                 href={noticiaPrincipal.href}
@@ -136,7 +138,6 @@ export default function NoticiasPage() {
               </Link>
             )}
 
-            {/* Grid */}
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {noticiasSecundarias.map((item) => (
                 <Link

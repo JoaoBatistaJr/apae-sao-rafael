@@ -64,29 +64,18 @@ const vozes = [
 export default function AtividadesPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Hero */}
-      <div className="relative w-full">
-        <Image
-          src="/atividades-hero.png"
-          alt="Atividades APAE São Rafael"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        <div className="absolute inset-0 " />
-        <div className="relative z-10 bg-[#0F5A43]">
-          <TopBar />
-          <Header />
-        </div>
+      <div className="w-full bg-[#0F5A43]">
+        <TopBar />
+        <Header />
         <div
-          className="container-site flex flex-col items-center py-12 text-center"
-          style={{ paddingBlock: "60px" }}
+          className="container-site flex flex-col items-center text-center"
+          style={{ paddingBlock: "5px" }}
         >
-          <h1 className="text-3xl font-extrabold text-black sm:text-4xl lg:text-5xl">
+          <h1 className="text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
             Nossas Atividades
           </h1>
           <p
-            className="mt-5 max-w-3xl text-lg leading-relaxed text-black/80"
+            className="mt-5 text-sm text-white/80 sm:text-base text-center"
             style={{ maxWidth: "560px" }}
           >
             Desenvolvemos atividades que promovem autonomia, qualidade de vida e
@@ -97,10 +86,7 @@ export default function AtividadesPage() {
 
       <main className="flex-1 bg-warm">
         {/* Intro */}
-        <section
-          className="bg-warm w-full"
-          style={{ paddingBlock: "40px" }}
-        >
+        <section className="bg-warm w-full" style={{ paddingBlock: "80px" }}>
           <div className="container-site">
             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
               <div>
@@ -151,7 +137,6 @@ export default function AtividadesPage() {
             >
               Principais Atividades
             </h2>
-
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {atividades.map((item) => (
                 <div
@@ -182,7 +167,6 @@ export default function AtividadesPage() {
             >
               Vozes da nossa comunidade
             </h2>
-
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {vozes.map((v) => (
                 <div
@@ -196,7 +180,7 @@ export default function AtividadesPage() {
                   </p>
                   <div className="mt-6 flex items-center gap-3">
                     <div
-                      className="flex shrink-0 items-center justify-center bg-green-700 font-bold text-white text-sm"
+                      className="flex shrink-0 items-center justify-center bg-green-700 text-sm font-bold text-white"
                       style={{
                         width: "44px",
                         height: "44px",
@@ -218,7 +202,7 @@ export default function AtividadesPage() {
           </div>
         </section>
 
-        {/* CTA — Venha nos conhecer */}
+        {/* CTA */}
         <section
           className="bg-warm-muted w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -230,12 +214,10 @@ export default function AtividadesPage() {
             >
               Venha nos conhecer!
             </h2>
-
             <div
               className="grid grid-cols-1 overflow-hidden lg:grid-cols-2"
               style={{ borderRadius: "24px", border: "1px solid #e5e7eb" }}
             >
-              {/* Texto */}
               <div className="bg-white" style={{ padding: "56px 48px" }}>
                 <h3
                   className="text-xl font-extrabold text-gray-900 sm:text-2xl"
@@ -259,20 +241,10 @@ export default function AtividadesPage() {
                   transformar vidas. Juntos, construímos uma sociedade mais
                   inclusiva e acolhedora.
                 </p>
-                <Link
-                  href="/contato"
-                  className="btn-radius bg-pink-500 font-bold text-white transition hover:bg-pink-600"
-                  style={{
-                    display: "inline-block",
-                    padding: "14px 32px",
-                    fontSize: "15px",
-                  }}
-                >
+                <Link href="/contato" className="btn btn-primary btn-md">
                   Entre em contato e participe!
                 </Link>
               </div>
-
-              {/* Imagem */}
               <div className="relative" style={{ minHeight: "320px" }}>
                 <Image
                   src="/atividades-cta.png"
@@ -280,7 +252,6 @@ export default function AtividadesPage() {
                   fill
                   className="object-cover"
                 />
-                {/* Overlay com texto caso a imagem não carregue */}
                 <div
                   className="absolute inset-0 flex flex-col items-center justify-center text-center"
                   style={{
