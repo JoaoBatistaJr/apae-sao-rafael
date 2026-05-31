@@ -41,7 +41,7 @@ export default function PuzzleBg() {
               <path
                 d={PATHS[type]}
                 fill="#4D5969"
-                opacity="0.30"
+                opacity="0.25"
                 transform={`rotate(${rot}, ${size / 2}, ${size / 2})`}
               />
             </svg>
