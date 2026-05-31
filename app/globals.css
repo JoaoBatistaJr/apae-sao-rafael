@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  --color-primary: #003f8a;
+}
+
 /* ───────────────────────────────────────────── */
 /* RESET */
 /* ───────────────────────────────────────────── */
@@ -236,11 +240,11 @@ img {
 
 .btn-outline-green {
   background: transparent;
-  border: 2px solid #0f5a43;
-  color: #0f5a43;
+  border: 2px solid #003f8a;
+  color: #003f8a;
 }
 .btn-outline-green:hover {
-  background: #0f5a43;
+  background: #003f8a;
   color: #ffffff;
 }
 
@@ -251,7 +255,7 @@ img {
 }
 .btn-outline-white:hover {
   background: #ffffff;
-  color: #0f5a43;
+  color: #003f8a;
 }
 
 /* ───────────────────────────────────────────── */
@@ -259,10 +263,10 @@ img {
 /* ───────────────────────────────────────────── */
 
 .bg-warm {
-  background-color: rgba(255, 253, 249, 0.85);
+  background-color: rgba(255, 253, 249, 0.6);
 }
 .bg-warm-muted {
-  background-color: rgba(248, 243, 235, 0.85);
+  background-color: rgba(248, 243, 235, 0.75);
 }
 
 /* ───────────────────────────────────────────── */
@@ -290,24 +294,19 @@ img {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-
   .section {
     padding-top: 56px;
     padding-bottom: 56px;
   }
-
   .section-title {
     margin-bottom: 40px;
   }
-
   .card-body {
     padding: 22px;
   }
-
   .card-grid {
     gap: 20px;
   }
-
   .btn-lg {
     padding: 15px 24px;
     font-size: 15px;

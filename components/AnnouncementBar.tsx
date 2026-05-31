@@ -5,7 +5,7 @@ export default function AnnouncementBar() {
     <div className="w-full bg-[#4BCBAB] py-2 text-center" style={{paddingBlock: "2px"}}>
       <p className="text-xs font-bold text-gray-900 sm:text-sm">
         🎉 Inscrições abertas para nossos cursos!{" "}
-        <Link href="/cursos" className="underline hover:no-underline">
+        <Link href="/cursos" className="underline hover:no-underline hover:text-white">
           Saiba mais →
         </Link>
       </p>

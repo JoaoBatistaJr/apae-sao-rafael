@@ -75,12 +75,12 @@ const noticiasSecundarias = noticias.filter((n) => !n.destaque);
 export default function NoticiasPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="w-full bg-[#0F5A43]">
+      <div className="w-full bg-[#003F8A]">
         <TopBar />
         <Header />
         <div
           className="container-site flex flex-col items-center text-center"
-          style={{ paddingBlock: "30px" }}
+          style={{ paddingBlock: "20px" }}
         >
           <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
             Novidades e Eventos
@@ -94,7 +94,7 @@ export default function NoticiasPage() {
         </div>
       </div>
 
-      <main className="flex-1 bg-warm">
+      <main className="flex-1">
         <section className="section bg-warm w-full">
           <div className="container-site">
             {noticiaPrincipal && (
@@ -137,7 +137,6 @@ export default function NoticiasPage() {
                 </div>
               </Link>
             )}
-
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {noticiasSecundarias.map((item) => (
                 <Link
@@ -175,7 +174,7 @@ export default function NoticiasPage() {
                     </p>
                     <span
                       className="text-sm font-bold"
-                      style={{ color: "#0F5A43" }}
+                      style={{ color: "#003F8A" }}
                     >
                       Leia mais →
                     </span>

@@ -29,7 +29,7 @@ export default function Footer() {
                 width={120}
                 height={60}
                 style={{ height: "auto" }}
-                className="object-contain"
+                className="object-contain w-20 sm:w-24 lg:w-32"
               />
             </div>
 
@@ -91,7 +91,7 @@ export default function Footer() {
         className="w-full"
         style={{
           background: "#0B77E5",
-          paddingBlock:"20px"
+          paddingBlock: "20px",
         }}
       >
         <div className="container-site">

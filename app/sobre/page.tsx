@@ -44,38 +44,25 @@ const servicos = [
 export default function SobrePage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="w-full bg-[#0F5A43]">
+      <div className="w-full bg-[#003F8A]">
         <TopBar />
         <Header />
         <div
           className="container-site flex flex-col items-center text-center"
-          style={{ paddingBlock: "30px" }}
+          style={{ paddingBlock: "20px" }}
         >
-          <h1 className="text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
+          <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
             Sobre a APAE São Rafael
           </h1>
-          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-white/80">
+          <p className="mt-3 text-sm text-white/80 sm:text-base">
             Conheça nossa história, nossa equipe e o trabalho que transforma
             vidas na nossa comunidade.
           </p>
         </div>
       </div>
 
-      <main className="flex-1 bg-warm">
-        <div className="container-site" style={{ paddingTop: "60px" }}>
-          <div
-            className="relative w-full overflow-hidden"
-            style={{ height: "400px", borderRadius: "20px" }}
-          >
-            <Image
-              src="/sobre-hero.png"
-              alt="Equipe APAE São Rafael"
-              fill
-              className="object-cover object-center"
-              priority
-            />
-          </div>
-        </div>
+      <main className="flex-1">
+        
 
         <section
           className="bg-warm w-full"
@@ -274,7 +261,7 @@ export default function SobrePage() {
         <section
           className="w-full"
           style={{
-            background: "#0F5A43",
+            background: "#003F8A",
             paddingTop: "80px",
             paddingBottom: "80px",
           }}
@@ -327,7 +314,10 @@ export default function SobrePage() {
                 </div>
               ))}
             </div>
-            <div className="mt-12 flex justify-center">
+            <div
+              className="mt-12 flex justify-center"
+              style={{ paddingTop: "40px" }}
+            >
               <Link href="/contato" className="btn btn-outline-white btn-md">
                 Entre em contato
               </Link>

@@ -52,9 +52,24 @@ export default function DoacoesPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="w-full bg-[#0F5A43]">
+      <div className="w-full bg-[#003F8A]">
         <TopBar />
         <Header />
+        <div
+          className="container-site flex flex-col items-center text-center"
+          style={{ paddingBlock: "20px" }}
+        >
+          <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
+            Apoie a APAE
+          </h1>
+          <p
+            className="mt-5 max-w-3xl text-sm leading-relaxed text-white/80"
+            style={{ maxWidth: "520px" }}
+          >
+            Sua contribuição ajuda a manter atendimentos, terapias e projetos
+            que transformam vidas todos os dias.
+          </p>
+        </div>
       </div>
 
       <main
@@ -71,20 +86,6 @@ export default function DoacoesPage() {
             paddingRight: "1.25rem",
           }}
         >
-          {/* TÍTULO */}
-          <div className="text-center" style={{ marginBottom: "48px" }}>
-            <h1
-              className="font-extrabold text-gray-900"
-              style={{ fontSize: "clamp(28px, 6vw, 48px)" }}
-            >
-              Apoie a APAE
-            </h1>
-            <p className="mx-auto mt-3 text-base leading-7 text-gray-500">
-              Sua contribuição ajuda a manter atendimentos, terapias e projetos
-              que transformam vidas todos os dias.
-            </p>
-          </div>
-
           {/* VALORES */}
           <div style={{ marginBottom: "36px" }}>
             <h2
@@ -93,14 +94,12 @@ export default function DoacoesPage() {
             >
               Escolha o valor da contribuição
             </h2>
-
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {amountBtn(25, "R$ 25")}
               {amountBtn(50, "R$ 50")}
               {amountBtn(100, "R$ 100")}
               {amountBtn("outro", "Outro")}
             </div>
-
             {amount === "outro" && (
               <div style={{ marginTop: "12px" }}>
                 <label className="mb-1.5 block text-sm font-semibold text-gray-700">
@@ -115,7 +114,7 @@ export default function DoacoesPage() {
                   className="w-full border-2 border-gray-200 bg-white px-4 text-base focus:border-pink-400 focus:outline-none"
                   style={{
                     borderRadius: "10px",
-                    padding: "16px 16px",
+                    padding: "16px",
                     fontSize: "16px",
                     minHeight: "56px",
                   }}
@@ -132,9 +131,7 @@ export default function DoacoesPage() {
             >
               Como você deseja ajudar?
             </p>
-
             <div className="flex flex-col gap-3 sm:flex-row">
-              {/* Doação única */}
               <label
                 style={{
                   flex: 1,
@@ -170,8 +167,6 @@ export default function DoacoesPage() {
                   </p>
                 </div>
               </label>
-
-              {/* Padrinho */}
               <label
                 style={{
                   flex: 1,
@@ -210,7 +205,6 @@ export default function DoacoesPage() {
                 </div>
               </label>
             </div>
-
             {donationType === "padrinho" && (
               <div
                 style={{
@@ -238,7 +232,6 @@ export default function DoacoesPage() {
             >
               Forma de pagamento
             </h2>
-
             <div className="grid grid-cols-3 gap-3">
               {[
                 {
@@ -390,8 +383,7 @@ export default function DoacoesPage() {
               : "Fazer doação"}
           </button>
 
-          {/* SEGURANÇA */}
-          <p className="mb-3 text-center text-xs text-gray-400">
+          <p className="mt-3 mb-3 text-center text-xs text-gray-400">
             🔒 Ambiente 100% seguro
           </p>
         </div>

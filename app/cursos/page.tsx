@@ -72,15 +72,18 @@ const cursos = [
 export default function CursosPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="w-full bg-[#0F5A43]">
+      <div className="w-full bg-[#003F8A]">
         <TopBar />
         <Header />
-        <div className="container-site py-10 text-center sm:py-14">
+        <div
+          className="container-site flex flex-col items-center text-center"
+          style={{ paddingBlock: "20px" }}
+        >
           <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
             Cursos e Capacitações
           </h1>
           <p
-            className="mx-auto mt-3 text-sm text-white/80 sm:text-base"
+            className="mt-3 text-sm text-white/80 sm:text-base"
             style={{ maxWidth: "520px" }}
           >
             Aprenda, cresça e contribua com a missão da APAE. Inscreva-se em
@@ -106,7 +109,6 @@ export default function CursosPage() {
                       className="object-cover"
                     />
                   </div>
-
                   <div className="card-body">
                     <div className="flex items-center justify-between">
                       <span
@@ -124,15 +126,12 @@ export default function CursosPage() {
                         <span>👥 {curso.vagas}</span>
                       </div>
                     </div>
-
                     <h3 className="text-base font-extrabold leading-snug text-gray-900">
                       {curso.title}
                     </h3>
-
                     <p className="flex-1 text-sm leading-7 text-gray-500">
                       {curso.desc}
                     </p>
-
                     <Link
                       href={curso.href}
                       className="btn btn-green btn-sm btn-full mt-2"
@@ -149,12 +148,12 @@ export default function CursosPage() {
         <section
           className="w-full"
           style={{
-            background: "#0F5A43",
+            background: "#003F8A",
             paddingTop: "80px",
             paddingBottom: "80px",
           }}
         >
-          <div className="container-site text-center">
+          <div className="container-site flex flex-col items-center text-center">
             <h2
               className="text-xl font-extrabold text-white sm:text-2xl"
               style={{ marginBottom: "16px" }}
@@ -162,7 +161,7 @@ export default function CursosPage() {
               Não encontrou o que procura?
             </h2>
             <p
-              className="mx-auto text-sm text-white/80 sm:text-base"
+              className="text-sm text-white/80 sm:text-base"
               style={{ maxWidth: "480px", marginBottom: "32px" }}
             >
               Entre em contato e nos conte o que você precisa. Estamos sempre

@@ -64,28 +64,27 @@ const vozes = [
 export default function AtividadesPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="w-full bg-[#0F5A43]">
+      <div className="w-full bg-[#003F8A]">
         <TopBar />
         <Header />
         <div
           className="container-site flex flex-col items-center text-center"
-          style={{ paddingBlock: "5px" }}
+          style={{ paddingBlock: "20px" }}
         >
           <h1 className="text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
             Nossas Atividades
           </h1>
           <p
-            className="mt-5 text-sm text-white/80 sm:text-base text-center"
+            className="mt-3 text-sm text-white/80 sm:text-base"
             style={{ maxWidth: "560px" }}
           >
-            Desenvolvemos atividades que promovem autonomia, qualidade de vida e
-            inclusão social com carinho e responsabilidade.
+            Atividades pensadas para promover autonomia, inclusão e qualidade de
+            vida.
           </p>
         </div>
       </div>
 
-      <main className="flex-1 bg-warm">
-        {/* Intro */}
+      <main className="flex-1">
         <section className="bg-warm w-full" style={{ paddingBlock: "80px" }}>
           <div className="container-site">
             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
@@ -125,7 +124,6 @@ export default function AtividadesPage() {
           </div>
         </section>
 
-        {/* Principais Atividades */}
         <section
           className="bg-warm-muted w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -155,7 +153,6 @@ export default function AtividadesPage() {
           </div>
         </section>
 
-        {/* Vozes da comunidade */}
         <section
           className="bg-warm w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -202,7 +199,6 @@ export default function AtividadesPage() {
           </div>
         </section>
 
-        {/* CTA */}
         <section
           className="bg-warm-muted w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}

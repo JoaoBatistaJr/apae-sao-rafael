@@ -33,7 +33,7 @@ export default function BottomNav() {
     <nav
       className="fixed bottom-0 left-0 z-50 w-full lg:hidden"
       style={{
-        background: "#0F5A43",
+        background: "#003F8A",
         borderTop: "1px solid rgba(255,255,255,0.08)",
         paddingBottom: "env(safe-area-inset-bottom)",
       }}
@@ -70,7 +70,7 @@ export default function BottomNav() {
                 gap: "3px",
                 height: "100%",
                 textDecoration: "none",
-                color: isActive ? "#7BEEA7" : "rgba(255,255,255,0.55)",
+                color: isActive ? "#7BEEA7" : "rgba(255,255,255,0.75)",
                 transition: "color 0.2s",
                 touchAction: "manipulation",
                 WebkitTapHighlightColor: "transparent",
