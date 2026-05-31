@@ -323,3 +323,7 @@ img {
     padding-bottom: 64px;
   }
 }
+
+[vw] {
+  z-index: 9999 !important;
+}
