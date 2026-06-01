@@ -6,7 +6,8 @@ import PuzzleBg from "@/components/PuzzleBg";
 
 export const metadata = {
   title: "APAE São Rafael - RN",
-  description: "Associação de Pais e Amigos dos Excepcionais de São Rafael - RN",
+  description:
+    "Associação de Pais e Amigos dos Excepcionais de São Rafael - RN",
 };
 
 export const viewport = {
@@ -25,13 +26,22 @@ const nunitoSans = Nunito_Sans({
   variable: "--font-body",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt-BR">
       <body
         className={`${poppins.variable} ${nunitoSans.variable}`}
         suppressHydrationWarning
-        style={{ position: "relative", background: "#fffdf9", minHeight: "100vh", height: "100%" }}
+        style={{
+          position: "relative",
+          background: "#fffdf9",
+          minHeight: "100vh",
+          height: "100%",
+        }}
       >
         <div
           className="pointer-events-none absolute inset-0 z-0 overflow-visible w-full"
@@ -55,7 +65,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </div>
         </Providers>
-
         <BottomNav />
       </body>
     </html>
