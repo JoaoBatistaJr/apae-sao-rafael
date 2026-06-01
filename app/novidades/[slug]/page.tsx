@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 export default function Page() {
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="w-full bg-[#003F8A]">
+      <div className="w-full bg-[#0F5A43]">
         <TopBar />
         <Header />
       </div>

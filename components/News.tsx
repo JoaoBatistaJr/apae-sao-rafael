@@ -1,14 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const news = [
+const noticias = [
   {
     tag: "Evento",
     tagColor: "bg-green-100 text-green-700",
     title: "Festa Junina da APAE São Rafael 2025",
     desc: "Uma tarde cheia de alegria, música e solidariedade. Venha celebrar conosco e apoiar nossas crianças.",
     date: "20 Jun 2025",
-    href: "/noticias/festa-junina-2025",
+    href: "/novidades/festa-junina-2025",
     img: "/novidades-arraia.png",
   },
   {
@@ -17,7 +17,7 @@ const news = [
     title: "APAE recebe novo equipamento de fisioterapia",
     desc: "Graças às doações da comunidade, adquirimos equipamentos modernos para melhorar o atendimento dos nossos alunos.",
     date: "05 Mai 2025",
-    href: "/noticias/novo-equipamento",
+    href: "/novidades/novo-equipamento",
     img: "/novidades-equipamento.png",
   },
   {
@@ -26,7 +26,7 @@ const news = [
     title: "Campanha de arrecadação de alimentos",
     desc: "Até o fim do mês estamos arrecadando alimentos não perecíveis para as famílias atendidas pela APAE.",
     date: "01 Mai 2025",
-    href: "/noticias/campanha-alimentos",
+    href: "/novidades/campanha-alimentos",
     img: "/novidades-mantimentos.png",
   },
 ];
@@ -70,13 +70,13 @@ export default function News() {
               Fique por dentro do que acontece na APAE São Rafael.
             </p>
           </div>
-          <Link href="/noticias" className="btn btn-outline-green btn-sm">
+          <Link href="/novidades" className="btn btn-outline-green btn-sm">
             Ver todas
           </Link>
         </div>
 
         <div className="card-grid card-grid-3">
-          {news.map((item) => (
+          {noticias.map((item) => (
             <div key={item.href} className="card">
               <div className="relative h-52 overflow-hidden">
                 <div className="relative h-52 overflow-hidden">
