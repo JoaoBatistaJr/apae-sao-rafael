@@ -1,75 +1,37 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getCursos } from "@/lib/notion-cursos";
 
 export const metadata = { title: "Cursos - APAE São Rafael" };
+export const revalidate = 3600;
 
-const cursos = [
-  {
-    img: "/curso-aee.png",
-    tag: "Educação",
-    tagColor: { background: "#dbeafe", color: "#1d4ed8" },
-    title: "Atendimento Educacional Especializado",
-    desc: "Capacitação para profissionais e familiares sobre práticas pedagógicas adaptadas para pessoas com deficiência intelectual.",
-    duracao: "3 meses",
-    vagas: "20 vagas",
-    href: "/cursos/aee",
-  },
-  {
-    img: "/curso-inclusao.png",
-    tag: "Inclusão",
-    tagColor: { background: "#dcfce7", color: "#15803d" },
-    title: "Inclusão Social e Cidadania",
-    desc: "Curso voltado para a comunidade sobre como promover a inclusão no cotidiano, no trabalho e nas relações sociais.",
-    duracao: "1 mês",
-    vagas: "30 vagas",
-    href: "/cursos/inclusao",
-  },
-  {
-    img: "/curso-libras.png",
-    tag: "Comunicação",
-    tagColor: { background: "#f3e8ff", color: "#7e22ce" },
-    title: "Introdução à Libras",
-    desc: "Aprenda o básico da Língua Brasileira de Sinais e amplie sua capacidade de comunicação com pessoas surdas.",
-    duracao: "2 meses",
-    vagas: "25 vagas",
-    href: "/cursos/libras",
-  },
-  {
-    img: "/curso-familia.png",
-    tag: "Família",
-    tagColor: { background: "#fce7f3", color: "#9d174d" },
-    title: "Apoio à Família do Atendido",
-    desc: "Orientações práticas para familiares sobre como lidar com os desafios do dia a dia e fortalecer os vínculos afetivos.",
-    duracao: "6 semanas",
-    vagas: "15 vagas",
-    href: "/cursos/familia",
-  },
-  {
-    img: "/curso-artesanato.png",
-    tag: "Oficina",
-    tagColor: { background: "#fef9c3", color: "#854d0e" },
-    title: "Oficina de Artesanato Inclusivo",
-    desc: "Atividade prática de criação artística aberta à comunidade, com foco na convivência e na valorização da diversidade.",
-    duracao: "8 semanas",
-    vagas: "20 vagas",
-    href: "/cursos/artesanato",
-  },
-  {
-    img: "/curso-cuidador.png",
-    tag: "Saúde",
-    tagColor: { background: "#ffedd5", color: "#9a3412" },
-    title: "Formação de Cuidadores",
-    desc: "Capacitação para cuidadores de pessoas com deficiência, abordando técnicas de cuidado, higiene, comunicação e ética.",
-    duracao: "2 meses",
-    vagas: "20 vagas",
-    href: "/cursos/cuidadores",
-  },
-];
+const TAG_COLORS: Record<string, { background: string; color: string }> = {
+  Educação: { background: "#dbeafe", color: "#1d4ed8" },
+  Inclusão: { background: "#dcfce7", color: "#15803d" },
+  Comunicação: { background: "#f3e8ff", color: "#7e22ce" },
+  Família: { background: "#fce7f3", color: "#9d174d" },
+  Oficina: { background: "#fef9c3", color: "#854d0e" },
+  Saúde: { background: "#ffedd5", color: "#9a3412" },
+};
 
-export default function CursosPage() {
+const DEFAULT_TAG = { background: "#f3f4f6", color: "#374151" };
+
+function formatarData(dataStr: string): string {
+  if (!dataStr) return "";
+  const data = new Date(dataStr + "T00:00:00");
+  return data.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export default async function CursosPage() {
+  const cursos = await getCursos();
+
   return (
     <div className="flex min-h-screen flex-col">
       <div className="w-full bg-[#003F8A]">
@@ -92,56 +54,84 @@ export default function CursosPage() {
         </div>
       </div>
 
-      <main className="flex-1 bg-warm">
+      <main className="flex-1">
         <section className="section bg-warm w-full">
           <div className="container-site">
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {cursos.map((curso) => (
-                <div
-                  key={curso.href}
-                  className="card flex flex-col overflow-hidden"
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={curso.img}
-                      alt={curso.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="card-body">
-                    <div className="flex items-center justify-between">
-                      <span
-                        className="text-xs font-bold"
-                        style={{
-                          ...curso.tagColor,
-                          borderRadius: "8px",
-                          padding: "4px 10px",
-                        }}
-                      >
-                        {curso.tag}
-                      </span>
-                      <div className="flex gap-3 text-xs text-gray-400">
-                        <span>⏱ {curso.duracao}</span>
-                        <span>👥 {curso.vagas}</span>
+            {cursos.length === 0 ? (
+              <div className="flex flex-col items-center text-center py-20">
+                <p className="text-lg text-gray-500">
+                  Nenhum curso disponível no momento.
+                </p>
+                <p className="mt-2 text-sm text-gray-400">
+                  Acompanhe nossas novidades para saber quando novos cursos
+                  forem abertos.
+                </p>
+                <Link href="/novidades" className="btn btn-primary btn-md mt-6">
+                  Ver novidades
+                </Link>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {cursos.map((curso) => {
+                  const tagColor = TAG_COLORS[curso.tag] ?? DEFAULT_TAG;
+                  return (
+                    <div
+                      key={curso.id}
+                      className="card flex flex-col overflow-hidden"
+                    >
+                      <div className="relative h-48 overflow-hidden bg-gray-100">
+                        {curso.imagem ? (
+                          <Image
+                            src={curso.imagem}
+                            alt={curso.titulo}
+                            fill
+                            className="object-cover"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="h-full w-full bg-gray-200" />
+                        )}
+                      </div>
+                      <div className="card-body flex flex-col gap-2">
+                        <div className="flex items-center justify-between">
+                          <span
+                            className="text-xs font-bold"
+                            style={{
+                              ...tagColor,
+                              borderRadius: "8px",
+                              padding: "4px 10px",
+                            }}
+                          >
+                            {curso.tag || "Geral"}
+                          </span>
+                          <div className="flex gap-3 text-xs text-gray-400">
+                            {curso.duracao && <span>⏱ {curso.duracao}</span>}
+                            {curso.vagas && <span>👥 {curso.vagas}</span>}
+                          </div>
+                        </div>
+                        <h3 className="text-base font-extrabold leading-snug text-gray-900">
+                          {curso.titulo}
+                        </h3>
+                        <p className="flex-1 text-sm leading-7 text-gray-500">
+                          {curso.descricao}
+                        </p>
+                        {curso.dataInicio && (
+                          <p className="text-xs text-gray-400">
+                            📅 Início: {formatarData(curso.dataInicio)}
+                          </p>
+                        )}
+                        <Link
+                          href={`/cursos/${curso.slug}`}
+                          className="btn btn-green btn-sm btn-full mt-2"
+                        >
+                          Saiba mais
+                        </Link>
                       </div>
                     </div>
-                    <h3 className="text-base font-extrabold leading-snug text-gray-900">
-                      {curso.title}
-                    </h3>
-                    <p className="flex-1 text-sm leading-7 text-gray-500">
-                      {curso.desc}
-                    </p>
-                    <Link
-                      href={curso.href}
-                      className="btn btn-green btn-sm btn-full mt-2"
-                    >
-                      Inscrever-se
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </section>
 

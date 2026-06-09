@@ -1,78 +1,38 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getNoticias } from "@/lib/notion";
 
 export const metadata = { title: "Novidades - APAE São Rafael" };
+export const revalidate = 3600;
 
-const noticias = [
-  {
-    img: "/novidades-arraia.png",
-    tag: "Evento",
-    tagColor: { background: "#dcfce7", color: "#15803d" },
-    title: "Festa Junina da APAE São Rafael 2025",
-    desc: "Uma tarde cheia de alegria, música e solidariedade. Venha celebrar conosco e apoiar nossas crianças.",
-    date: "20 Jun 2025",
-    href: "/novidades/festa-junina-2025",
-    destaque: true,
-  },
-  {
-    img: "/novidades-equipamento.png",
-    tag: "Notícia",
-    tagColor: { background: "#dbeafe", color: "#1d4ed8" },
-    title: "APAE recebe novo equipamento de fisioterapia",
-    desc: "Graças às doações da comunidade, adquirimos equipamentos modernos para melhorar o atendimento dos nossos alunos.",
-    date: "05 Mai 2025",
-    href: "/novidades/novo-equipamento",
-    destaque: false,
-  },
-  {
-    img: "/novidades-mantimentos.png",
-    tag: "Campanha",
-    tagColor: { background: "#ffedd5", color: "#9a3412" },
-    title: "Campanha de arrecadação de alimentos",
-    desc: "Até o fim do mês estamos arrecadando alimentos não perecíveis para as famílias atendidas pela APAE.",
-    date: "01 Mai 2025",
-    href: "/novidades/campanha-alimentos",
-    destaque: false,
-  },
-  {
-    img: "/novidades-voluntario.png",
-    tag: "Notícia",
-    tagColor: { background: "#dbeafe", color: "#1d4ed8" },
-    title: "APAE recebe grupo de novos voluntários",
-    desc: "Dez novos voluntários se juntaram à nossa equipe para apoiar as atividades pedagógicas e recreativas.",
-    date: "15 Abr 2025",
-    href: "/novidades/novos-voluntarios",
-    destaque: false,
-  },
-  {
-    img: "/novidades-parceria.png",
-    tag: "Notícia",
-    tagColor: { background: "#dbeafe", color: "#1d4ed8" },
-    title: "Nova parceria com Secretaria de Saúde",
-    desc: "A APAE firmou parceria com a Secretaria Municipal de Saúde para ampliar os atendimentos de fisioterapia.",
-    date: "02 Abr 2025",
-    href: "/novidades/parceria-saude",
-    destaque: false,
-  },
-  {
-    img: "/novidades-cursoslibras.png",
-    tag: "Evento",
-    tagColor: { background: "#dcfce7", color: "#15803d" },
-    title: "Inscrições abertas para curso de Libras",
-    desc: "As inscrições para o novo curso de Libras estão abertas. Vagas limitadas — garanta a sua!",
-    date: "20 Mar 2025",
-    href: "/novidades/curso-libras",
-    destaque: false,
-  },
-];
+const TAG_COLORS: Record<string, { background: string; color: string }> = {
+  Evento: { background: "#dcfce7", color: "#15803d" },
+  Notícia: { background: "#dbeafe", color: "#1d4ed8" },
+  Conquista: { background: "#fef9c3", color: "#854d0e" },
+  Projeto: { background: "#f3e8ff", color: "#7e22ce" },
+  Campanha: { background: "#ffedd5", color: "#9a3412" },
+};
 
-const noticiaPrincipal = noticias.find((n) => n.destaque);
-const noticiasSecundarias = noticias.filter((n) => !n.destaque);
+const DEFAULT_TAG = { background: "#f3f4f6", color: "#374151" };
 
-export default function NoticiasPage() {
+function formatarData(dataStr: string): string {
+  if (!dataStr) return "";
+  const data = new Date(dataStr + "T00:00:00");
+  return data.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export default async function NoticiasPage() {
+  const noticias = await getNoticias();
+  const noticiaPrincipal = noticias[0];
+  const noticiasSecundarias = noticias.slice(1);
+
   return (
     <div className="flex min-h-screen flex-col">
       <div className="w-full bg-[#003F8A]">
@@ -97,91 +57,116 @@ export default function NoticiasPage() {
       <main className="flex-1">
         <section className="section bg-warm w-full">
           <div className="container-site">
+            {/* Card destaque */}
             {noticiaPrincipal && (
               <Link
-                href={noticiaPrincipal.href}
+                href={`/novidades/${noticiaPrincipal.slug}`}
                 className="card mb-10 grid overflow-hidden lg:grid-cols-2"
                 style={{ display: "grid", marginBottom: "40px" }}
               >
                 <div className="relative h-64 lg:h-auto">
-                  <Image
-                    src={noticiaPrincipal.img}
-                    alt={noticiaPrincipal.title}
-                    fill
-                    className="object-cover"
-                  />
+                  {noticiaPrincipal.imagem ? (
+                    <Image
+                      src={noticiaPrincipal.imagem}
+                      alt={noticiaPrincipal.titulo}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-gray-200" />
+                  )}
                 </div>
                 <div className="card-body justify-center">
                   <div className="flex items-center gap-3">
                     <span
                       className="text-xs font-bold"
                       style={{
-                        ...noticiaPrincipal.tagColor,
+                        ...(TAG_COLORS[noticiaPrincipal.tag] ?? DEFAULT_TAG),
                         borderRadius: "8px",
                         padding: "4px 10px",
                       }}
                     >
-                      {noticiaPrincipal.tag}
+                      {noticiaPrincipal.tag || "Geral"}
                     </span>
                     <span className="text-xs text-gray-400">
-                      {noticiaPrincipal.date}
+                      {formatarData(noticiaPrincipal.data)}
                     </span>
                   </div>
                   <h2 className="text-xl font-extrabold leading-snug text-gray-900 sm:text-2xl">
-                    {noticiaPrincipal.title}
+                    {noticiaPrincipal.titulo}
                   </h2>
                   <p className="text-sm leading-7 text-gray-500">
-                    {noticiaPrincipal.desc}
+                    {noticiaPrincipal.descricao}
                   </p>
                   <span className="btn btn-green btn-sm w-fit">Leia mais</span>
                 </div>
               </Link>
             )}
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {noticiasSecundarias.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="card flex flex-col overflow-hidden"
-                >
-                  <div className="relative h-44">
-                    <Image
-                      src={item.img}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="card-body">
-                    <div className="flex items-center justify-between">
-                      <span
-                        className="text-xs font-bold"
-                        style={{
-                          ...item.tagColor,
-                          borderRadius: "8px",
-                          padding: "4px 10px",
-                        }}
-                      >
-                        {item.tag}
-                      </span>
-                      <span className="text-xs text-gray-400">{item.date}</span>
+
+            {/* Grid demais */}
+            {noticiasSecundarias.length > 0 && (
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {noticiasSecundarias.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={`/novidades/${item.slug}`}
+                    className="card flex flex-col overflow-hidden"
+                  >
+                    <div className="relative h-44">
+                      {item.imagem ? (
+                        <Image
+                          src={item.imagem}
+                          alt={item.titulo}
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-gray-200" />
+                      )}
                     </div>
-                    <h3 className="text-base font-extrabold leading-snug text-gray-900">
-                      {item.title}
-                    </h3>
-                    <p className="flex-1 text-sm leading-7 text-gray-500">
-                      {item.desc}
-                    </p>
-                    <span
-                      className="text-sm font-bold"
-                      style={{ color: "#003F8A" }}
-                    >
-                      Leia mais →
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                    <div className="card-body">
+                      <div className="flex items-center justify-between">
+                        <span
+                          className="text-xs font-bold"
+                          style={{
+                            ...(TAG_COLORS[item.tag] ?? DEFAULT_TAG),
+                            borderRadius: "8px",
+                            padding: "4px 10px",
+                          }}
+                        >
+                          {item.tag || "Geral"}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {formatarData(item.data)}
+                        </span>
+                      </div>
+                      <h3 className="text-base font-extrabold leading-snug text-gray-900">
+                        {item.titulo}
+                      </h3>
+                      <p className="flex-1 text-sm leading-7 text-gray-500">
+                        {item.descricao}
+                      </p>
+                      <span
+                        className="text-sm font-bold"
+                        style={{ color: "#003F8A" }}
+                      >
+                        Leia mais →
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {noticias.length === 0 && (
+              <div className="flex flex-col items-center text-center py-20">
+                <p className="text-lg text-gray-500">
+                  Nenhuma novidade publicada ainda.
+                </p>
+              </div>
+            )}
           </div>
         </section>
       </main>

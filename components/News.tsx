@@ -1,39 +1,30 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getNoticias } from "@/lib/notion";
 
-const noticias = [
-  {
-    tag: "Evento",
-    tagColor: "bg-green-100 text-green-700",
-    title: "Festa Junina da APAE São Rafael 2025",
-    desc: "Uma tarde cheia de alegria, música e solidariedade. Venha celebrar conosco e apoiar nossas crianças.",
-    date: "20 Jun 2025",
-    href: "/novidades/festa-junina-2025",
-    img: "/novidades-arraia.png",
-  },
-  {
-    tag: "Notícia",
-    tagColor: "bg-blue-100 text-blue-700",
-    title: "APAE recebe novo equipamento de fisioterapia",
-    desc: "Graças às doações da comunidade, adquirimos equipamentos modernos para melhorar o atendimento dos nossos alunos.",
-    date: "05 Mai 2025",
-    href: "/novidades/novo-equipamento",
-    img: "/novidades-equipamento.png",
-  },
-  {
-    tag: "Evento",
-    tagColor: "bg-green-100 text-green-700",
-    title: "Campanha de arrecadação de alimentos",
-    desc: "Até o fim do mês estamos arrecadando alimentos não perecíveis para as famílias atendidas pela APAE.",
-    date: "01 Mai 2025",
-    href: "/novidades/campanha-alimentos",
-    img: "/novidades-mantimentos.png",
-  },
-];
+const TAG_COLORS: Record<string, string> = {
+  Evento: "bg-green-100 text-green-700",
+  Notícia: "bg-blue-100 text-blue-700",
+  Conquista: "bg-yellow-100 text-yellow-700",
+  Projeto: "bg-purple-100 text-purple-700",
+  Campanha: "bg-orange-100 text-orange-700",
+};
 
-export default function News() {
+function formatarData(dataStr: string): string {
+  if (!dataStr) return "";
+  const data = new Date(dataStr + "T00:00:00");
+  return data.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export default async function News() {
+  const noticias = (await getNoticias()).slice(0, 3);
+
   return (
-    <section className="section bg-warm w-full relative ">
+    <section className="section bg-warm w-full relative">
       <div
         className="pointer-events-none absolute -left-1 -top-12 select-none"
         aria-hidden="true"
@@ -66,7 +57,7 @@ export default function News() {
                 aria-hidden="true"
               />
             </h2>
-           <p className="mt-3 text-base text-gray-500 text-center">
+            <p className="mt-3 text-base text-gray-500 text-center">
               Fique por dentro do que acontece na APAE São Rafael.
             </p>
           </div>
@@ -77,34 +68,41 @@ export default function News() {
 
         <div className="card-grid card-grid-3">
           {noticias.map((item) => (
-            <div key={item.href} className="card">
+            <div key={item.id} className="card">
               <div className="relative h-52 overflow-hidden">
                 <div className="relative h-52 overflow-hidden">
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                  />
+                  {item.imagem ? (
+                    <Image
+                      src={item.imagem}
+                      alt={item.titulo}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-gray-200" />
+                  )}
                 </div>
               </div>
               <div className="card-body">
                 <div className="flex items-center justify-between">
                   <span
-                    className={`rounded-lg px-3 py-1 text-xs font-bold ${item.tagColor}`}
+                    className={`rounded-lg px-3 py-1 text-xs font-bold ${TAG_COLORS[item.tag] ?? "bg-gray-100 text-gray-600"}`}
                   >
-                    {item.tag}
+                    {item.tag || "Geral"}
                   </span>
-                  <span className="text-xs text-gray-400">{item.date}</span>
+                  <span className="text-xs text-gray-400">
+                    {formatarData(item.data)}
+                  </span>
                 </div>
                 <h3 className="text-lg font-extrabold leading-snug text-gray-900">
-                  {item.title}
+                  {item.titulo}
                 </h3>
                 <p className="flex-1 text-sm leading-7 text-gray-500">
-                  {item.desc}
+                  {item.descricao}
                 </p>
                 <Link
-                  href={item.href}
+                  href={`/novidades/${item.slug}`}
                   className="btn btn-outline-green btn-sm btn-full text-center mt-2"
                 >
                   Leia mais
