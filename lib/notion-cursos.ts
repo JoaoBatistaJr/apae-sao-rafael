@@ -29,9 +29,9 @@ export type Curso = {
 function getCover(page: any): string {
   const cover = page.cover;
   if (!cover) return "";
-  if (cover.type === "file") return cover.file?.url ?? "";
-  if (cover.type === "external") return cover.external?.url ?? "";
-  return "";
+  const url = cover.type === "file" ? cover.file?.url : cover.external?.url;
+  if (!url) return "";
+  return `/api/image?url=${encodeURIComponent(url)}`;
 }
 
 function getText(prop: any): string {
