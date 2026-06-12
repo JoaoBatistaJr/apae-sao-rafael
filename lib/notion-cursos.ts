@@ -26,12 +26,17 @@ export type Curso = {
   blocos?: NotionBlock[];
 };
 
+function proxyUrl(url: string): string {
+  if (!url) return url;
+  return `/api/image?url=${encodeURIComponent(url)}`;
+}
+
 function getCover(page: any): string {
   const cover = page.cover;
   if (!cover) return "";
   const url = cover.type === "file" ? cover.file?.url : cover.external?.url;
   if (!url) return "";
-  return `/api/image?url=${encodeURIComponent(url)}`;
+  return proxyUrl(url);
 }
 
 function getText(prop: any): string {
@@ -122,7 +127,7 @@ export async function getBlocosCurso(pageId: string): Promise<NotionBlock[]> {
       case "image":
         const imgUrl =
           block.image?.file?.url ?? block.image?.external?.url ?? "";
-        if (imgUrl) blocos.push({ type: "image", url: imgUrl });
+        if (imgUrl) blocos.push({ type: "image", url: proxyUrl(imgUrl) });
         break;
       case "video":
         const videoUrl = block.video?.external?.url ?? "";
