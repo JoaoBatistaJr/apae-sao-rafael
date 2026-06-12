@@ -5,7 +5,10 @@ export async function GET(req: NextRequest) {
   if (!url) return new NextResponse("Missing url", { status: 400 });
 
   try {
-    const res = await fetch(url, { next: { revalidate: 86400 } });
+    const res = await fetch(url, {
+      cache: "force-cache",
+      headers: { "User-Agent": "Mozilla/5.0" },
+    });
     if (!res.ok) return new NextResponse("Failed", { status: 502 });
 
     const buffer = await res.arrayBuffer();
