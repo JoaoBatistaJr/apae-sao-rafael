@@ -18,18 +18,17 @@ const mvv = [
   {
     icon: "💚",
     title: "Valores",
-    desc: "Respeito, dignidade, empatia, acolhimento, transparência, compromisso social e humanização em todos os atendimentos.",
+    desc: "Atuamos com respeito, dignidade e empatia — acolhendo cada pessoa e família com transparência, compromisso social e humanização em todos os nossos atendimentos.",
   },
 ];
 
 const estrutura = [
-  { icon: "🏠", label: "Salas de atendimento individual" },
-  { icon: "📚", label: "Sala de pedagogia e atividades educativas" },
-  { icon: "🏃", label: "Sala de fisioterapia equipada" },
-  { icon: "🗣️", label: "Sala de fonoaudiologia" },
-  { icon: "🎨", label: "Espaço para oficinas socioeducativas" },
-  { icon: "🌳", label: "Área externa para convivência e lazer" },
-  { icon: "♿", label: "Recepção e banheiros acessíveis" },
+  { icon: "🎨", label: "Atendimento em Artes" },
+  { icon: "🧶", label: "Oficina de Artesanato" },
+  { icon: "🍳", label: "Aulas de Culinária" },
+  { icon: "🌱", label: "Projeto Semear" },
+  { icon: "👩‍👧", label: "Artesanato para Mães" },
+  { icon: "📚", label: "AEE – Atendimento Educacional Especializado" },
 ];
 
 const servicos = [
@@ -62,8 +61,6 @@ export default function SobrePage() {
       </div>
 
       <main className="flex-1">
-        
-
         <section
           className="bg-warm w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -77,21 +74,31 @@ export default function SobrePage() {
                 >
                   Quem Somos
                 </h2>
-                <p className="text-base leading-8 text-gray-600">
+                <p
+                  className="text-base leading-6 text-gray-700"
+                  style={{ paddingBottom: "10px" }}
+                >
                   A APAE São Rafael é uma instituição sem fins lucrativos
-                  dedicada à promoção da inclusão, autonomia e qualidade de vida
-                  de pessoas com deficiência intelectual, múltipla e transtorno
-                  do espectro autista.
+                  voltada ao atendimento de pessoas com deficiência intelectual,
+                  múltipla e transtorno do espectro autista do município de São
+                  Rafael e região.
                 </p>
-                <p className="mt-4 text-base leading-8 text-gray-600">
-                  Atuamos com carinho, compromisso e responsabilidade social,
-                  oferecendo atendimento especializado a crianças, adolescentes
-                  e adultos do nosso município e região.
+                <p
+                  className="mt-4 text-base leading-6 text-gray-700"
+                  style={{ paddingBottom: "10px" }}
+                >
+                  Reconhecida como utilidade pública municipal e estadual,
+                  atendemos mais de 50 pessoas em atividades que promovem
+                  desenvolvimento físico, cognitivo e social — sempre de forma
+                  gratuita.
                 </p>
-                <p className="mt-4 text-base leading-8 text-gray-600">
-                  Somos uma entidade que acredita no potencial de todos e
-                  trabalhamos diariamente para construir uma comunidade mais
-                  inclusiva, justa e acolhedora.
+                <p
+                  className="mt-4 text-base leading-6 text-gray-700"
+                  style={{ paddingBottom: "10px" }}
+                >
+                  Acreditamos no potencial de cada pessoa e trabalhamos junto às
+                  famílias e à comunidade para construir uma cidade mais
+                  inclusiva e acolhedora.
                 </p>
               </div>
               <div
@@ -99,7 +106,7 @@ export default function SobrePage() {
                 style={{ height: "340px", borderRadius: "10px" }}
               >
                 <Image
-                  src="/sobre-quem-somos.png"
+                  src="/sobre-quem-somos.jpg"
                   alt="APAE São Rafael"
                   fill
                   className="object-cover"
@@ -128,10 +135,15 @@ export default function SobrePage() {
                   style={{ borderRadius: "20px", padding: "40px" }}
                 >
                   <div className="mb-4 text-5xl">{item.icon}</div>
-                  <h3 className="mb-3 text-xl font-extrabold text-gray-900">
+                  <h3
+                    className="mb-3 text-xl font-extrabold text-gray-900"
+                    style={{ paddingBlock: "10px" }}
+                  >
                     {item.title}
                   </h3>
-                  <p className="text-sm leading-7 text-gray-500">{item.desc}</p>
+                  <p className="text-base leading-5 text-gray-500">
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -162,22 +174,23 @@ export default function SobrePage() {
                 />
               </div>
               <div className="flex flex-col gap-5">
-                <p className="text-base leading-8 text-gray-600">
-                  Fundada por um grupo de familiares, profissionais da saúde e
-                  membros da comunidade, a APAE São Rafael nasceu da necessidade
-                  de oferecer atendimento especializado às pessoas com
-                  deficiência da nossa cidade.
+                <p className="text-base leading-6 text-gray-600">
+                  Em 25 de agosto de 2023, familiares de pessoas com deficiência
+                  e membros da comunidade de São Rafael se uniram para fazer o
+                  que o município ainda não tinha: um espaço dedicado ao
+                  atendimento especializado de quem mais precisava.
                 </p>
-                <p className="text-base leading-8 text-gray-600">
-                  O início foi simples: uma pequena sala cedida por voluntários,
-                  poucos recursos e muita vontade de fazer a diferença. Com o
-                  apoio da população e o empenho dos voluntários, a instituição
-                  cresceu e ampliou sua capacidade de atendimento.
+                <p className="text-base leading-6 text-gray-600">
+                  Nos primeiros anos, cada conquista foi construída
+                  coletivamente. A sala de fisioterapia saiu do papel graças ao
+                  1º Bingo da APAE, que reuniu centenas de pessoas. A Câmara
+                  Municipal doou um veículo. A Federação das APAEs do RN veio
+                  até nós reconhecer o trabalho. Os títulos de utilidade pública
+                  municipal e estadual vieram logo em seguida.
                 </p>
-                <p className="text-base leading-8 text-gray-600">
-                  Hoje somos parte fundamental da rede de apoio do município,
-                  atendendo dezenas de famílias todos os meses e mantendo viva
-                  nossa missão de promover inclusão e dignidade.
+                <p className="text-base leading-6 text-gray-600">
+                  Hoje, em 2026, atendemos mais de 50 pessoas e seguimos
+                  crescendo, sempre com a comunidade como maior parceira.
                 </p>
               </div>
             </div>
@@ -211,7 +224,7 @@ export default function SobrePage() {
             </div>
             <div
               className="relative mt-12 overflow-hidden"
-              style={{ height: "320px", borderRadius: "20px" }}
+              style={{ height: "320px", borderRadius: "20px",  marginTop: "48px" }}
             >
               <Image
                 src="/sobre-estrutura.png"
@@ -248,13 +261,6 @@ export default function SobrePage() {
                 </div>
               ))}
             </div>
-            <p
-              className="mx-auto mt-8 text-center text-sm leading-7 text-gray-500"
-              style={{ maxWidth: "600px" }}
-            >
-              A instituição atende gratuitamente e mantém suas atividades por
-              meio de convênios, doações, parcerias e eventos solidários.
-            </p>
           </div>
         </section>
 
@@ -284,12 +290,12 @@ export default function SobrePage() {
                   icon: "📍",
                   title: "Endereço",
                   content:
-                    "Rua José Bezerra de Araújo,\nnº 200, São Rafael – RN",
+                    "Rua José Bezerra de Araújo, nº 200\nCentro – São Rafael/RN\nCEP 59.518-000",
                 },
                 {
                   icon: "📞",
                   title: "Contato",
-                  content: "(84) 9 9999-9999\napaesaorafael@email.com",
+                  content: "(84) 9 9612-4672\nCNPJ: 52.662.073/0001-42",
                 },
               ].map((item) => (
                 <div
