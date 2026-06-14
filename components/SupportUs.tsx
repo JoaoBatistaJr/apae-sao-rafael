@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const items = [
   {
@@ -30,7 +31,7 @@ const items = [
 
 export default function SupportUs() {
   return (
-    <section className="section bg-warm-muted w-full relative ">
+    <section className="section bg-warm-muted w-full relative">
       <div
         className="pointer-events-none absolute -right-1 -top-12 select-none"
         aria-hidden="true"
@@ -44,30 +45,32 @@ export default function SupportUs() {
         />
       </div>
       <div className="container-site">
-        <div className="section-title">
-          <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl lg:text-4xl flex items-center justify-center gap-3">
-            <Image
-              src="/decorations/puzzle-pink.svg"
-              alt=""
-              width={36}
-              height={36}
-              aria-hidden="true"
-            />
-            Apoie a APAE
-            <Image
-              src="/decorations/puzzle-pink.svg"
-              alt=""
-              width={36}
-              height={36}
-              aria-hidden="true"
-            />
-          </h2>
-        </div>
+        <ScrollReveal>
+          <div className="section-title">
+            <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl lg:text-4xl flex items-center justify-center gap-3">
+              <Image
+                src="/decorations/puzzle-pink.svg"
+                alt=""
+                width={36}
+                height={36}
+                aria-hidden="true"
+              />
+              Apoie a APAE
+              <Image
+                src="/decorations/puzzle-pink.svg"
+                alt=""
+                width={36}
+                height={36}
+                aria-hidden="true"
+              />
+            </h2>
+          </div>
+        </ScrollReveal>
 
         <div className="card-grid card-grid-3">
-          {items.map((item) => (
-            <div key={item.href} className="card">
-              <div className="relative h-52 overflow-hidden">
+          {items.map((item, i) => (
+            <ScrollReveal key={item.href} delay={i * 100}>
+              <div className="card">
                 <div className="relative h-52 overflow-hidden">
                   <Image
                     src={item.img}
@@ -76,33 +79,35 @@ export default function SupportUs() {
                     className="object-cover"
                   />
                 </div>
+                <div className="card-body">
+                  <h3 className="text-lg font-extrabold leading-snug text-gray-900">
+                    {item.title}
+                  </h3>
+                  <p className="flex-1 text-xm leading-7 text-gray-500">
+                    {item.desc}
+                  </p>
+                  <Link
+                    href={item.href}
+                    className={`btn btn-base btn-full mt-2 text-center ${item.btnClass}`}
+                  >
+                    {item.btn}
+                  </Link>
+                </div>
               </div>
-              <div className="card-body">
-                <h3 className="text-lg font-extrabold leading-snug text-gray-900">
-                  {item.title}
-                </h3>
-                <p className="flex-1 text-xm leading-7 text-gray-500">
-                  {item.desc}
-                </p>
-                <Link
-                  href={item.href}
-                  className={`btn btn-base btn-full mt-2 text-center ${item.btnClass}`}
-                >
-                  {item.btn}
-                </Link>
-              </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 
-        <div
-          className="mt-12 flex justify-center"
-          style={{ paddingTop: "40px" }}
-        >
-          <Link href="/apoio" className="btn btn-outline-green btn-md">
-            Ver todas as formas de apoio
-          </Link>
-        </div>
+        <ScrollReveal delay={300}>
+          <div
+            className="mt-12 flex justify-center"
+            style={{ paddingTop: "40px" }}
+          >
+            <Link href="/apoio" className="btn btn-outline-green btn-md">
+              Ver todas as formas de apoio
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   devIndicators: false,
+  allowedDevOrigins: ["192.168.1.65"],
   images: {
     unoptimized: true,
     dangerouslyAllowSVG: true,
@@ -17,5 +18,4 @@ const nextConfig: NextConfig = {
     ],
   },
 };
-
 export default nextConfig;
