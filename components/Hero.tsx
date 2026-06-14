@@ -36,20 +36,30 @@ export default function Hero() {
       <div className="container-site">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
           <div>
-            <h1 className="text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+            <h1
+              className="text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl fade-up"
+              style={{ animationDelay: "100ms" }}
+            >
               Boas vindas
               <br />à nossa APAE
               <br />
               São Rafael – RN
             </h1>
             <p
-              className="mt-6 text-base leading-8 text-white/85 md:mt-8 md:text-lg"
-              style={{ maxWidth: "480px", paddingBottom: "40px" }}
+              className="mt-6 text-base leading-8 text-white/85 md:mt-8 md:text-lg fade-up"
+              style={{
+                maxWidth: "480px",
+                paddingBottom: "40px",
+                animationDelay: "250ms",
+              }}
             >
               Conheça nossa missão, nossas histórias e como fazemos a diferença
               na vida de tantas pessoas.
             </p>
-            <div className="mt-8 flex flex-wrap gap-4 md:mt-10">
+            <div
+              className="mt-8 flex flex-wrap gap-4 md:mt-10 fade-up"
+              style={{ animationDelay: "400ms" }}
+            >
               <Link href="/sobre" className="btn btn-outline-white btn-lg">
                 Conheça nossa história
               </Link>
@@ -59,7 +69,10 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="hidden justify-end lg:flex">
+          <div
+            className="hidden justify-end lg:flex fade-up"
+            style={{ animationDelay: "300ms" }}
+          >
             <div className="relative aspect-square w-[clamp(320px,35vw,580px)]">
               <Image
                 src="/heart.svg"
