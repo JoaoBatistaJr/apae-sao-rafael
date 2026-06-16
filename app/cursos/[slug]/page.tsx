@@ -129,7 +129,7 @@ function RenderBlocos({ blocos }: { blocos: NotionBlock[] }) {
             );
           case "video":
             const videoId = bloco.url?.match(
-              /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/,
+              /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([^&?\s]+)/,
             )?.[1];
             if (!videoId) return null;
             return (
@@ -191,7 +191,10 @@ export default async function CursoPage({
       <main className="flex-1">
         <section className="section bg-warm w-full">
           <div className="container-site" style={{ maxWidth: "800px" }}>
-            <div className="mb-8 flex items-center justify-between" style={{paddingBottom: "20px"}}>
+            <div
+              className="mb-8 flex items-center justify-between"
+              style={{ paddingBottom: "20px" }}
+            >
               <Link
                 href="/cursos"
                 className="text-sm font-bold"
@@ -312,7 +315,7 @@ export default async function CursoPage({
             style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
           >
             <div className="container-site">
-              <h2 className="mb-8 text-xl font-extrabold text-gray-900" >
+              <h2 className="mb-8 text-xl font-extrabold text-gray-900">
                 Outros cursos
               </h2>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

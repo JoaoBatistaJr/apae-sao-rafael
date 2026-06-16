@@ -128,7 +128,7 @@ function RenderBlocos({ blocos }: { blocos: NotionBlock[] }) {
             );
           case "video":
             const videoId = bloco.url?.match(
-              /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/,
+              /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([^&?\s]+)/,
             )?.[1];
             if (!videoId) return null;
             return (
@@ -194,7 +194,10 @@ export default async function NoticiaPage({
         <section className="section bg-warm w-full">
           <div className="container-site" style={{ maxWidth: "800px" }}>
             {/* Voltar + tag/data na mesma linha */}
-            <div className="mb-8 flex items-center justify-between" style={{paddingBottom: "20px"}}>
+            <div
+              className="mb-8 flex items-center justify-between"
+              style={{ paddingBottom: "20px" }}
+            >
               <Link
                 href="/novidades"
                 className="text-sm font-bold"
@@ -268,7 +271,10 @@ export default async function NoticiaPage({
             style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
           >
             <div className="container-site">
-              <h2 className="mb-8 text-xl font-extrabold text-gray-900" style={{paddingBottom: "20px"}}>
+              <h2
+                className="mb-8 text-xl font-extrabold text-gray-900"
+                style={{ paddingBottom: "20px" }}
+              >
                 Veja também
               </h2>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
