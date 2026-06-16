@@ -2,7 +2,7 @@
 import { Client } from "@notionhq/client";
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
-const DATABASE_ID = process.env.NOTION_DATABASE_ID!;
+const DATABASE_ID = process.env.NOTION_NOVIDADES_DATABASE_ID!;
 
 export type NotionBlock = {
   type: string;
