@@ -6,8 +6,8 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(url, {
-      cache: "force-cache",
       headers: { "User-Agent": "Mozilla/5.0" },
+      next: { revalidate: 43200 },
     });
     if (!res.ok) return new NextResponse("Failed", { status: 502 });
 
@@ -17,10 +17,9 @@ export async function GET(req: NextRequest) {
     return new NextResponse(buffer, {
       headers: {
         "Content-Type": contentType,
-        "Cache-Control":
-          "public, max-age=86400, stale-while-revalidate=604800, stale-if-error=86400",
-        "CDN-Cache-Control": "public, max-age=86400",
-        "Vercel-CDN-Cache-Control": "public, max-age=86400",
+        "Cache-Control": "public, max-age=43200, stale-while-revalidate=86400, stale-if-error=604800",
+        "CDN-Cache-Control": "public, max-age=43200",
+        "Vercel-CDN-Cache-Control": "public, max-age=43200",
       },
     });
   } catch {

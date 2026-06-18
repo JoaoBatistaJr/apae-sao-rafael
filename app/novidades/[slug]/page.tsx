@@ -8,7 +8,6 @@ import { getNoticias, getNoticia, NotionBlock } from "@/lib/notion";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
-export const dynamic = "force-static";
 
 export async function generateStaticParams() {
   const noticias = await getNoticias();
