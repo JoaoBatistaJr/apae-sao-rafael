@@ -3,6 +3,7 @@ import "./globals.css";
 import Providers from "./providers";
 import BottomNav from "@/components/BottomNav";
 import PuzzleBg from "@/components/PuzzleBg";
+import AssistiveScript from "@/components/AssistiveScript";
 
 export const metadata = {
   title: "APAE São Rafael - RN",
@@ -10,9 +11,7 @@ export const metadata = {
     "Associação de Pais e Amigos dos Excepcionais de São Rafael - RN",
 };
 
-export const viewport = {
-  viewportFit: "cover",
-};
+export const viewport = { viewportFit: "cover" };
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -65,7 +64,9 @@ export default function RootLayout({
             {children}
           </div>
         </Providers>
+
         <BottomNav />
+        <AssistiveScript />
       </body>
     </html>
   );
