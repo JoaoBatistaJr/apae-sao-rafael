@@ -348,3 +348,10 @@ img {
 .fade-up-scroll.visible {
   animation: fadeUp 0.5s ease-out both;
 }
+
+/* Widget Buttom Assistive*/
+@media (max-width: 1024px) {
+  .AssistiveFloating {
+    display: none !important;
+  }
+}

@@ -10,8 +10,12 @@ export const revalidate = 3600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const cursos = await getCursos();
-  return cursos.map((c) => ({ slug: c.slug }));
+  try {
+    const cursos = await getCursos();
+    return cursos.map((c) => ({ slug: c.slug }));
+  } catch {
+    return [];
+  }
 }
 
 function formatarData(dataStr: string): string {
@@ -231,7 +235,6 @@ export default async function CursoPage({
               </div>
             )}
 
-            {/* Informações do curso */}
             <div
               className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4"
               style={{

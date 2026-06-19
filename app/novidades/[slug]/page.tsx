@@ -10,8 +10,12 @@ export const revalidate = 3600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const noticias = await getNoticias();
-  return noticias.map((n) => ({ slug: n.slug }));
+  try {
+    const noticias = await getNoticias();
+    return noticias.map((n) => ({ slug: n.slug }));
+  } catch {
+    return [];
+  }
 }
 
 function formatarData(dataStr: string): string {
@@ -192,7 +196,6 @@ export default async function NoticiaPage({
       <main className="flex-1">
         <section className="section bg-warm w-full">
           <div className="container-site" style={{ maxWidth: "800px" }}>
-            {/* Voltar + tag/data na mesma linha */}
             <div
               className="mb-8 flex items-center justify-between"
               style={{ paddingBottom: "20px" }}
