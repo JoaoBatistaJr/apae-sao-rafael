@@ -30,7 +30,7 @@ function formatarData(dataStr: string): string {
 }
 
 export default async function CursosPage() {
-  const cursos = await getCursos();
+  const cursos = await getCursos().catch(() => []);
 
   return (
     <div className="flex min-h-screen flex-col">

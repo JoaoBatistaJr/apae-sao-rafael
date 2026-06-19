@@ -29,7 +29,7 @@ function formatarData(dataStr: string): string {
 }
 
 export default async function NoticiasPage() {
-  const noticias = await getNoticias();
+  const noticias = await getNoticias().catch(() => []);
   const noticiaPrincipal = noticias[0];
   const noticiasSecundarias = noticias.slice(1);
 
@@ -57,7 +57,6 @@ export default async function NoticiasPage() {
       <main className="flex-1">
         <section className="section bg-warm w-full">
           <div className="container-site">
-            {/* Card destaque */}
             {noticiaPrincipal && (
               <Link
                 href={`/novidades/${noticiaPrincipal.slug}`}
@@ -104,7 +103,6 @@ export default async function NoticiasPage() {
               </Link>
             )}
 
-            {/* Grid demais */}
             {noticiasSecundarias.length > 0 && (
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {noticiasSecundarias.map((item) => (
