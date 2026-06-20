@@ -22,7 +22,7 @@ function formatarData(dataStr: string): string {
 }
 
 export default async function News() {
-  const noticias = (await getNoticias()).slice(0, 3);
+  const noticias = (await getNoticias().catch(() => [])).slice(0, 3);
 
   return (
     <section className="section bg-warm w-full relative">
