@@ -4,6 +4,8 @@ import Providers from "./providers";
 import BottomNav from "@/components/BottomNav";
 import PuzzleBg from "@/components/PuzzleBg";
 import AssistiveScript from "@/components/AssistiveScript";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: "APAE São Rafael - RN",
@@ -67,6 +69,8 @@ export default function RootLayout({
 
         <BottomNav />
         <AssistiveScript />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

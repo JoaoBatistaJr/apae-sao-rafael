@@ -10,7 +10,7 @@ import Testimonials from "@/components/Testimonials";
 import Partners from "@/components/Partners";
 import Footer from "@/components/Footer";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
