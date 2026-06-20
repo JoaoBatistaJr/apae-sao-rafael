@@ -7,6 +7,7 @@ import { getNoticias } from "@/lib/notion";
 
 export const metadata = { title: "Novidades - APAE São Rafael" };
 export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 const TAG_COLORS: Record<string, { background: string; color: string }> = {
   Evento: { background: "#dcfce7", color: "#15803d" },

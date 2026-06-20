@@ -3,6 +3,8 @@ import Image from "next/image";
 import { getNoticias } from "@/lib/notion";
 import ScrollReveal from "@/components/ScrollReveal";
 
+export const dynamic = "force-dynamic";
+
 const TAG_COLORS: Record<string, string> = {
   Evento: "bg-green-100 text-green-700",
   Notícia: "bg-blue-100 text-blue-700",

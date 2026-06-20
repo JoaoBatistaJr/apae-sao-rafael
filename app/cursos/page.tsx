@@ -7,6 +7,7 @@ import { getCursos } from "@/lib/notion-cursos";
 
 export const metadata = { title: "Cursos - APAE São Rafael" };
 export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 const TAG_COLORS: Record<string, { background: string; color: string }> = {
   Educação: { background: "#dbeafe", color: "#1d4ed8" },

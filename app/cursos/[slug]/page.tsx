@@ -9,15 +9,6 @@ import { getCursos, getCurso, NotionBlock } from "@/lib/notion-cursos";
 export const revalidate = 3600;
 export const dynamicParams = true;
 
-export async function generateStaticParams() {
-  try {
-    const cursos = await getCursos();
-    return cursos.map((c) => ({ slug: c.slug }));
-  } catch {
-    return [];
-  }
-}
-
 function formatarData(dataStr: string): string {
   if (!dataStr) return "";
   const data = new Date(dataStr + "T00:00:00");
@@ -377,7 +368,6 @@ export default async function CursoPage({
           </section>
         )}
       </main>
-
       <Footer />
     </div>
   );
