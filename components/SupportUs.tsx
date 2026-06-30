@@ -83,7 +83,7 @@ export default function SupportUs() {
                   <h3 className="text-lg font-extrabold leading-snug text-gray-900">
                     {item.title}
                   </h3>
-                  <p className="flex-1 text-xm leading-7 text-gray-500">
+                  <p className="flex-1 text-xm leading-6 text-gray-500">
                     {item.desc}
                   </p>
                   <Link

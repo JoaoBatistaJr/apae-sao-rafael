@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Gift, HandHelping, HeartHandshake, Users } from "lucide-react";
 import TopBar from "@/components/TopBar";
@@ -14,33 +15,37 @@ const supportOptions = [
     href: "/doacoes",
     button: "Quero doar",
     btnClass: "btn-light-red",
+    bgImage: "/apoio-doador.png",
     icon: HeartHandshake,
   },
   {
     title: "Seja voluntário",
     description:
       "Doe seu tempo e talento participando de ações, eventos e atividades da nossa instituição.",
-    href: "/contato",
-    button: "Participar",
+    href: "/apoio/voluntario",
+    button: "Saiba mais",
     btnClass: "btn-light-purple",
+    bgImage: "/apoio-voluntario.png",
     icon: HandHelping,
   },
   {
     title: "Parcerias",
     description:
       "Empresas e instituições podem apoiar projetos sociais e fortalecer nossas iniciativas.",
-    href: "/contato",
-    button: "Ser parceiro",
+    href: "/apoio/parcerias",
+    button: "Saiba mais",
     btnClass: "btn-light-blue",
+    bgImage: "/apoio-parceiro.png",
     icon: Users,
   },
   {
     title: "Doação de materiais",
     description:
       "Ajude com alimentos, roupas, brinquedos, materiais escolares e itens essenciais.",
-    href: "/contato",
-    button: "Como ajudar",
+    href: "/apoio/materiais",
+    button: "Saiba mais",
     btnClass: "btn-light-green",
+    bgImage: "/apoio-material.png",
     icon: Gift,
   },
 ];
@@ -73,29 +78,39 @@ export default function ApoioPage() {
       >
         <div className="container-site flex flex-col items-center">
           {/* GRID */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 w-full" style={{paddingBottom: "40px"}}>
+          <div
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2 w-full"
+            style={{ paddingBottom: "40px" }}
+          >
             {supportOptions.map((item) => {
               const Icon = item.icon;
               return (
                 <article
                   key={item.title}
-                  className="card group h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                  className="card group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="flex h-56 items-center justify-center bg-gray-50">
-                    <div className="flex h-28 w-28 items-center justify-center rounded-full bg-white shadow-sm transition-transform duration-300 group-hover:scale-105">
-                      <Icon size={52} className="text-gray-800" />
+                  <div className="relative h-44 overflow-hidden">
+                    <Image
+                      src={item.bgImage}
+                      alt=""
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/55" />
+                    <div className="relative z-10 flex h-full items-center justify-center">
+                      <Icon size={56} className="text-white" />
                     </div>
                   </div>
-                  <div className="card-body flex h-full flex-col">
-                    <h2 className="min-h-16 text-2xl font-extrabold leading-snug text-gray-900">
+                  <div className="card-body">
+                    <h2 className="text-lg font-extrabold text-gray-900">
                       {item.title}
                     </h2>
-                    <p className="min-h-24 flex-1 text-base leading-8 text-gray-500">
+                    <p className="text-sm leading-6 text-gray-500">
                       {item.description}
                     </p>
                     <Link
                       href={item.href}
-                      className={`btn btn-lg btn-full mt-4 text-center ${item.btnClass}`}
+                      className={`btn btn-md btn-full mt-auto text-center ${item.btnClass}`}
                     >
                       {item.button}
                     </Link>
@@ -108,12 +123,15 @@ export default function ApoioPage() {
           {/* BLOCO PADRINHO */}
           <section
             className="mt-20 w-full flex flex-col items-center overflow-hidden bg-[#003F8A] px-6 py-14 text-center text-white sm:px-10"
-            style={{ borderRadius: "24px", padding:"40px" }}
+            style={{ borderRadius: "24px", padding: "40px" }}
           >
             <h2 className="text-3xl font-extrabold sm:text-4xl">
               ❤️ Seja um padrinho APAE
             </h2>
-            <p className="mx-auto text-center mt-5 max-w-2xl text-base leading-8 text-green-100" style={{paddingBlock: "20px"}}>
+            <p
+              className="mx-auto text-center mt-5 max-w-2xl text-base leading-8 text-green-100"
+              style={{ paddingBlock: "20px" }}
+            >
               Com uma contribuição mensal, você ajuda a garantir a continuidade
               dos atendimentos, terapias e projetos realizados pela APAE São
               Rafael.

@@ -48,7 +48,7 @@ export default function ContatoPage() {
                   {
                     icon: "📞",
                     title: "Telefone / WhatsApp",
-                    content: "(84) 9 9999-9999",
+                    content: "(84) 9 9612-4672",
                   },
                   {
                     icon: "✉️",
@@ -78,7 +78,7 @@ export default function ContatoPage() {
                 ))}
 
                 <div>
-                  <p className="font-extrabold text-gray-900">Redes sociais</p>
+                  <p className="font-extrabold text-gray-900" style={{padding: "10px"}}>Redes sociais</p>
                   <div className="mt-3 flex flex-wrap gap-4">
                     {["Facebook", "Instagram", "X", "LinkedIn", "YouTube"].map(
                       (s) => (

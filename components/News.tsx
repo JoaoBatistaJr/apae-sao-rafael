@@ -103,7 +103,7 @@ export default async function News() {
                   <h3 className="text-lg font-extrabold leading-snug text-gray-900">
                     {item.titulo}
                   </h3>
-                  <p className="flex-1 text-sm leading-7 text-gray-500">
+                  <p className="flex-1 text-base leading-6 text-gray-500">
                     {item.descricao}
                   </p>
                   <Link

@@ -96,7 +96,7 @@ export default async function NoticiasPage() {
                   <h2 className="text-xl font-extrabold leading-snug text-gray-900 sm:text-2xl">
                     {noticiaPrincipal.titulo}
                   </h2>
-                  <p className="text-sm leading-7 text-gray-500">
+                  <p className="text-base leading-6 text-gray-500">
                     {noticiaPrincipal.descricao}
                   </p>
                   <span className="btn btn-green btn-sm w-fit">Leia mais</span>
@@ -144,7 +144,7 @@ export default async function NoticiasPage() {
                       <h3 className="text-base font-extrabold leading-snug text-gray-900">
                         {item.titulo}
                       </h3>
-                      <p className="flex-1 text-sm leading-7 text-gray-500">
+                      <p className="flex-1 text-sm leading-6 text-gray-500">
                         {item.descricao}
                       </p>
                       <span

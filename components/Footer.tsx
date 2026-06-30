@@ -49,7 +49,7 @@ export default function Footer() {
                 Contato
               </h4>
               <p className="mt-3 text-sm leading-7 text-gray-500 md:mt-4 md:text-base">
-                (84) 9 9999-9999
+                (84) 9 9612-4672
                 <br />
                 apaesaorafael@email.com
               </p>
@@ -90,7 +90,7 @@ export default function Footer() {
       <div
         className="w-full"
         style={{
-          background: "#0B77E5",
+          background: "#045AB5",
           paddingBlock: "20px",
         }}
       >

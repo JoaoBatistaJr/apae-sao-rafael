@@ -34,7 +34,7 @@ function RenderBlocos({ blocos }: { blocos: NotionBlock[] }) {
         switch (bloco.type) {
           case "paragraph":
             return (
-              <p key={i} className="text-base leading-8 text-gray-600">
+              <p key={i} className="text-base leading-6 text-gray-600">
                 {bloco.text}
               </p>
             );
