@@ -284,17 +284,29 @@ export default async function CursoPage({
               <RenderBlocos blocos={curso.blocos} />
             )}
 
-            <div className="flex flex-wrap gap-4" style={{ marginTop: "48px" }}>
-              {curso.linkInscricao && (
+            {curso.linkInscricao && (
+              <div
+                className="flex justify-center"
+                style={{ marginTop: "48px" }}
+              >
                 <a
                   href={curso.linkInscricao}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-green btn-md"
+                  className="btn btn-green"
+                  style={{
+                    padding: "16px 40px",
+                    fontSize: "16px",
+                    borderRadius: "999px",
+                    boxShadow: "0 8px 20px rgba(21,128,61,0.25)",
+                  }}
                 >
-                  Inscrever-se
+                  Inscreva-se
                 </a>
-              )}
+              </div>
+            )}
+
+            <div className="flex flex-wrap gap-4" style={{ marginTop: "32px" }}>
               <Link href="/cursos" className="btn btn-primary btn-md">
                 ← Voltar para cursos
               </Link>

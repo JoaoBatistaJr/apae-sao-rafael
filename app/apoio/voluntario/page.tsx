@@ -6,10 +6,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const areas = [
-  "Apoio em eventos e campanhas",
-  "Atividades recreativas e oficinas",
-  "Suporte administrativo",
-  "Divulgação e comunicação",
+  "- Apoio em eventos e campanhas",
+  "- Atividades recreativas e oficinas",
+  "- Suporte administrativo",
+  "- Divulgação e comunicação",
 ];
 
 export default function VoluntarioPage() {
@@ -22,7 +22,7 @@ export default function VoluntarioPage() {
           className="container-site flex flex-col items-center text-center"
           style={{ paddingBlock: "20px" }}
         >
-          <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
+          <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl" >
             Seja voluntário
           </h1>
           <p
@@ -38,20 +38,20 @@ export default function VoluntarioPage() {
         className="flex-1 bg-warm"
         style={{ paddingTop: "80px", paddingBottom: "120px" }}
       >
-        <div className="container-site mx-auto" style={{ maxWidth: "760px" }}>
-          <h2 className="text-2xl font-extrabold text-gray-900">
+        <div className="container-site mx-auto" style={{ maxWidth: "760px"}}>
+          <h2 className="text-2xl font-extrabold text-gray-900 "style={{paddingBottom: "10px" }}>
             Como funciona
           </h2>
-          <p className="mt-3 text-base leading-8 text-gray-600">
+          <p className="mt-3 text-base leading-6 text-gray-600" style={{paddingBottom: "20px" }}>
             O voluntariado na APAE São Rafael é uma forma direta de contribuir
             com o dia a dia da instituição, participando de ações que fortalecem
             nosso trabalho junto às pessoas atendidas e suas famílias.
           </p>
 
-          <h2 className="mt-12 text-2xl font-extrabold text-gray-900">
+          <h2 className="mt-12 text-2xl font-extrabold text-gray-900" style={{paddingBlock: "10px" }}>
             Áreas de atuação
           </h2>
-          <ul className="mt-4 flex flex-col gap-3">
+          <ul className="mt-4 flex flex-col gap-3"style={{paddingBottom: "20px" }}>
             {areas.map((area) => (
               <li
                 key={area}

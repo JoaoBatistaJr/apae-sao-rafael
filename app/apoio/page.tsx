@@ -96,7 +96,7 @@ export default function ApoioPage() {
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-black/55" />
+                    <div className="absolute inset-0 bg-black/35" />
                     <div className="relative z-10 flex h-full items-center justify-center">
                       <Icon size={56} className="text-white" />
                     </div>
@@ -105,7 +105,7 @@ export default function ApoioPage() {
                     <h2 className="text-lg font-extrabold text-gray-900">
                       {item.title}
                     </h2>
-                    <p className="text-sm leading-6 text-gray-500">
+                    <p className="text-base leading-6 text-gray-500">
                       {item.description}
                     </p>
                     <Link

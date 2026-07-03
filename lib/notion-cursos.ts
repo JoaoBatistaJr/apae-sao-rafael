@@ -52,6 +52,8 @@ function getText(prop: any): string {
       return prop.select?.name ?? "";
     case "date":
       return prop.date?.start ?? "";
+    case "files":
+      return prop.files?.[0]?.external?.url ?? prop.files?.[0]?.file?.url ?? "";
     default:
       return "";
   }
