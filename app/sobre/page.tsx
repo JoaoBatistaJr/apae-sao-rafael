@@ -61,7 +61,7 @@ export default function SobrePage() {
           </h1>
           <p
             className="mt-3 text-sm text-white/80 sm:text-base fade-up"
-            style={{ animationDelay: `${STEP}ms` }}
+            style={{ animationDelay: "150ms" }}
           >
             Conheça nossa história, nossa equipe e o trabalho que transforma
             vidas na nossa comunidade.
@@ -70,6 +70,7 @@ export default function SobrePage() {
       </div>
 
       <main className="flex-1">
+        {/* Quem Somos — above the fold, fade-up com delay acumulado manual */}
         <section
           className="bg-warm w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
@@ -77,70 +78,65 @@ export default function SobrePage() {
           <div className="container-site">
             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
               <div>
-                <ScrollReveal delay={STEP * 0}>
-                  <h2
-                    className="text-2xl font-extrabold text-gray-900 sm:text-3xl"
-                    style={{ marginBottom: "24px" }}
-                  >
-                    Quem Somos
-                  </h2>
-                </ScrollReveal>
-                <ScrollReveal delay={STEP * 1}>
-                  <p
-                    className="text-base leading-6 text-gray-700"
-                    style={{ paddingBottom: "10px" }}
-                  >
-                    A APAE São Rafael é uma instituição sem fins lucrativos
-                    voltada ao atendimento de pessoas com deficiência
-                    intelectual, múltipla e transtorno do espectro autista do
-                    município de São Rafael e região.
-                  </p>
-                </ScrollReveal>
-                <ScrollReveal delay={STEP * 2}>
-                  <p
-                    className="text-base leading-6 text-gray-700"
-                    style={{ paddingBottom: "10px" }}
-                  >
-                    Reconhecida como utilidade pública municipal e estadual,
-                    atendemos mais de 50 pessoas em atividades que promovem
-                    desenvolvimento físico, cognitivo e social — sempre de forma
-                    gratuita.
-                  </p>
-                </ScrollReveal>
-                <ScrollReveal delay={STEP * 3}>
-                  <p
-                    className="text-base leading-6 text-gray-700"
-                    style={{ paddingBottom: "10px" }}
-                  >
-                    Acreditamos no potencial de cada pessoa e trabalhamos junto
-                    às famílias e à comunidade para construir uma cidade mais
-                    inclusiva e acolhedora.
-                  </p>
-                </ScrollReveal>
-              </div>
-              <ScrollReveal delay={STEP * 1}>
-                <div
-                  className="relative overflow-hidden"
-                  style={{ height: "340px", borderRadius: "10px" }}
+                <h2
+                  className="text-2xl font-extrabold text-gray-900 sm:text-3xl fade-up"
+                  style={{ marginBottom: "24px", animationDelay: "300ms" }}
                 >
-                  <Image
-                    src="/sobre-quem-somos.jpg"
-                    alt="APAE São Rafael"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </ScrollReveal>
+                  Quem Somos
+                </h2>
+                <p
+                  className="text-base leading-6 text-gray-700 fade-up"
+                  style={{ paddingBottom: "10px", animationDelay: "450ms" }}
+                >
+                  A APAE São Rafael é uma instituição sem fins lucrativos
+                  voltada ao atendimento de pessoas com deficiência intelectual,
+                  múltipla e transtorno do espectro autista do município de São
+                  Rafael e região.
+                </p>
+                <p
+                  className="mt-4 text-base leading-6 text-gray-700 fade-up"
+                  style={{ paddingBottom: "10px", animationDelay: "450ms" }}
+                >
+                  Reconhecida como utilidade pública municipal e estadual,
+                  atendemos mais de 50 pessoas em atividades que promovem
+                  desenvolvimento físico, cognitivo e social — sempre de forma
+                  gratuita.
+                </p>
+                <p
+                  className="mt-4 text-base leading-6 text-gray-700 fade-up"
+                  style={{ paddingBottom: "10px", animationDelay: "450ms" }}
+                >
+                  Acreditamos no potencial de cada pessoa e trabalhamos junto às
+                  famílias e à comunidade para construir uma cidade mais
+                  inclusiva e acolhedora.
+                </p>
+              </div>
+              <div
+                className="relative overflow-hidden fade-up"
+                style={{
+                  height: "340px",
+                  borderRadius: "10px",
+                  animationDelay: "450ms",
+                }}
+              >
+                <Image
+                  src="/sobre-quem-somos.jpg"
+                  alt="APAE São Rafael"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
         </section>
 
+        {/* Daqui pra baixo: fora da viewport inicial → ScrollReveal */}
         <section
           className="bg-warm-muted w-full"
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
         >
           <div className="container-site">
-            <ScrollReveal>
+            <ScrollReveal delay={600}>
               <h2
                 className="text-center text-2xl font-extrabold text-gray-900 sm:text-3xl"
                 style={{ marginBottom: "60px" }}
@@ -148,7 +144,7 @@ export default function SobrePage() {
                 Nossa Missão, Visão e Valores
               </h2>
             </ScrollReveal>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
               {mvv.map((item, i) => (
                 <ScrollReveal key={item.title} delay={STEP * i}>
                   <div
