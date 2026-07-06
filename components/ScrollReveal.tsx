@@ -1,36 +1,41 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ScrollReveal({
   children,
   delay = 0,
-  className,
+  className = "",
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.style.animationDelay = `${delay}ms`;
-          el.classList.add("visible");
+          setVisible(true);
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "-80px 0px" },
+      { threshold: 0.3, rootMargin: "0px 0px -100px 0px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [delay]);
+  }, []);
 
   return (
-    <div ref={ref} className={`fade-up-scroll ${className ?? ""}`}>
+    <div
+      ref={ref}
+      className={`fade-up-scroll ${visible ? "visible" : ""} ${className}`}
+      style={{ animationDelay: visible ? `${delay}ms` : undefined }}
+    >
       {children}
     </div>
   );
