@@ -3,6 +3,7 @@ import Link from "next/link";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const atividades = [
   {
@@ -61,6 +62,8 @@ const vozes = [
   },
 ];
 
+const STEP = 150;
+
 export default function AtividadesPage() {
   return (
     <div className="flex min-h-screen flex-col">
@@ -89,32 +92,37 @@ export default function AtividadesPage() {
           <div className="container-site">
             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
               <div>
-                <p className="text-base leading-8 text-gray-600">
-                  Na <strong>APAE de São Rafael</strong>, desenvolvemos diversas
-                  atividades que visam promover a autonomia, a qualidade de vida
-                  e a inclusão social das pessoas com deficiência intelectual e
-                  múltipla. Todas as ações são planejadas e executadas com
-                  carinho, responsabilidade e respeito às particularidades de
-                  cada indivíduo.
-                </p>
-                <p className="mt-4 text-base leading-8 text-gray-600">
-                  As atividades são realizadas em parceria com famílias,
-                  profissionais especializados e voluntários, garantindo um
-                  ambiente acolhedor e estimulante para o desenvolvimento
-                  integral dos nossos usuários.
-                </p>
-                <p className="mt-4 text-base leading-8 text-gray-600">
-                  Somos uma entidade que acredita no potencial de todos e
-                  trabalhamos diariamente para construir uma comunidade mais
-                  inclusiva, justa e acolhedora.
-                </p>
+                <h2
+                  className="text-2xl font-extrabold text-gray-900 sm:text-3xl fade-up"
+                  style={{ marginBottom: "24px", animationDelay: "300ms" }}
+                >
+                  Compromisso com a Inclusão
+                </h2>
+                {[
+                  "Na APAE de São Rafael, desenvolvemos diversas atividades que visam promover a autonomia, a qualidade de vida e a inclusão social das pessoas com deficiência intelectual e múltipla. Todas as ações são planejadas e executadas com carinho, responsabilidade e respeito às particularidades de cada indivíduo.",
+                  "As atividades realizadas em parceria com famílias, profissionais especializados e voluntários, garantindo um ambiente acolhedor e estimulante para o desenvolvimento integral dos nossos usuários.",
+                  "Somos uma entidade que acredita no potencial de todos e trabalhamos diariamente para contruir um comunidade mais inclusa, justa e acolhedora.",
+                ].map((text, i) => (
+                  <ScrollReveal key={i} delay={STEP * i}>
+                    <p
+                      className="mt-4 text-base leading-6 text-gray-700 fade-up"
+                      style={{ paddingBottom: "10px", animationDelay: "450ms" }}
+                    >
+                      {text}
+                    </p>
+                  </ScrollReveal>
+                ))}
               </div>
               <div
-                className="relative overflow-hidden"
-                style={{ height: "340px", borderRadius: "10px" }}
+                className="relative overflow-hidden fade-up"
+                style={{
+                  height: "340px",
+                  borderRadius: "10px",
+                  animationDelay: "450ms",
+                }}
               >
                 <Image
-                  src="/sobre-quem-somos.png"
+                  src="/apae-conscientização-do-autismo.png"
                   alt="APAE São Rafael"
                   fill
                   className="object-cover"
@@ -129,25 +137,37 @@ export default function AtividadesPage() {
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
         >
           <div className="container-site">
-            <h2
-              className="text-center text-2xl font-extrabold text-gray-900 sm:text-3xl"
-              style={{ marginBottom: "60px" }}
-            >
-              Principais Atividades
-            </h2>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {atividades.map((item) => (
-                <div
+            <ScrollReveal delay={600}>
+              <h2
+                className="text-center text-2xl font-extrabold text-gray-900 sm:text-3xl"
+                style={{ marginBottom: "60px" }}
+              >
+                Principais Atividades
+              </h2>
+            </ScrollReveal>
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+              {atividades.map((item, i) => (
+                <ScrollReveal
                   key={item.title}
-                  className="border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
-                  style={{ borderRadius: "20px", padding: "32px" }}
+                  delay={STEP * i}
+                  className="h-full"
                 >
-                  <div className="mb-4 text-4xl">{item.icon}</div>
-                  <h3 className="mb-3 text-base font-extrabold text-gray-900">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-7 text-gray-500">{item.desc}</p>
-                </div>
+                  <div
+                    className="h-full border border-gray-200 bg-white shadow-sm transition hover:shadow-md select-none"
+                    style={{ borderRadius: "20px", padding: "32px" }}
+                  >
+                    <div className="mb-4 text-5xl">{item.icon}</div>
+                    <h3
+                      className="mb-3 text-base font-extrabold text-gray-900"
+                      style={{ paddingBlock: "10px" }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-base leading-5 text-gray-500">
+                      {item.desc}
+                    </p>
+                  </div>
+                </ScrollReveal>
               ))}
             </div>
           </div>
@@ -158,42 +178,53 @@ export default function AtividadesPage() {
           style={{ paddingTop: "80px", paddingBottom: "80px" }}
         >
           <div className="container-site">
-            <h2
-              className="text-center text-2xl font-extrabold text-gray-900 sm:text-3xl"
-              style={{ marginBottom: "60px" }}
-            >
-              Vozes da nossa comunidade
-            </h2>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {vozes.map((v) => (
-                <div
-                  key={v.name}
-                  className="border border-gray-200 bg-white shadow-sm"
-                  style={{ borderRadius: "20px", padding: "32px" }}
-                >
-                  <div className="mb-4 text-yellow-400">★★★★★</div>
-                  <p className="flex-1 text-sm italic leading-7 text-gray-600">
-                    &ldquo;{v.quote}&rdquo;
-                  </p>
-                  <div className="mt-6 flex items-center gap-3">
+            <ScrollReveal delay={450}>
+              <h2
+                className="text-center text-2xl font-extrabold text-gray-900 sm:text-3xl"
+                style={{ marginBottom: "40px" }}
+              >
+                Vozes da nossa comunidade
+              </h2>
+            </ScrollReveal>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 select-none items-stretch">
+              {vozes.map((v, i) => (
+                <ScrollReveal key={v.name} delay={STEP * i} className="h-full">
+                  <div
+                    className="flex h-full flex-col border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
+                    style={{ borderRadius: "20px", padding: "32px" }}
+                  >
                     <div
-                      className="flex shrink-0 items-center justify-center bg-green-700 text-sm font-bold text-white"
-                      style={{
-                        width: "44px",
-                        height: "44px",
-                        borderRadius: "100%",
-                      }}
+                      className="mb-4 text-2xl text-yellow-300"
+                      style={{ marginBottom: "16px" }}
                     >
-                      {v.initials}
+                      ★★★★★
                     </div>
-                    <div>
-                      <p className="text-sm font-extrabold text-gray-900">
-                        {v.name}
-                      </p>
-                      <p className="text-xs text-gray-500">{v.role}</p>
+                    <p className="text-base italic leading-6 text-gray-600">
+                      &ldquo;{v.quote}&rdquo;
+                    </p>
+                    <div
+                      className="mt-auto flex items-center gap-3"
+                      style={{ paddingTop: "40px" }}
+                    >
+                      <div
+                        className="flex shrink-0 items-center justify-center bg-green-700 text-sm font-bold text-white"
+                        style={{
+                          width: "44px",
+                          height: "44px",
+                          borderRadius: "100%",
+                        }}
+                      >
+                        {v.initials}
+                      </div>
+                      <div>
+                        <p className="text-sm font-extrabold text-gray-900">
+                          {v.name}
+                        </p>
+                        <p className="text-xs text-gray-500">{v.role}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ScrollReveal>
               ))}
             </div>
           </div>
@@ -201,71 +232,90 @@ export default function AtividadesPage() {
 
         <section
           className="bg-warm-muted w-full"
-          style={{ paddingTop: "80px", paddingBottom: "80px" }}
+          style={{ paddingBlock: "80px" }}
         >
           <div className="container-site">
-            <h2
-              className="text-center text-2xl font-extrabold text-gray-900 sm:text-3xl"
-              style={{ marginBottom: "60px" }}
-            >
-              Venha nos conhecer!
-            </h2>
+            <ScrollReveal>
+              <h2
+                className="text-center text-2xl font-extrabold text-gray-900 sm:text-3xl"
+                style={{ marginBottom: "40px" }}
+              >
+                Venha nos conhecer!
+              </h2>
+            </ScrollReveal>
             <div
-              className="grid grid-cols-1 overflow-hidden lg:grid-cols-2"
-              style={{ borderRadius: "24px", border: "1px solid #e5e7eb" }}
+              className="grid grid-cols-1 lg:grid-cols-2 items-stretch"
+              style={{
+                borderRadius: "20px",
+                border: "1px solid #e5e7eb",
+                overflow: "hidden",
+              }}
             >
-              <div className="bg-white" style={{ padding: "56px 48px" }}>
-                <h3
-                  className="text-xl font-extrabold text-gray-900 sm:text-2xl"
-                  style={{ marginBottom: "20px" }}
-                >
-                  Conheça de perto nossa missão e faça parte dessa
-                  transformação.
-                </h3>
-                <p
-                  className="text-base leading-8 text-gray-500"
-                  style={{ marginBottom: "12px" }}
-                >
-                  Agende uma visita e conheça de perto nosso trabalho e as
-                  atividades que realizamos com carinho.
-                </p>
-                <p
-                  className="text-base leading-8 text-gray-500"
-                  style={{ marginBottom: "32px" }}
-                >
-                  Sua presença é essencial para fortalecer nossa missão e
-                  transformar vidas. Juntos, construímos uma sociedade mais
-                  inclusiva e acolhedora.
-                </p>
-                <Link href="/contato" className="btn btn-primary btn-md">
-                  Entre em contato e participe!
-                </Link>
-              </div>
-              <div className="relative" style={{ minHeight: "320px" }}>
-                <Image
-                  src="/atividades-cta.png"
-                  alt="Venha nos conhecer"
-                  fill
-                  className="object-cover"
-                />
+              <ScrollReveal>
                 <div
-                  className="absolute inset-0 flex flex-col items-center justify-center text-center"
-                  style={{
-                    background: "rgba(123, 238, 167, 0.92)",
-                    padding: "48px",
-                  }}
+                  className="h-full bg-white"
+                  style={{ padding: "56px 48px" }}
                 >
                   <h3
-                    className="text-2xl font-extrabold text-green-900 sm:text-3xl"
-                    style={{ marginBottom: "16px" }}
+                    className="text-xl font-extrabold text-gray-900 sm:text-2xl"
+                    style={{ marginBottom: "20px" }}
                   >
-                    Venha nos conhecer!
+                    Conheça de perto nossa missão e faça parte dessa
+                    transformação.
                   </h3>
-                  <p className="text-base font-semibold text-green-800">
-                    Agende uma visita e conheça de perto nosso trabalho
-                  </p>
+                  {[
+                    "Agende uma visita e conheça de perto nosso trabalho e as atividades que realizamos com carinho.",
+                    "Sua presença é essencial para fortalecer nossa missão e transformar vidas. Juntos, construímos uma sociedade mais inclusiva e acolhedora.",
+                  ].map((text, i) => (
+                    <ScrollReveal key={i} delay={STEP * i}>
+                      <p
+                        className="text-base leading-6 text-gray-600"
+                        style={{ marginBottom: "12px" }}
+                      >
+                        {text}
+                      </p>
+                    </ScrollReveal>
+                  ))}
+                  <Link
+                    href="/contato"
+                    className="btn btn-primary btn-md"
+                    style={{ marginTop: "12px" }}
+                  >
+                    Entre em contato e participe!
+                  </Link>
                 </div>
-              </div>
+              </ScrollReveal>
+
+              <ScrollReveal delay={STEP}>
+                <div
+                  className="relative h-full overflow-hidden"
+                  style={{ minHeight: "320px" }}
+                >
+                  <Image
+                    src="/apae-conscientização-do-autismo.png"
+                    alt="Venha nos conhecer"
+                    fill
+                    className="object-cover"
+                  />
+                  <div
+                    className="absolute inset-0 flex flex-col items-center justify-center text-center"
+                    style={{
+                      background: "rgba(123, 238, 267, 0.75)",
+                      padding: "48px",
+                    }}
+                  >
+                    <h3
+                      className="text-2xl font-extrabold text-blue-950 sm:text-3xl"
+                      style={{ marginBottom: "16px" }}
+                    >
+                      Esperamos por você!
+                    </h3>
+                    <p className="text-base font-semibold text-blue-900">
+                      Agende uma visita e conheça de perto nosso trabalho
+                    </p>
+                  </div>
+                </div>
+              </ScrollReveal>
             </div>
           </div>
         </section>

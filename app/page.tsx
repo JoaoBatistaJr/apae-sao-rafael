@@ -17,13 +17,13 @@ export default function Home() {
     <main className="w-full overflow-hidden">
       <div className="relative w-full bg-black">
         <Image
-          src="/Hero.png"
+          src="/hero-2.jpg"
           alt="APAE São Rafael"
           fill
           className="object-cover object-center scale-[1.02]"
           priority
         />
-        <div className="absolute inset-0 bg-black" style={{ opacity: 0.55 }} />
+        <div className="absolute inset-0 bg-black" style={{ opacity: 0.80 }} />
         <div className="relative z-10">
           <TopBar />
           <AnnouncementBar />

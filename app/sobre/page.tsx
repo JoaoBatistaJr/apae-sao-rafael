@@ -84,32 +84,21 @@ export default function SobrePage() {
                 >
                   Quem Somos
                 </h2>
-                <p
-                  className="text-base leading-6 text-gray-700 fade-up"
-                  style={{ paddingBottom: "10px", animationDelay: "450ms" }}
-                >
-                  A APAE São Rafael é uma instituição sem fins lucrativos
-                  voltada ao atendimento de pessoas com deficiência intelectual,
-                  múltipla e transtorno do espectro autista do município de São
-                  Rafael e região.
-                </p>
-                <p
-                  className="mt-4 text-base leading-6 text-gray-700 fade-up"
-                  style={{ paddingBottom: "10px", animationDelay: "450ms" }}
-                >
-                  Reconhecida como utilidade pública municipal e estadual,
-                  atendemos mais de 50 pessoas em atividades que promovem
-                  desenvolvimento físico, cognitivo e social — sempre de forma
-                  gratuita.
-                </p>
-                <p
-                  className="mt-4 text-base leading-6 text-gray-700 fade-up"
-                  style={{ paddingBottom: "10px", animationDelay: "450ms" }}
-                >
-                  Acreditamos no potencial de cada pessoa e trabalhamos junto às
-                  famílias e à comunidade para construir uma cidade mais
-                  inclusiva e acolhedora.
-                </p>
+                {[
+                  "A APAE São Rafael é uma instituição sem fins lucrativos voltada ao atendimento de pessoas com deficiência intelectual, múltipla e transtorno do espectro autista do município de São Rafael e região.",
+                  "Reconhecida como utilidade pública municipal e estadual, atendemos mais de 50 pessoas em atividades que promovem desenvolvimento físico, cognitivo e social — sempre de forma gratuita.",
+                  "Acreditamos no potencial de cada pessoa e trabalhamos junto às famílias e à comunidade para construir uma cidade mais inclusiva e acolhedora.",
+                ].map((text, i) => (
+                  <ScrollReveal key={i} delay={STEP * i}>
+                    <p
+                      key={i}
+                      className="mt-4 text-base leading-6 text-gray-700 fade-up"
+                      style={{ paddingBottom: "10px", animationDelay: "450ms" }}
+                    >
+                      {text}
+                    </p>
+                  </ScrollReveal>
+                ))}
               </div>
               <div
                 className="relative overflow-hidden fade-up"
@@ -148,8 +137,8 @@ export default function SobrePage() {
               {mvv.map((item, i) => (
                 <ScrollReveal key={item.title} delay={STEP * i}>
                   <div
-                    className="border border-gray-200 bg-white shadow-sm"
-                    style={{ borderRadius: "20px", padding: "40px" }}
+                    className="border border-gray-200 bg-white shadow-sm transition hover:shadow-md select-none"
+                    style={{ borderRadius: "20px", padding: "32px" }}
                   >
                     <div className="mb-4 text-5xl">{item.icon}</div>
                     <h3
@@ -170,7 +159,7 @@ export default function SobrePage() {
 
         <section
           className="bg-warm w-full"
-          style={{ paddingTop: "80px", paddingBottom: "80px" }}
+          style={{ paddingBlock: "80px" }}
         >
           <div className="container-site">
             <ScrollReveal>
