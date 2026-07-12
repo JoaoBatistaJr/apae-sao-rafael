@@ -7,21 +7,62 @@ import Footer from "@/components/Footer";
 
 type DonationAmount = 25 | 50 | 100 | "outro";
 type DonationType = "unica" | "padrinho";
-type PaymentMethod = "boleto" | "cartao" | "pix";
+type PaymentMethod = "cartao" | "pix";
 
 export default function DoacoesPage() {
   const [amount, setAmount] = useState<DonationAmount>(50);
   const [customAmount, setCustomAmount] = useState("");
   const [donationType, setDonationType] = useState<DonationType>("unica");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("pix");
+  const [payerEmail, setPayerEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleDonate = () => {
-    const final = amount === "outro" ? `R$ ${customAmount}` : `R$ ${amount}`;
-    const typeLabel =
-      donationType === "unica" ? "Doação única" : "Padrinho mensal";
-    alert(
-      `${typeLabel} de ${final} via ${paymentMethod} — integração com Mercado Pago em breve!`,
-    );
+  const handleDonate = async () => {
+    const finalAmount = amount === "outro" ? Number(customAmount) : amount;
+
+    if (!finalAmount || finalAmount < 1) {
+      alert("Informe um valor válido.");
+      return;
+    }
+
+    if (donationType === "padrinho") {
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payerEmail);
+      if (!emailValid) {
+        alert("Informe um e-mail válido para ser padrinho.");
+        return;
+      }
+    }
+
+    setLoading(true);
+
+    const endpoint =
+      donationType === "padrinho"
+        ? "/api/mp/subscription"
+        : "/api/mp/preference";
+
+    const body =
+      donationType === "padrinho"
+        ? { amount: finalAmount, payerEmail }
+        : { amount: finalAmount, method: paymentMethod };
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+
+      if (data.init_point) {
+        window.location.href = data.init_point;
+      } else {
+        alert("Erro ao processar sua doação. Tente novamente.");
+        setLoading(false);
+      }
+    } catch {
+      alert("Erro de conexão. Tente novamente.");
+      setLoading(false);
+    }
   };
 
   const amountBtn = (val: DonationAmount, label: string) => (
@@ -206,160 +247,182 @@ export default function DoacoesPage() {
               </label>
             </div>
             {donationType === "padrinho" && (
-              <div
-                style={{
-                  marginTop: "14px",
-                  borderRadius: "14px",
-                  border: "1px solid #fbcfe8",
-                  background: "#fff0f5",
-                  padding: "14px 18px",
-                  textAlign: "center",
-                }}
-              >
-                <p className="text-sm leading-6 text-pink-700">
-                  ❤️ Sua contribuição mensal ajuda a manter atendimentos,
-                  terapias e projetos ativos durante todo o ano.
-                </p>
-              </div>
+              <>
+                <div
+                  style={{
+                    marginTop: "14px",
+                    borderRadius: "14px",
+                    border: "1px solid #fbcfe8",
+                    background: "#fff0f5",
+                    padding: "14px 18px",
+                    textAlign: "center",
+                  }}
+                >
+                  <p className="text-sm leading-6 text-pink-700">
+                    ❤️ Sua contribuição mensal ajuda a manter atendimentos,
+                    terapias e projetos ativos durante todo o ano.
+                  </p>
+                </div>
+                <div style={{ marginTop: "14px" }}>
+                  <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+                    Seu e-mail
+                  </label>
+                  <input
+                    type="email"
+                    value={payerEmail}
+                    onChange={(e) => setPayerEmail(e.target.value)}
+                    placeholder="seuemail@exemplo.com"
+                    required
+                    className="w-full border-2 border-gray-200 bg-white px-4 text-base focus:border-pink-400 focus:outline-none"
+                    style={{
+                      borderRadius: "10px",
+                      padding: "16px",
+                      fontSize: "16px",
+                      minHeight: "56px",
+                    }}
+                  />
+                  <p className="mt-1.5 text-xs text-gray-400">
+                    Usamos seu e-mail apenas para gerenciar sua assinatura de
+                    padrinho.
+                  </p>
+                </div>
+              </>
             )}
           </div>
 
-          {/* MÉTODO */}
-          <div style={{ marginBottom: "36px" }}>
-            <h2
-              className="text-center font-extrabold text-gray-900"
-              style={{ fontSize: "17px", marginBottom: "16px" }}
-            >
-              Forma de pagamento
-            </h2>
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                {
-                  id: "boleto" as PaymentMethod,
-                  label: "Boleto",
-                  icon: (
-                    <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
-                      <rect x="4" y="10" width="4" height="28" fill="#111" />
-                      <rect x="10" y="10" width="2" height="28" fill="#111" />
-                      <rect x="14" y="10" width="5" height="28" fill="#111" />
-                      <rect x="21" y="10" width="2" height="28" fill="#111" />
-                      <rect x="25" y="10" width="6" height="28" fill="#111" />
-                      <rect x="33" y="10" width="2" height="28" fill="#111" />
-                      <rect x="37" y="10" width="4" height="28" fill="#111" />
-                      <rect x="43" y="10" width="2" height="28" fill="#111" />
-                    </svg>
-                  ),
-                },
-                {
-                  id: "cartao" as PaymentMethod,
-                  label: "Cartão",
-                  icon: (
-                    <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
-                      <rect
-                        x="4"
-                        y="10"
-                        width="40"
-                        height="28"
-                        rx="4"
-                        stroke="#111"
-                        strokeWidth="2.5"
+          {/* MÉTODO — só doação única */}
+          {donationType === "unica" && (
+            <div style={{ marginBottom: "36px" }}>
+              <h2
+                className="text-center font-extrabold text-gray-900"
+                style={{ fontSize: "17px", marginBottom: "16px" }}
+              >
+                Forma de pagamento
+              </h2>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  {
+                    id: "cartao" as PaymentMethod,
+                    label: "Cartão",
+                    icon: (
+                      <svg
+                        width="44"
+                        height="44"
+                        viewBox="0 0 48 48"
                         fill="none"
-                      />
-                      <rect x="4" y="18" width="40" height="7" fill="#111" />
-                      <rect
-                        x="10"
-                        y="31"
-                        width="10"
-                        height="3"
-                        rx="1.5"
-                        fill="#111"
-                      />
-                      <rect
-                        x="24"
-                        y="31"
-                        width="6"
-                        height="3"
-                        rx="1.5"
-                        fill="#111"
-                      />
-                    </svg>
-                  ),
-                },
-                {
-                  id: "pix" as PaymentMethod,
-                  label: "PIX",
-                  icon: (
-                    <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
-                      <path
-                        d="M24 12L36 24L24 36L12 24L24 12Z"
-                        fill="#32BCAD"
-                      />
-                      <path
-                        d="M18 6L24 0L30 6"
-                        stroke="#32BCAD"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M42 18L48 24L42 30"
-                        stroke="#32BCAD"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M30 42L24 48L18 42"
-                        stroke="#32BCAD"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M6 30L0 24L6 18"
-                        stroke="#32BCAD"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  ),
-                },
-              ].map((m) => (
-                <button
-                  key={m.id}
-                  onClick={() => setPaymentMethod(m.id)}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "10px",
-                    padding: "20px 8px",
-                    borderRadius: "12px",
-                    border: `2px solid ${paymentMethod === m.id ? "#16a34a" : "#e5e7eb"}`,
-                    background: paymentMethod === m.id ? "#f0fdf4" : "#fff",
-                    cursor: "pointer",
-                    touchAction: "manipulation",
-                    WebkitTapHighlightColor: "transparent",
-                    transition: "border 0.15s, background 0.15s",
-                    width: "100%",
-                  }}
-                >
-                  {m.icon}
-                  <span
+                      >
+                        <rect
+                          x="4"
+                          y="10"
+                          width="40"
+                          height="28"
+                          rx="4"
+                          stroke="#111"
+                          strokeWidth="2.5"
+                          fill="none"
+                        />
+                        <rect x="4" y="18" width="40" height="7" fill="#111" />
+                        <rect
+                          x="10"
+                          y="31"
+                          width="10"
+                          height="3"
+                          rx="1.5"
+                          fill="#111"
+                        />
+                        <rect
+                          x="24"
+                          y="31"
+                          width="6"
+                          height="3"
+                          rx="1.5"
+                          fill="#111"
+                        />
+                      </svg>
+                    ),
+                  },
+                  {
+                    id: "pix" as PaymentMethod,
+                    label: "PIX",
+                    icon: (
+                      <svg
+                        width="44"
+                        height="44"
+                        viewBox="0 0 48 48"
+                        fill="none"
+                      >
+                        <path
+                          d="M24 12L36 24L24 36L12 24L24 12Z"
+                          fill="#32BCAD"
+                        />
+                        <path
+                          d="M18 6L24 0L30 6"
+                          stroke="#32BCAD"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M42 18L48 24L42 30"
+                          stroke="#32BCAD"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M30 42L24 48L18 42"
+                          stroke="#32BCAD"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M6 30L0 24L6 18"
+                          stroke="#32BCAD"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    ),
+                  },
+                ].map((m) => (
+                  <button
+                    key={m.id}
+                    onClick={() => setPaymentMethod(m.id)}
                     style={{
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#374151",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "10px",
+                      padding: "20px 8px",
+                      borderRadius: "12px",
+                      border: `2px solid ${paymentMethod === m.id ? "#16a34a" : "#e5e7eb"}`,
+                      background: paymentMethod === m.id ? "#f0fdf4" : "#fff",
+                      cursor: "pointer",
+                      touchAction: "manipulation",
+                      WebkitTapHighlightColor: "transparent",
+                      transition: "border 0.15s, background 0.15s",
+                      width: "100%",
                     }}
                   >
-                    {m.label}
-                  </span>
-                </button>
-              ))}
+                    {m.icon}
+                    <span
+                      style={{
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        color: "#374151",
+                      }}
+                    >
+                      {m.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* BOTÃO */}
           <button
             onClick={handleDonate}
+            disabled={loading}
             style={{
               display: "block",
               width: "100%",
@@ -368,19 +431,25 @@ export default function DoacoesPage() {
               fontWeight: 700,
               borderRadius: "12px",
               border: "none",
-              background: "#22c55e",
+              background: loading ? "#86efac" : "#22c55e",
               color: "#fff",
-              cursor: "pointer",
+              cursor: loading ? "not-allowed" : "pointer",
               touchAction: "manipulation",
               WebkitTapHighlightColor: "transparent",
               transition: "background 0.15s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#16a34a")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#22c55e")}
+            onMouseEnter={(e) => {
+              if (!loading) e.currentTarget.style.background = "#16a34a";
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) e.currentTarget.style.background = "#22c55e";
+            }}
           >
-            {donationType === "padrinho"
-              ? "Quero ser padrinho ❤️"
-              : "Fazer doação"}
+            {loading
+              ? "Processando..."
+              : donationType === "padrinho"
+                ? "Quero ser padrinho ❤️"
+                : "Fazer doação"}
           </button>
 
           <p className="mt-3 mb-3 text-center text-xs text-gray-400">
