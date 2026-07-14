@@ -12,7 +12,7 @@ const supportOptions = [
     title: "Doações financeiras",
     description:
       "Contribua com qualquer valor para ajudar na manutenção dos atendimentos e projetos da APAE.",
-    href: "/doacoes",
+    href: "/apoio/doacoes",
     button: "Quero doar",
     btnClass: "btn-light-red",
     bgImage: "/apoio-doador.png",

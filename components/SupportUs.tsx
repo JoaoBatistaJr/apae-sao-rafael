@@ -9,15 +9,15 @@ const items = [
     desc: "Sua contribuição ajuda a manter projetos sociais, educacionais e de saúde para centenas de famílias.",
     btn: "Doe agora",
     btnClass: "btn-pink",
-    href: "/doacoes",
+    href: "/apoio/doacoes",
   },
   {
     img: "/apoio-acoes.png",
     title: "Participe das ações",
     desc: "Fique por dentro dos eventos, campanhas e atividades promovidas pela APAE em nossa comunidade.",
-    btn: "Ver ações",
+    btn: "Veja nossas ações",
     btnClass: "btn-light-yellow",
-    href: "/atividades",
+    href: "/novidades",
   },
   {
     img: "/apoio-voluntario.png",
@@ -25,7 +25,7 @@ const items = [
     desc: "Doe seu tempo e talento para transformar vidas. Conheça nossas comunidades de voluntários.",
     btn: "Inscreva-se",
     btnClass: "btn-light-purple",
-    href: "/voluntario",
+    href: "/apoio/voluntario",
   },
 ];
 

@@ -5,7 +5,7 @@ const infoLinks = [
   { label: "Início", href: "/" },
   { label: "Sobre a APAE", href: "/sobre" },
   { label: "Atividades", href: "/atividades" },
-  { label: "Notícias", href: "/noticias" },
+  { label: "Novidades", href: "/novidades" },
   { label: "Apoie a APAE", href: "/apoio" },
   { label: "Contato", href: "/contato" },
 ];

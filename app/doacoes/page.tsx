@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
@@ -9,6 +10,12 @@ type DonationAmount = 25 | 50 | 100 | "outro";
 type DonationType = "unica" | "padrinho";
 type PaymentMethod = "cartao" | "pix";
 
+// Cores centralizadas — alinhadas ao design system (.btn-primary, .btn-green)
+const COLOR_PINK = "#e94e77";
+const COLOR_PINK_SOFT = "#f472b6";
+const COLOR_GREEN = "#22c55e";
+const COLOR_GREEN_DARK = "#16a34a";
+
 export default function DoacoesPage() {
   const [amount, setAmount] = useState<DonationAmount>(50);
   const [customAmount, setCustomAmount] = useState("");
@@ -16,19 +23,21 @@ export default function DoacoesPage() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("pix");
   const [payerEmail, setPayerEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleDonate = async () => {
+    setError(null);
     const finalAmount = amount === "outro" ? Number(customAmount) : amount;
 
     if (!finalAmount || finalAmount < 1) {
-      alert("Informe um valor válido.");
+      setError("Informe um valor válido.");
       return;
     }
 
     if (donationType === "padrinho") {
       const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payerEmail);
       if (!emailValid) {
-        alert("Informe um e-mail válido para ser padrinho.");
+        setError("Informe um e-mail válido para ser padrinho.");
         return;
       }
     }
@@ -56,21 +65,20 @@ export default function DoacoesPage() {
       if (data.init_point) {
         window.location.href = data.init_point;
       } else {
-        alert("Erro ao processar sua doação. Tente novamente.");
+        setError("Erro ao processar sua doação. Tente novamente.");
         setLoading(false);
       }
     } catch {
-      alert("Erro de conexão. Tente novamente.");
+      setError("Erro de conexão. Tente novamente.");
       setLoading(false);
     }
   };
 
   const amountBtn = (val: DonationAmount, label: string) => (
     <button
-      onPointerDown={(e) => {
-        e.preventDefault();
-        setAmount(val);
-      }}
+      type="button"
+      aria-pressed={amount === val}
+      onClick={() => setAmount(val)}
       style={{
         padding: "16px 0",
         fontSize: "17px",
@@ -79,7 +87,7 @@ export default function DoacoesPage() {
         width: "100%",
         minHeight: "56px",
         border: amount === val ? "none" : "2px solid #e5e7eb",
-        background: amount === val ? "#e94e77" : "#ffffff",
+        background: amount === val ? COLOR_PINK : "#ffffff",
         color: amount === val ? "#fff" : "#374151",
         cursor: "pointer",
         touchAction: "manipulation",
@@ -101,14 +109,13 @@ export default function DoacoesPage() {
           style={{ paddingBlock: "20px" }}
         >
           <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
-            Apoie a APAE
+            Finalize sua doação
           </h1>
           <p
-            className="mt-5 max-w-3xl text-sm leading-relaxed text-white/80"
+            className="mt-3 text-sm text-white/80 sm:text-base"
             style={{ maxWidth: "520px" }}
           >
-            Sua contribuição ajuda a manter atendimentos, terapias e projetos
-            que transformam vidas todos os dias.
+            Escolha o valor e a forma de contribuição
           </p>
         </div>
       </div>
@@ -143,10 +150,14 @@ export default function DoacoesPage() {
             </div>
             {amount === "outro" && (
               <div style={{ marginTop: "12px" }}>
-                <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+                <label
+                  htmlFor="custom-amount"
+                  className="mb-1.5 block text-sm font-semibold text-gray-700"
+                >
                   Valor em R$
                 </label>
                 <input
+                  id="custom-amount"
                   type="number"
                   min="1"
                   value={customAmount}
@@ -166,12 +177,12 @@ export default function DoacoesPage() {
 
           {/* TIPO */}
           <div style={{ marginBottom: "36px" }}>
-            <p
+            <h2
               className="text-center font-extrabold text-gray-900"
               style={{ fontSize: "17px", marginBottom: "16px" }}
             >
               Como você deseja ajudar?
-            </p>
+            </h2>
             <div className="flex flex-col gap-3 sm:flex-row">
               <label
                 style={{
@@ -181,7 +192,7 @@ export default function DoacoesPage() {
                   gap: "12px",
                   padding: "18px",
                   borderRadius: "16px",
-                  border: `2px solid ${donationType === "unica" ? "#f472b6" : "#e5e7eb"}`,
+                  border: `2px solid ${donationType === "unica" ? COLOR_PINK_SOFT : "#e5e7eb"}`,
                   background: "#fff",
                   cursor: "pointer",
                   touchAction: "manipulation",
@@ -195,7 +206,7 @@ export default function DoacoesPage() {
                   onChange={() => setDonationType("unica")}
                   style={{
                     marginTop: "3px",
-                    accentColor: "#e94e77",
+                    accentColor: COLOR_PINK,
                     width: "16px",
                     height: "16px",
                   }}
@@ -216,7 +227,7 @@ export default function DoacoesPage() {
                   gap: "12px",
                   padding: "18px",
                   borderRadius: "16px",
-                  border: `2px solid ${donationType === "padrinho" ? "#f472b6" : "#e5e7eb"}`,
+                  border: `2px solid ${donationType === "padrinho" ? COLOR_PINK_SOFT : "#e5e7eb"}`,
                   background: donationType === "padrinho" ? "#fff7f9" : "#fff",
                   cursor: "pointer",
                   touchAction: "manipulation",
@@ -230,7 +241,7 @@ export default function DoacoesPage() {
                   onChange={() => setDonationType("padrinho")}
                   style={{
                     marginTop: "3px",
-                    accentColor: "#e94e77",
+                    accentColor: COLOR_PINK,
                     width: "16px",
                     height: "16px",
                   }}
@@ -264,10 +275,14 @@ export default function DoacoesPage() {
                   </p>
                 </div>
                 <div style={{ marginTop: "14px" }}>
-                  <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+                  <label
+                    htmlFor="payer-email"
+                    className="mb-1.5 block text-sm font-semibold text-gray-700"
+                  >
                     Seu e-mail
                   </label>
                   <input
+                    id="payer-email"
                     type="email"
                     value={payerEmail}
                     onChange={(e) => setPayerEmail(e.target.value)}
@@ -281,7 +296,7 @@ export default function DoacoesPage() {
                       minHeight: "56px",
                     }}
                   />
-                  <p className="mt-1.5 text-xs text-gray-400">
+                  <p className="mt-1.5 text-xs text-gray-500">
                     Usamos seu e-mail apenas para gerenciar sua assinatura de
                     padrinho.
                   </p>
@@ -385,6 +400,8 @@ export default function DoacoesPage() {
                 ].map((m) => (
                   <button
                     key={m.id}
+                    type="button"
+                    aria-pressed={paymentMethod === m.id}
                     onClick={() => setPaymentMethod(m.id)}
                     style={{
                       display: "flex",
@@ -394,7 +411,7 @@ export default function DoacoesPage() {
                       gap: "10px",
                       padding: "20px 8px",
                       borderRadius: "12px",
-                      border: `2px solid ${paymentMethod === m.id ? "#16a34a" : "#e5e7eb"}`,
+                      border: `2px solid ${paymentMethod === m.id ? COLOR_GREEN_DARK : "#e5e7eb"}`,
                       background: paymentMethod === m.id ? "#f0fdf4" : "#fff",
                       cursor: "pointer",
                       touchAction: "manipulation",
@@ -419,8 +436,19 @@ export default function DoacoesPage() {
             </div>
           )}
 
+          {/* ERRO */}
+          {error && (
+            <p
+              role="alert"
+              className="mb-4 text-center text-sm font-semibold text-red-600"
+            >
+              {error}
+            </p>
+          )}
+
           {/* BOTÃO */}
           <button
+            type="button"
             onClick={handleDonate}
             disabled={loading}
             style={{
@@ -431,7 +459,7 @@ export default function DoacoesPage() {
               fontWeight: 700,
               borderRadius: "12px",
               border: "none",
-              background: loading ? "#86efac" : "#22c55e",
+              background: loading ? "#86efac" : COLOR_GREEN,
               color: "#fff",
               cursor: loading ? "not-allowed" : "pointer",
               touchAction: "manipulation",
@@ -439,10 +467,10 @@ export default function DoacoesPage() {
               transition: "background 0.15s",
             }}
             onMouseEnter={(e) => {
-              if (!loading) e.currentTarget.style.background = "#16a34a";
+              if (!loading) e.currentTarget.style.background = COLOR_GREEN_DARK;
             }}
             onMouseLeave={(e) => {
-              if (!loading) e.currentTarget.style.background = "#22c55e";
+              if (!loading) e.currentTarget.style.background = COLOR_GREEN;
             }}
           >
             {loading
@@ -452,9 +480,18 @@ export default function DoacoesPage() {
                 : "Fazer doação"}
           </button>
 
-          <p className="mt-3 mb-3 text-center text-xs text-gray-400">
-            🔒 Ambiente 100% seguro
+          <p className="mt-3 text-center text-xs text-gray-500">
+            🔒 Pagamento processado com segurança pelo Mercado Pago
           </p>
+
+          <div className="mt-2 text-center">
+            <Link
+              href="/apoio/doacoes"
+              className="text-xs font-semibold text-gray-500 underline"
+            >
+              Saiba mais sobre como usamos sua doação
+            </Link>
+          </div>
         </div>
       </main>
 

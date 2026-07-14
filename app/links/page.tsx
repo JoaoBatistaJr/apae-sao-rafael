@@ -80,13 +80,13 @@ export default async function LinksPage() {
   const temCursosAtivos = cursos.length > 0;
 
   const links = [
-    { href: "/doacoes", label: "Fazer doação", icon: iconDoacao },
+    { href: "/doacoes", label: "Fazer uma doação", icon: iconDoacao },
     ...(temCursosAtivos
       ? [{ href: "/cursos", label: "Cursos e oficinas", icon: iconCursos }]
       : []),
-    { href: "/novidades", label: "Ver novidades", icon: iconNovidades },
-    { href: "/apoio", label: "Apoie / Voluntariado", icon: iconApoio },
-    { href: "/", label: "Acessar site", icon: iconAcessarSite },
+    { href: "/novidades", label: "Veja as novidades", icon: iconNovidades },
+    { href: "/apoio", label: "Apoie, seja voluntário", icon: iconApoio },
+    { href: "/", label: "Visite nosso site", icon: iconAcessarSite },
   ];
 
   return (
@@ -152,81 +152,6 @@ export default async function LinksPage() {
             </Link>
           ))}
         </nav>
-
-        {/* REDES SOCIAIS */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "16px",
-            marginTop: "32px",
-          }}
-        >
-          <a
-            href="https://instagram.com/apaesaorafael"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            style={{
-              width: "46px",
-              height: "46px",
-              borderRadius: "50%",
-              background: "#fff",
-              border: "2px solid #e5e7eb",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#003F8A",
-            }}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <rect
-                x="3"
-                y="3"
-                width="18"
-                height="18"
-                rx="5"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="4"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-            </svg>
-          </a>
-          <a
-            href="https://wa.me/55SEUNUMEROAQUI"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="WhatsApp"
-            style={{
-              width: "46px",
-              height: "46px",
-              borderRadius: "50%",
-              background: "#fff",
-              border: "2px solid #e5e7eb",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#003F8A",
-            }}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M20 12a8 8 0 1 1-3.3-6.4M20 12l-1 4-4 1"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-        </div>
 
         <p
           className="text-center text-gray-400"

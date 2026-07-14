@@ -40,7 +40,7 @@ export default function Hero() {
               className="text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl fade-up"
               style={{ animationDelay: "100ms" }}
             >
-              Boas vindas
+              Boas-vindas
               <br />à nossa APAE
               <br />
               São Rafael – RN
