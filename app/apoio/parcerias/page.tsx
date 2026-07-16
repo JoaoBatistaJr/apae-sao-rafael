@@ -1,13 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import {
-  HeartHandshake,
-  CalendarClock,
-  Palette,
-  ClipboardList,
-  Megaphone,
-  MessageCircle,
-  Sparkles,
-} from "lucide-react";
+import { MessageCircle, Sparkles } from "lucide-react";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -15,24 +8,24 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 const areas = [
   {
-    icon: CalendarClock,
-    title: "Apoio em eventos e campanhas",
-    desc: "Ajude na organização e execução de eventos, campanhas de arrecadação e ações na comunidade.",
+    icon: "🏢",
+    title: "Patrocínio institucional",
+    desc: "Empresas que apoiam financeiramente projetos e ações contínuas da APAE São Rafael.",
   },
   {
-    icon: Palette,
-    title: "Atividades recreativas e oficinas",
-    desc: "Participe de oficinas de arte, música e recreação junto aos usuários atendidos pela instituição.",
+    icon: "🛠️",
+    title: "Serviços e apoio técnico",
+    desc: "Doação de serviços especializados (jurídico, contábil, manutenção, tecnologia) para a instituição.",
   },
   {
-    icon: ClipboardList,
-    title: "Suporte administrativo",
-    desc: "Contribua com tarefas de organização, cadastro e apoio ao dia a dia administrativo da APAE.",
+    icon: "📦",
+    title: "Fornecimento de produtos",
+    desc: "Parcerias com fornecedores para doação ou desconto em materiais, equipamentos e insumos.",
   },
   {
-    icon: Megaphone,
-    title: "Divulgação e comunicação",
-    desc: "Ajude a dar mais visibilidade ao nosso trabalho nas redes sociais e na comunidade local.",
+    icon: "🤝",
+    title: "Ações conjuntas",
+    desc: "Eventos, campanhas e projetos desenvolvidos em conjunto com empresas e outras instituições.",
   },
 ];
 
@@ -40,41 +33,41 @@ const passos = [
   {
     numero: "01",
     title: "Entre em contato",
-    desc: "Preencha o formulário ou fale com a gente pelo WhatsApp contando seu interesse.",
+    desc: "Apresente sua empresa ou instituição e o interesse em firmar parceria com a APAE.",
   },
   {
     numero: "02",
-    title: "Conversa inicial",
-    desc: "Nossa equipe apresenta as áreas disponíveis e entende melhor sua disponibilidade e talentos.",
+    title: "Reunião de alinhamento",
+    desc: "Conversamos sobre formato, escopo e objetivos da parceria para os dois lados.",
   },
   {
     numero: "03",
-    title: "Integração",
-    desc: "Você é apresentado à equipe e às rotinas da instituição antes de começar suas atividades.",
+    title: "Formalização",
+    desc: "Definimos os termos da parceria e formalizamos o acordo conforme o modelo combinado.",
   },
   {
     numero: "04",
-    title: "Comece a transformar vidas",
-    desc: "Participe das atividades no ritmo combinado, com todo o suporte da nossa equipe.",
+    title: "Parceria em ação",
+    desc: "Início das ações conjuntas, com acompanhamento e retorno sobre os resultados.",
   },
 ];
 
 const faq = [
   {
-    q: "Preciso ter experiência prévia para ser voluntário?",
-    a: "Não. Buscamos pessoas dispostas a ajudar — a orientação necessária é oferecida pela nossa equipe antes do início das atividades.",
+    q: "Que tipo de empresa pode ser parceira?",
+    a: "Empresas de qualquer porte e segmento, desde que alinhadas aos valores e à missão da APAE São Rafael.",
   },
   {
-    q: "Quanto tempo preciso disponibilizar?",
-    a: "Não há carga horária fixa. Você define, junto com a equipe, a frequência que cabe na sua rotina.",
+    q: "A parceria precisa ser financeira?",
+    a: "Não. Aceitamos também parcerias em produtos, serviços, divulgação e ações conjuntas.",
   },
   {
-    q: "Existe idade mínima para ser voluntário?",
-    a: "Sim, a partir de 16 anos, com autorização dos responsáveis para menores de idade.",
+    q: "Existe contrapartida para empresas parceiras?",
+    a: "Sim. Parceiros recebem visibilidade institucional e podem associar sua marca a uma causa social relevante.",
   },
   {
-    q: "O voluntariado tem algum custo?",
-    a: "Não. Participar como voluntário na APAE São Rafael é totalmente gratuito.",
+    q: "É possível formalizar a parceria com contrato?",
+    a: "Sim. Formalizamos os termos de acordo com o formato e a duração combinados entre as partes.",
   },
 ];
 
@@ -83,10 +76,10 @@ const STEP = 150;
 const whatsappHref =
   "https://wa.me/5584996124672?text=" +
   encodeURIComponent(
-    "Olá! Tenho interesse em ser voluntário na APAE São Rafael.",
+    "Olá! Temos interesse em firmar uma parceria com a APAE São Rafael.",
   );
 
-export default function VoluntarioPage() {
+export default function ParceriasPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <div className="w-full bg-[#003F8A]">
@@ -97,13 +90,13 @@ export default function VoluntarioPage() {
           style={{ paddingBlock: "20px" }}
         >
           <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
-            Seja voluntário
+            Parcerias
           </h1>
           <p
             className="mt-3 text-sm text-white/80 sm:text-base"
             style={{ maxWidth: "520px" }}
           >
-            Doe seu tempo e talento para transformar vidas
+            Empresas e instituições que fortalecem nossa missão
           </p>
         </div>
       </div>
@@ -112,36 +105,49 @@ export default function VoluntarioPage() {
         {/* COMO FUNCIONA */}
         <section className="section w-full">
           <div className="container-site">
-            <ScrollReveal>
-              <div className="flex flex-col items-center text-center">
-                <div className="flex items-center gap-3">
-                  <HeartHandshake size={28} className="text-[#003F8A]" />
-                  <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
+            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+              <ScrollReveal>
+                <div>
+                  <h2
+                    className="text-2xl font-extrabold text-gray-900 sm:text-3xl"
+                    style={{ marginBottom: "16px" }}
+                  >
                     Como funciona
                   </h2>
+                  <p className="text-base leading-6 text-gray-600">
+                    Firmar uma parceria com a APAE São Rafael é unir forças para
+                    ampliar o impacto dos nossos atendimentos. Empresas e
+                    instituições podem contribuir com recursos, serviços ou
+                    ações conjuntas, fortalecendo nosso trabalho junto às
+                    pessoas atendidas e suas famílias.
+                  </p>
                 </div>
-                <p
-                  className="mt-4 text-base leading-6 text-gray-600"
-                  style={{ maxWidth: "700px" }}
+              </ScrollReveal>
+              <ScrollReveal delay={STEP}>
+                <div
+                  className="relative overflow-hidden bg-gray-200"
+                  style={{ height: "320px", borderRadius: "10px" }}
                 >
-                  O voluntariado na APAE São Rafael é uma forma direta de
-                  contribuir com o dia a dia da instituição, participando de
-                  ações que fortalecem nosso trabalho junto às pessoas atendidas
-                  e suas famílias. Cada hora doada representa mais acolhimento,
-                  mais atividades e mais qualidade de vida para quem atendemos.
-                </p>
-              </div>
-            </ScrollReveal>
+                  {/* TODO: substituir por foto real de parceria/evento institucional */}
+                  <Image
+                    src="/placeholder-parcerias.png"
+                    alt="Parcerias com a APAE São Rafael"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </ScrollReveal>
+            </div>
           </div>
         </section>
 
-        {/* ÁREAS DE ATUAÇÃO */}
+        {/* ÁREAS DE PARCERIA */}
         <section className="section bg-warm-muted w-full">
           <div className="container-site">
             <ScrollReveal>
               <div className="section-title">
                 <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
-                  Áreas de atuação
+                  Áreas de parceria
                 </h2>
               </div>
             </ScrollReveal>
@@ -150,7 +156,7 @@ export default function VoluntarioPage() {
                 <ScrollReveal key={item.title} delay={STEP * i}>
                   <div className="card h-full">
                     <div className="card-body">
-                      <item.icon size={32} className="text-[#003F8A]" />
+                      <div className="text-4xl">{item.icon}</div>
                       <h3 className="text-base font-extrabold text-gray-900">
                         {item.title}
                       </h3>
@@ -171,7 +177,7 @@ export default function VoluntarioPage() {
             <ScrollReveal>
               <div className="section-title">
                 <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
-                  Como se tornar voluntário
+                  Como se tornar parceiro
                 </h2>
               </div>
             </ScrollReveal>
@@ -181,7 +187,7 @@ export default function VoluntarioPage() {
                   <div className="flex flex-col gap-3">
                     <span
                       className="text-3xl font-extrabold"
-                      style={{ color: "#a855f7" }}
+                      style={{ color: "#003F8A" }}
                     >
                       {passo.numero}
                     </span>
@@ -240,15 +246,18 @@ export default function VoluntarioPage() {
               >
                 <Sparkles size={32} className="text-yellow-300" />
                 <h2 className="text-2xl font-extrabold sm:text-3xl">
-                  Vamos transformar vidas juntos?
+                  Vamos construir essa parceria?
                 </h2>
                 <p className="max-w-md text-sm leading-6 text-white/80">
-                  Fale com a gente e descubra como seu tempo pode fazer a
-                  diferença na vida de quem atendemos.
+                  Fale com a gente e descubra como sua empresa pode apoiar a
+                  APAE São Rafael.
                 </p>
                 <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-                  <Link href="/contato" className="btn btn-lg btn-light-purple">
-                    Quero ser voluntário
+                  <Link
+                    href="/contato"
+                    className="btn btn-lg bg-white text-[#003F8A] hover:bg-white/90"
+                  >
+                    Quero ser parceiro
                   </Link>
                   <a
                     href={whatsappHref}

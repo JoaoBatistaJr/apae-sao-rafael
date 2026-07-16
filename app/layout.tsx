@@ -3,9 +3,11 @@ import "./globals.css";
 import Providers from "./providers";
 import BottomNav from "@/components/BottomNav";
 import PuzzleBg from "@/components/PuzzleBg";
-import AssistiveScript from "@/components/AssistiveScript";
+import AccessibilityWidgets from "@/components/AccessibilityWidgets";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import CookieBanner from "@/components/CookieBanner";
+import ConsentGate from "@/components/ConsentGate";
 
 export const metadata = {
   title: "APAE São Rafael - RN",
@@ -68,9 +70,18 @@ export default function RootLayout({
         </Providers>
 
         <BottomNav />
-        <AssistiveScript />
-        <Analytics />
-        <SpeedInsights />
+
+        <ConsentGate
+          analytics={
+            <>
+              <Analytics />
+              <SpeedInsights />
+            </>
+          }
+          accessibility={<AccessibilityWidgets />}
+        />
+
+        <CookieBanner />
       </body>
     </html>
   );

@@ -1,13 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import {
-  Gift,
-  Utensils,
-  Shirt,
-  Blocks,
-  Backpack,
-  MessageCircle,
-  Sparkles,
-} from "lucide-react";
+import { MessageCircle, Sparkles } from "lucide-react";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -15,22 +8,22 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 const categorias = [
   {
-    icon: Utensils,
+    icon: "🍚",
     title: "Alimentos não perecíveis",
     desc: "Arroz, feijão, óleo, macarrão, enlatados e outros itens de despensa.",
   },
   {
-    icon: Shirt,
+    icon: "👕",
     title: "Roupas e calçados",
     desc: "Peças em bom estado de conservação, de qualquer tamanho ou idade.",
   },
   {
-    icon: Blocks,
+    icon: "🧩",
     title: "Brinquedos educativos",
     desc: "Jogos, brinquedos pedagógicos e materiais lúdicos em bom estado.",
   },
   {
-    icon: Backpack,
+    icon: "🎒",
     title: "Material escolar e higiene",
     desc: "Cadernos, canetas, mochilas, itens de higiene pessoal e limpeza.",
   },
@@ -112,26 +105,39 @@ export default function MateriaisPage() {
         {/* COMO FUNCIONA */}
         <section className="section w-full">
           <div className="container-site">
-            <ScrollReveal>
-              <div className="flex flex-col items-center text-center">
-                <div className="flex items-center gap-3">
-                  <Gift size={28} className="text-[#003F8A]" />
-                  <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
+            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+              <ScrollReveal>
+                <div>
+                  <h2
+                    className="text-2xl font-extrabold text-gray-900 sm:text-3xl"
+                    style={{ marginBottom: "16px" }}
+                  >
                     Como funciona
                   </h2>
+                  <p className="text-base leading-6 text-gray-600">
+                    A doação de materiais ajuda a suprir necessidades diárias da
+                    instituição e das famílias atendidas. Alimentos, roupas,
+                    brinquedos e materiais escolares se transformam em cuidado,
+                    aprendizado e bem-estar para quem participa dos nossos
+                    projetos.
+                  </p>
                 </div>
-                <p
-                  className="mt-4 text-base leading-6 text-gray-600"
-                  style={{ maxWidth: "700px" }}
+              </ScrollReveal>
+              <ScrollReveal delay={STEP}>
+                <div
+                  className="relative overflow-hidden bg-gray-200"
+                  style={{ height: "320px", borderRadius: "10px" }}
                 >
-                  A doação de materiais ajuda a suprir necessidades diárias da
-                  instituição e das famílias atendidas. Alimentos, roupas,
-                  brinquedos e materiais escolares se transformam em cuidado,
-                  aprendizado e bem-estar para quem participa dos nossos
-                  projetos.
-                </p>
-              </div>
-            </ScrollReveal>
+                  {/* TODO: substituir por foto real de doações de materiais */}
+                  <Image
+                    src="/placeholder-materiais.png"
+                    alt="Doação de materiais para a APAE São Rafael"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </ScrollReveal>
+            </div>
           </div>
         </section>
 
@@ -150,7 +156,7 @@ export default function MateriaisPage() {
                 <ScrollReveal key={item.title} delay={STEP * i}>
                   <div className="card h-full">
                     <div className="card-body">
-                      <item.icon size={32} className="text-[#003F8A]" />
+                      <div className="text-4xl">{item.icon}</div>
                       <h3 className="text-base font-extrabold text-gray-900">
                         {item.title}
                       </h3>
@@ -181,7 +187,7 @@ export default function MateriaisPage() {
                   <div className="flex flex-col gap-3">
                     <span
                       className="text-3xl font-extrabold"
-                      style={{ color: "#1c6b42" }}
+                      style={{ color: "#003F8A" }}
                     >
                       {passo.numero}
                     </span>
@@ -247,7 +253,10 @@ export default function MateriaisPage() {
                   doação de materiais.
                 </p>
                 <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-                  <Link href="/contato" className="btn btn-lg btn-light-green">
+                  <Link
+                    href="/contato"
+                    className="btn btn-lg bg-white text-[#003F8A] hover:bg-white/90"
+                  >
                     Quero doar materiais
                   </Link>
                   <a

@@ -1,15 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import {
-  HeartHandshake,
-  Stethoscope,
-  BookOpen,
-  Utensils,
-  Building2,
-  Heart,
-  Repeat,
-  MessageCircle,
-  Sparkles,
-} from "lucide-react";
+import { MessageCircle, Sparkles } from "lucide-react";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -17,22 +8,22 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 const destinos = [
   {
-    icon: Stethoscope,
+    icon: "🩺",
     title: "Terapias e atendimentos",
     desc: "Fisioterapia, fonoaudiologia, terapia ocupacional e acompanhamento psicossocial.",
   },
   {
-    icon: BookOpen,
+    icon: "📚",
     title: "Educação e oficinas",
     desc: "Atendimento educacional especializado e oficinas pedagógicas e artísticas.",
   },
   {
-    icon: Utensils,
+    icon: "🍽️",
     title: "Alimentação e materiais",
     desc: "Suporte alimentar e materiais usados no dia a dia dos atendimentos.",
   },
   {
-    icon: Building2,
+    icon: "🏛️",
     title: "Manutenção da instituição",
     desc: "Estrutura, equipe e recursos necessários para manter a APAE funcionando.",
   },
@@ -40,12 +31,12 @@ const destinos = [
 
 const formas = [
   {
-    icon: Heart,
+    icon: "💗",
     title: "Doação única",
     desc: "Contribua com o valor que puder em um único pagamento, via PIX ou cartão.",
   },
   {
-    icon: Repeat,
+    icon: "🔁",
     title: "Padrinho mensal",
     desc: "Uma contribuição recorrente que garante previsibilidade para os atendimentos ao longo do ano.",
   },
@@ -104,25 +95,38 @@ export default function ApoioDoacoesPage() {
         {/* COMO FUNCIONA */}
         <section className="section w-full">
           <div className="container-site">
-            <ScrollReveal>
-              <div className="flex flex-col items-center text-center">
-                <div className="flex items-center gap-3">
-                  <HeartHandshake size={28} className="text-[#003F8A]" />
-                  <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
+            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+              <ScrollReveal>
+                <div>
+                  <h2
+                    className="text-2xl font-extrabold text-gray-900 sm:text-3xl"
+                    style={{ marginBottom: "16px" }}
+                  >
                     Como funciona
                   </h2>
+                  <p className="text-base leading-6 text-gray-600">
+                    Contribua com qualquer valor para ajudar na manutenção dos
+                    atendimentos e projetos da APAE São Rafael. Cada doação, de
+                    qualquer tamanho, sustenta terapias, oficinas e o cuidado
+                    diário com as pessoas atendidas e suas famílias.
+                  </p>
                 </div>
-                <p
-                  className="mt-4 text-base leading-6 text-gray-600"
-                  style={{ maxWidth: "700px" }}
+              </ScrollReveal>
+              <ScrollReveal delay={STEP}>
+                <div
+                  className="relative overflow-hidden bg-gray-200"
+                  style={{ height: "320px", borderRadius: "10px" }}
                 >
-                  Contribua com qualquer valor para ajudar na manutenção dos
-                  atendimentos e projetos da APAE São Rafael. Cada doação, de
-                  qualquer tamanho, sustenta terapias, oficinas e o cuidado
-                  diário com as pessoas atendidas e suas famílias.
-                </p>
-              </div>
-            </ScrollReveal>
+                  {/* TODO: substituir por foto real de doações/atendimentos */}
+                  <Image
+                    src="/placeholder-doacoes.png"
+                    alt="Doações para a APAE São Rafael"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </ScrollReveal>
+            </div>
           </div>
         </section>
 
@@ -141,7 +145,7 @@ export default function ApoioDoacoesPage() {
                 <ScrollReveal key={item.title} delay={STEP * i}>
                   <div className="card h-full">
                     <div className="card-body">
-                      <item.icon size={32} className="text-[#003F8A]" />
+                      <div className="text-4xl">{item.icon}</div>
                       <h3 className="text-base font-extrabold text-gray-900">
                         {item.title}
                       </h3>
@@ -171,7 +175,7 @@ export default function ApoioDoacoesPage() {
                 <ScrollReveal key={item.title} delay={STEP * i}>
                   <div className="card h-full">
                     <div className="card-body">
-                      <item.icon size={32} className="text-[#e94e77]" />
+                      <div className="text-4xl">{item.icon}</div>
                       <h3 className="text-lg font-extrabold text-gray-900">
                         {item.title}
                       </h3>
@@ -232,7 +236,10 @@ export default function ApoioDoacoesPage() {
                   minuto.
                 </p>
                 <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-                  <Link href="/doacoes" className="btn btn-lg btn-pink">
+                  <Link
+                    href="/doacoes"
+                    className="btn btn-lg bg-white text-[#003F8A] hover:bg-white/90"
+                  >
                     Fazer doação
                   </Link>
                   <a

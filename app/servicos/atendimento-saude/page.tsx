@@ -37,16 +37,18 @@ const servicos = [
   },
 ];
 
-export default function ApoioSaudePage() {
+export default function AtendimentoSaudePage() {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Header sólido */}
-      <div className="w-full bg-[#0F5A43]">
+      <div className="w-full bg-[#003F8A]">
         <TopBar />
         <Header />
-        <div className="container-site py-12 text-center">
+        <div
+          className="container-site flex flex-col items-center text-center"
+          style={{ paddingBlock: "48px" }}
+        >
           <h1 className="text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
-            Apoio em Saúde
+            Atendimento em Saúde
           </h1>
           <p
             className="mx-auto mt-4 text-base text-white/80"
@@ -59,7 +61,6 @@ export default function ApoioSaudePage() {
       </div>
 
       <main className="flex-1 bg-warm">
-        {/* Imagem principal */}
         <div className="container-site" style={{ paddingTop: "60px" }}>
           <div
             className="relative w-full overflow-hidden"
@@ -182,12 +183,8 @@ export default function ApoioSaudePage() {
                 </p>
                 <Link
                   href="/contato"
-                  className="btn-radius mt-8 bg-pink-500 font-bold text-white transition hover:bg-pink-600"
-                  style={{
-                    display: "inline-block",
-                    padding: "14px 32px",
-                    fontSize: "15px",
-                  }}
+                  className="btn btn-primary btn-md"
+                  style={{ marginTop: "32px" }}
                 >
                   Agende uma visita
                 </Link>
@@ -198,14 +195,10 @@ export default function ApoioSaudePage() {
 
         {/* CTA */}
         <section
-          className="w-full"
-          style={{
-            background: "#0F5A43",
-            paddingTop: "80px",
-            paddingBottom: "80px",
-          }}
+          className="w-full bg-[#003F8A]"
+          style={{ paddingTop: "80px", paddingBottom: "80px" }}
         >
-          <div className="container-site text-center">
+          <div className="container-site flex flex-col items-center text-center">
             <h2
               className="text-2xl font-extrabold text-white sm:text-3xl"
               style={{ marginBottom: "20px" }}
@@ -222,24 +215,11 @@ export default function ApoioSaudePage() {
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 href="/contato"
-                className="btn-radius bg-white font-bold text-green-800 transition hover:bg-green-50"
-                style={{
-                  display: "inline-block",
-                  padding: "14px 36px",
-                  fontSize: "15px",
-                }}
+                className="btn btn-lg bg-white text-[#003F8A] hover:bg-white/90"
               >
                 Entre em contato
               </Link>
-              <Link
-                href="/doacoes"
-                className="btn-radius border-2 border-white font-bold text-white transition hover:bg-white hover:text-green-800"
-                style={{
-                  display: "inline-block",
-                  padding: "14px 36px",
-                  fontSize: "15px",
-                }}
-              >
+              <Link href="/doacoes" className="btn btn-lg btn-outline-white">
                 Apoie nossa causa
               </Link>
             </div>
