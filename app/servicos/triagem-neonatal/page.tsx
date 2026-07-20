@@ -66,7 +66,7 @@ export default function TriagemNeonatalPage() {
             style={{ height: "400px", borderRadius: "20px" }}
           >
             <Image
-              src="/triagem-neonatal-hero.png"
+              src="/exame-pezinho.png"
               alt="Triagem Neonatal APAE São Rafael"
               fill
               className="object-cover object-center"
@@ -88,19 +88,19 @@ export default function TriagemNeonatalPage() {
               >
                 Exame do Pezinho: o primeiro passo do cuidado
               </h2>
-              <p className="text-base leading-8 text-gray-600">
+              <p className="text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 A APAE São Rafael realiza a orientação e o encaminhamento para o
                 Exame do Pezinho, um teste simples e essencial que permite
                 identificar precocemente diversas doenças metabólicas, genéticas
                 e endocrinológicas ainda nos primeiros dias de vida do bebê.
               </p>
-              <p className="mt-5 text-base leading-8 text-gray-600">
+              <p className="mt-5 text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 Quanto mais cedo uma condição é identificada, maiores são as
                 chances de iniciar o tratamento adequado e reduzir impactos no
                 desenvolvimento da criança. Por isso, a triagem neonatal é
                 considerada um dos exames mais importantes da saúde infantil.
               </p>
-              <p className="mt-5 text-base leading-8 text-gray-600">
+              <p className="mt-5 text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 Nossa equipe orienta as famílias sobre a importância do exame,
                 auxilia no agendamento da coleta e, quando necessário, encaminha
                 para acompanhamento especializado — garantindo que nenhuma
@@ -130,10 +130,10 @@ export default function TriagemNeonatalPage() {
                   style={{ borderRadius: "20px", padding: "32px" }}
                 >
                   <div className="mb-4 text-4xl">{s.icon}</div>
-                  <h3 className="mb-3 text-lg font-extrabold text-gray-900">
+                  <h3 className="mb-3 text-lg font-extrabold text-gray-900" style={{marginBottom: "8px"}}>
                     {s.title}
                   </h3>
-                  <p className="text-sm leading-7 text-gray-500">{s.desc}</p>
+                  <p className="text-base leading-6 text-gray-500">{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -152,7 +152,7 @@ export default function TriagemNeonatalPage() {
                 style={{ height: "340px", borderRadius: "20px" }}
               >
                 <Image
-                  src="/triagem-neonatal-atendimento.png"
+                  src="/exame-pezinho.png"
                   alt="Orientação sobre triagem neonatal na APAE São Rafael"
                   fill
                   className="object-cover"
@@ -165,13 +165,13 @@ export default function TriagemNeonatalPage() {
                 >
                   Orientação completa para as famílias
                 </h2>
-                <p className="text-base leading-8 text-gray-600">
+                <p className="text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                   Sabemos que a rotina dos primeiros dias com um recém-nascido é
                   intensa. Por isso, nossa equipe acompanha de perto cada
                   família, esclarecendo dúvidas e facilitando o acesso ao exame
                   no momento certo.
                 </p>
-                <p className="mt-4 text-base leading-8 text-gray-600">
+                <p className="mt-4 text-base leading-6 text-gray-600" >
                   Caso o resultado indique alguma alteração, a família não fica
                   sozinha: encaminhamos para diagnóstico e damos continuidade ao
                   acompanhamento junto às demais equipes especializadas da APAE.

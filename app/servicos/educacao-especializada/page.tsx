@@ -66,7 +66,7 @@ export default function EducacaoEspecializadaPage() {
             style={{ height: "400px", borderRadius: "20px" }}
           >
             <Image
-              src="/educacao-especializada-hero.png"
+              src="/educacao-especializada.png"
               alt="Educação Especializada APAE São Rafael"
               fill
               className="object-cover object-center"
@@ -88,19 +88,19 @@ export default function EducacaoEspecializadaPage() {
               >
                 Um ensino pensado para cada aluno
               </h2>
-              <p className="text-base leading-8 text-gray-600">
+              <p className="text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 A APAE São Rafael oferece Atendimento Educacional Especializado
                 (AEE) para crianças, jovens e adultos com deficiência
                 intelectual e múltipla, com aulas e atividades pedagógicas
                 adaptadas ao ritmo e ao potencial de cada aluno.
               </p>
-              <p className="mt-5 text-base leading-8 text-gray-600">
+              <p className="mt-5 text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 Nossa equipe pedagógica trabalha de forma integrada com as áreas
                 de saúde e assistência social, garantindo que cada plano de
                 ensino considere as particularidades de desenvolvimento,
                 comunicação e comportamento de cada pessoa atendida.
               </p>
-              <p className="mt-5 text-base leading-8 text-gray-600">
+              <p className="mt-5 text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 Mais do que ensinar conteúdos, a educação especializada da APAE
                 busca desenvolver autonomia, autoestima e habilidades sociais,
                 preparando os alunos para uma vida mais independente e
@@ -130,10 +130,10 @@ export default function EducacaoEspecializadaPage() {
                   style={{ borderRadius: "20px", padding: "32px" }}
                 >
                   <div className="mb-4 text-4xl">{s.icon}</div>
-                  <h3 className="mb-3 text-lg font-extrabold text-gray-900">
+                  <h3 className="mb-3 text-lg font-extrabold text-gray-900" style={{marginBottom: "8px"}}>
                     {s.title}
                   </h3>
-                  <p className="text-sm leading-7 text-gray-500">{s.desc}</p>
+                  <p className="text-base leading-6 text-gray-500">{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -152,7 +152,7 @@ export default function EducacaoEspecializadaPage() {
                 style={{ height: "340px", borderRadius: "20px" }}
               >
                 <Image
-                  src="/educacao-especializada-atendimento.png"
+                  src="/educacao-especializada.png"
                   alt="Sala de aula especializada na APAE São Rafael"
                   fill
                   className="object-cover"
@@ -165,12 +165,12 @@ export default function EducacaoEspecializadaPage() {
                 >
                   Aprendizagem no ritmo de cada aluno
                 </h2>
-                <p className="text-base leading-8 text-gray-600">
+                <p className="text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                   Cada aluno é acompanhado individualmente, com estratégias
                   pedagógicas adaptadas às suas necessidades específicas de
                   aprendizagem, comunicação e comportamento.
                 </p>
-                <p className="mt-4 text-base leading-8 text-gray-600">
+                <p className="mt-4 text-base leading-6 text-gray-600">
                   A integração entre educação, saúde e assistência social
                   garante um acompanhamento completo, sempre com o objetivo de
                   ampliar a autonomia e a qualidade de vida dos nossos alunos.

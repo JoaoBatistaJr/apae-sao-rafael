@@ -67,7 +67,7 @@ export default function AtendimentoSaudePage() {
             style={{ height: "400px", borderRadius: "20px" }}
           >
             <Image
-              src="/saude-hero.png"
+              src="/atendimento-saude.png"
               alt="Apoio em Saúde APAE São Rafael"
               fill
               className="object-cover object-center"
@@ -89,21 +89,21 @@ export default function AtendimentoSaudePage() {
               >
                 O Cuidado Integral que a APAE Oferece
               </h2>
-              <p className="text-base leading-8 text-gray-600">
+              <p className="text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 A promoção da saúde é uma parte essencial do trabalho
                 desenvolvido pela APAE. Além do acolhimento educacional e
                 social, a instituição oferece serviços especializados que
                 contribuem diretamente para o desenvolvimento e a qualidade de
                 vida das pessoas com deficiência intelectual ou múltipla.
               </p>
-              <p className="mt-5 text-base leading-8 text-gray-600">
+              <p className="mt-5 text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 Esse cuidado integral envolve equipes altamente capacitadas em
                 diversas áreas terapêuticas, trabalhando de forma integrada e
                 multiprofissional para garantir um tratamento mais completo —
                 considerando todos os aspectos do desenvolvimento humano:
                 físico, emocional, social e cognitivo.
               </p>
-              <p className="mt-5 text-base leading-8 text-gray-600">
+              <p className="mt-5 text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                 O apoio em saúde oferecido pela APAE vai muito além do
                 atendimento clínico. Ele representa cuidado, respeito e
                 acolhimento às famílias, que encontram na instituição um espaço
@@ -135,10 +135,10 @@ export default function AtendimentoSaudePage() {
                   style={{ borderRadius: "20px", padding: "32px" }}
                 >
                   <div className="mb-4 text-4xl">{s.icon}</div>
-                  <h3 className="mb-3 text-lg font-extrabold text-gray-900">
+                  <h3 className="mb-3 text-lg font-extrabold text-gray-900" style={{marginBottom: "8px"}}>
                     {s.title}
                   </h3>
-                  <p className="text-sm leading-7 text-gray-500">{s.desc}</p>
+                  <p className="text-base leading-6 text-gray-500">{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -157,7 +157,7 @@ export default function AtendimentoSaudePage() {
                 style={{ height: "340px", borderRadius: "20px" }}
               >
                 <Image
-                  src="/saude-atendimento.png"
+                  src="/atendimento-saude.png"
                   alt="Atendimento APAE São Rafael"
                   fill
                   className="object-cover"
@@ -170,13 +170,13 @@ export default function AtendimentoSaudePage() {
                 >
                   Atendimento personalizado para cada pessoa
                 </h2>
-                <p className="text-base leading-8 text-gray-600">
+                <p className="text-base leading-6 text-gray-600" style={{marginBottom: "12px"}}>
                   Cada sessão é adaptada às necessidades específicas de cada
                   pessoa, respeitando seu ritmo e potencial. Nossa equipe
                   multiprofissional trabalha em conjunto com as famílias em
                   planos de atendimento individualizados.
                 </p>
-                <p className="mt-4 text-base leading-8 text-gray-600">
+                <p className="mt-4 text-base leading-6 text-gray-600">
                   A integração entre as diferentes áreas garante um tratamento
                   mais completo e humanizado, sempre focado no desenvolvimento
                   integral e na qualidade de vida dos nossos atendidos.
