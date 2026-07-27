@@ -4,12 +4,12 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 const services = [
   {
-    img: "/servico-pezinho.png",
-    title: "Triagem Neonatal",
+    img: "/servico-social.png",
+    title: "Assistência Social",
     desc: "Realização e orientação sobre o Exame do Pezinho para diagnóstico precoce de doenças.",
     btn: "Agendar exame",
     btnClass: "btn-light-green",
-    href: "/servicos/triagem-neonatal",
+    href: "/servicos/assistencia-social",
   },
   {
     img: "/servico-educacao.png",

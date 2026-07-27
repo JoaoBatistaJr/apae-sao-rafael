@@ -52,6 +52,29 @@ export default function DoacaoSucessoPage() {
           atendimentos e projetos da APAE São Rafael.
         </p>
 
+        <div
+          style={{
+            marginTop: "24px",
+            maxWidth: "440px",
+            borderRadius: "14px",
+            border: "1px solid #e5e7eb",
+            background: "#fff",
+            padding: "16px 20px",
+            textAlign: "left",
+          }}
+        >
+          <p className="text-sm leading-6 text-gray-600">
+            📧 Você receberá um e-mail de confirmação do Mercado Pago com os
+            detalhes da sua contribuição.
+          </p>
+          <p className="mt-2 text-sm leading-6 text-gray-600">
+            💳 Caso tenha assinado como <strong>padrinho mensal</strong>, você
+            pode cancelar ou gerenciar sua assinatura a qualquer momento
+            diretamente na sua conta Mercado Pago, em{" "}
+            <strong>Atividade → Assinaturas</strong>.
+          </p>
+        </div>
+
         <Link
           href="/"
           style={{

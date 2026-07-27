@@ -37,7 +37,7 @@ export default function Hero() {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
           <div>
             <h1
-              className="text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl fade-up"
+              className="text-4xl font-extrabold leading-tight text-white sm:text-5xl xl:text-6xl fade-up"
               style={{ animationDelay: "100ms" }}
             >
               Boas-vindas

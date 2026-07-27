@@ -75,6 +75,64 @@ const iconApoio = (
   </svg>
 );
 
+const socials = [
+  {
+    href: "https://instagram.com/apaesaorafael",
+    label: "Instagram",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <rect
+          x="3"
+          y="3"
+          width="18"
+          height="18"
+          rx="5"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://wa.me/55SEUNUMEROAQUI",
+    label: "WhatsApp",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2z"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.5 8.7c-.2.5-.7 1.6-.5 2.2.3 1.1 1.4 2.6 2.4 3.5.9.9 2.4 1.9 3.5 2.2.6.2 1.7-.3 2.2-.5.3-.1.6-.4.6-.7l-.2-1.2c-.1-.4-.5-.6-.9-.5l-1.1.3c-.3.1-.6 0-.8-.2-.5-.4-1.1-1-1.5-1.5-.2-.2-.3-.5-.2-.8l.3-1.1c.1-.4-.1-.8-.5-.9L11 8.5c-.3-.1-.6.2-.7.5z"
+          fill="currentColor"
+        />
+      </svg>
+    ),
+  },
+  {
+    href: "https://youtube.com/@apaesaorafael",
+    label: "YouTube",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <rect
+          x="2"
+          y="5"
+          width="20"
+          height="14"
+          rx="4"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+        <path d="M10 9.5v5l5-2.5-5-2.5z" fill="currentColor" />
+      </svg>
+    ),
+  },
+];
+
 export default async function LinksPage() {
   const cursos = await getCursos().catch(() => []);
   const temCursosAtivos = cursos.length > 0;
@@ -152,6 +210,39 @@ export default async function LinksPage() {
             </Link>
           ))}
         </nav>
+
+        {/* REDES SOCIAIS */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "16px",
+            marginTop: "32px",
+          }}
+        >
+          {socials.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              style={{
+                width: "46px",
+                height: "46px",
+                borderRadius: "50%",
+                background: "#fff",
+                border: "2px solid #e5e7eb",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#003F8A",
+              }}
+            >
+              {s.icon}
+            </a>
+          ))}
+        </div>
 
         <p
           className="text-center text-gray-400"

@@ -103,7 +103,7 @@ export default function SupportUs() {
             className="mt-12 flex justify-center"
             style={{ paddingTop: "40px" }}
           >
-            <Link href="/apoio" className="btn btn-outline-green btn-md">
+            <Link href="/apoio" className="btn btn-outline-primary btn-md">
               Ver todas as formas de apoio
             </Link>
           </div>

@@ -238,13 +238,13 @@ img {
   background: #dfc8f3;
 }
 
-.btn-outline-green {
+.btn-outline-primary {
   background: transparent;
-  border: 2px solid #003f8a;
-  color: #003f8a;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
 }
-.btn-outline-green:hover {
-  background: #003f8a;
+.btn-outline-primary:hover {
+  background: var(--color-primary);
   color: #ffffff;
 }
 
@@ -334,8 +334,14 @@ img {
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-up {

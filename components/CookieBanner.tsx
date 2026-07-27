@@ -82,7 +82,7 @@ export default function CookieBanner() {
           <button
             type="button"
             onClick={rejeitarOpcionais}
-            className="btn-radius border border-gray-300 font-bold text-gray-700 transition hover:bg-gray-50"
+            className="btn border border-gray-300 font-bold text-gray-700 transition hover:bg-gray-50"
             style={{ padding: "10px 20px", fontSize: "14px" }}
           >
             Rejeitar opcionais

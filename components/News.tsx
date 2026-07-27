@@ -65,7 +65,7 @@ export default async function News() {
                 Fique por dentro do que acontece na APAE São Rafael.
               </p>
             </div>
-            <Link href="/novidades" className="btn btn-outline-green btn-sm">
+            <Link href="/novidades" className="btn btn-outline-primary btn-sm">
               Ver todas
             </Link>
           </div>
@@ -108,7 +108,7 @@ export default async function News() {
                   </p>
                   <Link
                     href={`/novidades/${item.slug}`}
-                    className="btn btn-outline-green btn-sm btn-full text-center mt-2"
+                    className="btn btn-outline-primary btn-sm btn-full text-center mt-2"
                   >
                     Leia mais
                   </Link>

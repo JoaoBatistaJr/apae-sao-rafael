@@ -96,7 +96,7 @@ export default function Testimonials() {
             className="mt-12 flex justify-center"
             style={{ paddingTop: "40px" }}
           >
-            <Link href="/depoimentos" className="btn btn-outline-green btn-md">
+            <Link href="/depoimentos" className="btn btn-outline-primary btn-md">
               Veja mais Histórias
             </Link>
           </div>
