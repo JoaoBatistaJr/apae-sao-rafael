@@ -1,58 +1,122 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-type DonationAmount = 25 | 50 | 100 | "outro";
-type DonationType = "unica" | "padrinho";
 type PaymentMethod = "cartao" | "pix";
+type DonationType = "unica" | "amigo";
+type Frequency = "mensal" | "anual";
 
-// Cores centralizadas — alinhadas ao design system (.btn-primary, .btn-green)
-const COLOR_PINK = "#e94e77";
-const COLOR_PINK_SOFT = "#f472b6";
-const COLOR_GREEN = "#22c55e";
-const COLOR_GREEN_DARK = "#16a34a";
+const UNICA_AMOUNTS = [25, 50, 100] as const;
+const AMIGO_MENSAL_AMOUNTS = [10, 20, 50] as const;
+const AMIGO_ANUAL_AMOUNTS = [120, 250, 300] as const;
+
+const PINK = "#e94e77";
+const BLUE = "#3b82f6";
 
 export default function DoacoesPage() {
-  const [amount, setAmount] = useState<DonationAmount>(50);
+  return (
+    <Suspense fallback={null}>
+      <DoacoesPageInner />
+    </Suspense>
+  );
+}
+
+function DoacoesPageInner() {
+  const searchParams = useSearchParams();
+  const initialType: DonationType =
+    searchParams.get("tipo") === "amigo" ? "amigo" : "unica";
+
+  const [donationType, setDonationType] = useState<DonationType>(initialType);
+  const [frequency, setFrequency] = useState<Frequency>("mensal");
+  const [amount, setAmount] = useState<number | "outro">(
+    initialType === "amigo" ? AMIGO_MENSAL_AMOUNTS[0] : UNICA_AMOUNTS[1],
+  );
   const [customAmount, setCustomAmount] = useState("");
-  const [donationType, setDonationType] = useState<DonationType>("unica");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("pix");
   const [payerEmail, setPayerEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const accentColor = donationType === "unica" ? PINK : BLUE;
+
+  // Anual é tecnicamente uma doação única (pagamento avulso), não uma assinatura.
+  const isRecurring = donationType === "amigo" && frequency === "mensal";
+  const showPaymentMethod =
+    donationType === "unica" ||
+    (donationType === "amigo" && frequency === "anual");
+  const showEmailField = isRecurring;
+
+  const currentAmounts =
+    donationType === "unica"
+      ? UNICA_AMOUNTS
+      : frequency === "mensal"
+        ? AMIGO_MENSAL_AMOUNTS
+        : AMIGO_ANUAL_AMOUNTS;
+
+  const minAmount =
+    donationType === "amigo" ? (frequency === "anual" ? 120 : 10) : 1;
+
+  const finalAmount = amount === "outro" ? Number(customAmount) : amount;
+  const customAmountInvalid =
+    amount === "outro" &&
+    customAmount !== "" &&
+    Number(customAmount) < minAmount;
+
+  const handleSelectDonationType = (type: DonationType) => {
+    setDonationType(type);
+    setAmount(type === "unica" ? UNICA_AMOUNTS[1] : AMIGO_MENSAL_AMOUNTS[0]);
+    setFrequency("mensal");
+    setCustomAmount("");
+  };
+
+  const handleSelectFrequency = (freq: Frequency) => {
+    setFrequency(freq);
+    setAmount(
+      freq === "mensal" ? AMIGO_MENSAL_AMOUNTS[0] : AMIGO_ANUAL_AMOUNTS[0],
+    );
+    setCustomAmount("");
+  };
 
   const handleDonate = async () => {
-    setError(null);
-    const finalAmount = amount === "outro" ? Number(customAmount) : amount;
-
-    if (!finalAmount || finalAmount < 1) {
-      setError("Informe um valor válido.");
+    if (!finalAmount || finalAmount < minAmount) {
+      alert(
+        donationType === "amigo"
+          ? `O valor mínimo para ser Amigo APAE é R$ ${minAmount}.`
+          : "Informe um valor válido.",
+      );
       return;
     }
 
-    if (donationType === "padrinho") {
+    if (isRecurring) {
       const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payerEmail);
       if (!emailValid) {
-        setError("Informe um e-mail válido para ser padrinho.");
+        alert("Informe um e-mail válido para ser Amigo APAE.");
         return;
       }
     }
 
     setLoading(true);
 
-    const endpoint =
-      donationType === "padrinho"
-        ? "/api/mp/subscription"
-        : "/api/mp/preference";
+    // Mensal = assinatura recorrente real (PreApproval).
+    // Anual e Doação única = pagamento avulso (Preference) — o Mercado Pago
+    // não suporta cobrança recorrente anual, só mensal.
+    const endpoint = isRecurring
+      ? "/api/mp/subscription"
+      : "/api/mp/preference";
 
-    const body =
-      donationType === "padrinho"
-        ? { amount: finalAmount, payerEmail }
-        : { amount: finalAmount, method: paymentMethod };
+    const body = isRecurring
+      ? { amount: finalAmount, payerEmail, frequency: "mensal" }
+      : {
+          amount: finalAmount,
+          method: paymentMethod,
+          title:
+            donationType === "amigo"
+              ? "Amigo APAE - Contribuição Anual"
+              : "Doação para APAE São Rafael",
+        };
 
     try {
       const res = await fetch(endpoint, {
@@ -65,20 +129,22 @@ export default function DoacoesPage() {
       if (data.init_point) {
         window.location.href = data.init_point;
       } else {
-        setError("Erro ao processar sua doação. Tente novamente.");
+        alert("Erro ao processar sua doação. Tente novamente.");
         setLoading(false);
       }
     } catch {
-      setError("Erro de conexão. Tente novamente.");
+      alert("Erro de conexão. Tente novamente.");
       setLoading(false);
     }
   };
 
-  const amountBtn = (val: DonationAmount, label: string) => (
+  const amountBtn = (val: number) => (
     <button
-      type="button"
-      aria-pressed={amount === val}
-      onClick={() => setAmount(val)}
+      key={val}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        setAmount(val);
+      }}
       style={{
         padding: "16px 0",
         fontSize: "17px",
@@ -87,7 +153,7 @@ export default function DoacoesPage() {
         width: "100%",
         minHeight: "56px",
         border: amount === val ? "none" : "2px solid #e5e7eb",
-        background: amount === val ? COLOR_PINK : "#ffffff",
+        background: amount === val ? accentColor : "#ffffff",
         color: amount === val ? "#fff" : "#374151",
         cursor: "pointer",
         touchAction: "manipulation",
@@ -95,7 +161,7 @@ export default function DoacoesPage() {
         userSelect: "none",
       }}
     >
-      {label}
+      R$ {val}
     </button>
   );
 
@@ -109,13 +175,13 @@ export default function DoacoesPage() {
           style={{ paddingBlock: "20px" }}
         >
           <h1 className="text-2xl font-extrabold text-white sm:text-4xl lg:text-5xl">
-            Finalize sua doação
+            Doe para a APAE
           </h1>
           <p
             className="mt-3 text-sm text-white/80 sm:text-base"
-            style={{ maxWidth: "520px" }}
+            style={{ maxWidth: "480px" }}
           >
-            Escolha o valor e a forma de contribuição
+            Cada contribuição transforma vidas.
           </p>
         </div>
       </div>
@@ -134,66 +200,25 @@ export default function DoacoesPage() {
             paddingRight: "1.25rem",
           }}
         >
-          {/* VALORES */}
-          <div style={{ marginBottom: "36px" }}>
-            <h2
-              className="text-center font-extrabold text-gray-900"
-              style={{ fontSize: "17px", marginBottom: "16px" }}
-            >
-              Escolha o valor da contribuição
-            </h2>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {amountBtn(25, "R$ 25")}
-              {amountBtn(50, "R$ 50")}
-              {amountBtn(100, "R$ 100")}
-              {amountBtn("outro", "Outro")}
-            </div>
-            {amount === "outro" && (
-              <div style={{ marginTop: "12px" }}>
-                <label
-                  htmlFor="custom-amount"
-                  className="mb-1.5 block text-sm font-semibold text-gray-700"
-                >
-                  Valor em R$
-                </label>
-                <input
-                  id="custom-amount"
-                  type="number"
-                  min="1"
-                  value={customAmount}
-                  onChange={(e) => setCustomAmount(e.target.value)}
-                  placeholder="Ex: 75"
-                  className="w-full border-2 border-gray-200 bg-white px-4 text-base focus:border-pink-400 focus:outline-none"
-                  style={{
-                    borderRadius: "10px",
-                    padding: "16px",
-                    fontSize: "16px",
-                    minHeight: "56px",
-                  }}
-                />
-              </div>
-            )}
-          </div>
-
           {/* TIPO */}
-          <div style={{ marginBottom: "36px" }}>
-            <h2
+          <div style={{ marginBottom: "28px" }}>
+            <p
               className="text-center font-extrabold text-gray-900"
               style={{ fontSize: "17px", marginBottom: "16px" }}
             >
               Como você deseja ajudar?
-            </h2>
+            </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <label
                 style={{
                   flex: 1,
+                  position: "relative",
                   display: "flex",
                   alignItems: "flex-start",
-                  gap: "12px",
                   padding: "18px",
                   borderRadius: "16px",
-                  border: `2px solid ${donationType === "unica" ? COLOR_PINK_SOFT : "#e5e7eb"}`,
-                  background: "#fff",
+                  border: `2px solid ${donationType === "unica" ? PINK : "#e5e7eb"}`,
+                  background: donationType === "unica" ? "#fff5f7" : "#fff",
                   cursor: "pointer",
                   touchAction: "manipulation",
                 }}
@@ -203,32 +228,73 @@ export default function DoacoesPage() {
                   name="donationType"
                   value="unica"
                   checked={donationType === "unica"}
-                  onChange={() => setDonationType("unica")}
+                  onChange={() => handleSelectDonationType("unica")}
                   style={{
-                    marginTop: "3px",
-                    accentColor: COLOR_PINK,
-                    width: "16px",
-                    height: "16px",
+                    position: "absolute",
+                    opacity: 0,
+                    width: 0,
+                    height: 0,
                   }}
                 />
-                <div>
-                  <p className="font-extrabold text-gray-900">Doação única</p>
+                {donationType === "unica" ? (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "12px",
+                      right: "12px",
+                      width: "20px",
+                      height: "20px",
+                      borderRadius: "50%",
+                      background: PINK,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M20 6L9 17l-5-5"
+                        stroke="#fff"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "12px",
+                      right: "12px",
+                      width: "20px",
+                      height: "20px",
+                      borderRadius: "50%",
+                      border: "2px solid #d1d5db",
+                      background: "#fff",
+                    }}
+                  />
+                )}
+                <div style={{ paddingRight: "24px" }}>
+                  <p className="font-extrabold text-gray-900">
+                    ❤️ Doação única
+                  </p>
                   <p className="mt-1 text-sm leading-6 text-gray-500">
-                    Faça uma contribuição pontual para apoiar os projetos da
-                    APAE.
+                    Contribua com qualquer valor — toda ajuda faz diferença para
+                    os projetos da APAE.
                   </p>
                 </div>
               </label>
               <label
                 style={{
                   flex: 1,
+                  position: "relative",
                   display: "flex",
                   alignItems: "flex-start",
-                  gap: "12px",
                   padding: "18px",
                   borderRadius: "16px",
-                  border: `2px solid ${donationType === "padrinho" ? COLOR_PINK_SOFT : "#e5e7eb"}`,
-                  background: donationType === "padrinho" ? "#fff7f9" : "#fff",
+                  border: `2px solid ${donationType === "amigo" ? BLUE : "#e5e7eb"}`,
+                  background: donationType === "amigo" ? "#eff6ff" : "#fff",
                   cursor: "pointer",
                   touchAction: "manipulation",
                 }}
@@ -236,77 +302,219 @@ export default function DoacoesPage() {
                 <input
                   type="radio"
                   name="donationType"
-                  value="padrinho"
-                  checked={donationType === "padrinho"}
-                  onChange={() => setDonationType("padrinho")}
+                  value="amigo"
+                  checked={donationType === "amigo"}
+                  onChange={() => handleSelectDonationType("amigo")}
                   style={{
-                    marginTop: "3px",
-                    accentColor: COLOR_PINK,
-                    width: "16px",
-                    height: "16px",
+                    position: "absolute",
+                    opacity: 0,
+                    width: 0,
+                    height: 0,
                   }}
                 />
-                <div>
-                  <p className="font-extrabold text-gray-900">
-                    ❤️ Padrinho mensal
-                  </p>
+                {donationType === "amigo" ? (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "12px",
+                      right: "12px",
+                      width: "20px",
+                      height: "20px",
+                      borderRadius: "50%",
+                      background: BLUE,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M20 6L9 17l-5-5"
+                        stroke="#fff"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "12px",
+                      right: "12px",
+                      width: "20px",
+                      height: "20px",
+                      borderRadius: "50%",
+                      border: "2px solid #d1d5db",
+                      background: "#fff",
+                    }}
+                  />
+                )}
+                <div style={{ paddingRight: "24px" }}>
+                  <p className="font-extrabold text-gray-900">💙 Amigo APAE</p>
                   <p className="mt-1 text-sm leading-6 text-gray-500">
-                    Ajude continuamente no atendimento de crianças, jovens e
-                    famílias acompanhadas pela APAE.
+                    Você pode contribuir mensalmente com R$ 10 ou, se preferir,
+                    com o valor anual de R$ 120 — de uma só vez.
                   </p>
                 </div>
               </label>
             </div>
-            {donationType === "padrinho" && (
+
+            {donationType === "amigo" && (
               <>
-                <div
-                  style={{
-                    marginTop: "14px",
-                    borderRadius: "14px",
-                    border: "1px solid #fbcfe8",
-                    background: "#fff0f5",
-                    padding: "14px 18px",
-                    textAlign: "center",
-                  }}
-                >
-                  <p className="text-sm leading-6 text-pink-700">
-                    ❤️ Sua contribuição mensal ajuda a manter atendimentos,
-                    terapias e projetos ativos durante todo o ano.
+                {/* FREQUÊNCIA */}
+                <div style={{ marginTop: "16px" }}>
+                  <p className="mb-2 text-sm font-semibold text-gray-700">
+                    Frequência da contribuição
                   </p>
-                </div>
-                <div style={{ marginTop: "14px" }}>
-                  <label
-                    htmlFor="payer-email"
-                    className="mb-1.5 block text-sm font-semibold text-gray-700"
-                  >
-                    Seu e-mail
-                  </label>
-                  <input
-                    id="payer-email"
-                    type="email"
-                    value={payerEmail}
-                    onChange={(e) => setPayerEmail(e.target.value)}
-                    placeholder="seuemail@exemplo.com"
-                    required
-                    className="w-full border-2 border-gray-200 bg-white px-4 text-base focus:border-pink-400 focus:outline-none"
-                    style={{
-                      borderRadius: "10px",
-                      padding: "16px",
-                      fontSize: "16px",
-                      minHeight: "56px",
-                    }}
-                  />
-                  <p className="mt-1.5 text-xs text-gray-500">
-                    Usamos seu e-mail apenas para gerenciar sua assinatura de
-                    padrinho.
-                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      onClick={() => handleSelectFrequency("mensal")}
+                      style={{
+                        padding: "12px",
+                        borderRadius: "10px",
+                        border: `2px solid ${frequency === "mensal" ? BLUE : "#e5e7eb"}`,
+                        background: frequency === "mensal" ? BLUE : "#fff",
+                        color: frequency === "mensal" ? "#fff" : "#374151",
+                        fontWeight: 700,
+                        fontSize: "17px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Mensal
+                    </button>
+                    <button
+                      onClick={() => handleSelectFrequency("anual")}
+                      style={{
+                        padding: "12px",
+                        borderRadius: "10px",
+                        border: `2px solid ${frequency === "anual" ? BLUE : "#e5e7eb"}`,
+                        background: frequency === "anual" ? BLUE : "#fff",
+                        color: frequency === "anual" ? "#fff" : "#374151",
+                        fontWeight: 700,
+                        fontSize: "17px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Anual
+                    </button>
+                  </div>
+                  {frequency === "anual" && (
+                    <p
+                      className="text-xs leading-5 text-gray-500"
+                      style={{ marginTop: "5px", fontWeight: 700 }}
+                    >
+                      Cobrança única. Você recebe um lembrete para renovar no
+                      ano seguinte.
+                    </p>
+                  )}
+                  {frequency === "mensal" && (
+                    <p
+                      className="text-xs leading-5 text-gray-500"
+                      style={{ marginTop: "5px", fontWeight: 700 }}
+                    >
+                      Cobrança automática todo mês. Cancele quando quiser.
+                    </p>
+                  )}
                 </div>
               </>
             )}
           </div>
 
-          {/* MÉTODO — só doação única */}
-          {donationType === "unica" && (
+          {/* VALORES */}
+          <div style={{ marginBottom: "36px" }}>
+            <h2
+              className="text-center font-extrabold text-gray-900"
+              style={{ fontSize: "17px", marginBottom: "16px" }}
+            >
+              Escolha o valor da contribuição
+            </h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {currentAmounts.map((val) => amountBtn(val))}
+              <button
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  setAmount("outro");
+                }}
+                style={{
+                  padding: "16px 0",
+                  fontSize: "17px",
+                  fontWeight: 700,
+                  borderRadius: "12px",
+                  width: "100%",
+                  minHeight: "56px",
+                  border: amount === "outro" ? "none" : "2px solid #e5e7eb",
+                  background: amount === "outro" ? accentColor : "#ffffff",
+                  color: amount === "outro" ? "#fff" : "#374151",
+                  cursor: "pointer",
+                  touchAction: "manipulation",
+                  WebkitTapHighlightColor: "transparent",
+                  userSelect: "none",
+                }}
+              >
+                Outro
+              </button>
+            </div>
+            {amount === "outro" && (
+              <div style={{ marginTop: "12px" }}>
+                <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+                  Valor em R${" "}
+                  {donationType === "amigo" && `(mínimo R$ ${minAmount})`}
+                </label>
+                <input
+                  type="number"
+                  min={minAmount}
+                  value={customAmount}
+                  onChange={(e) => setCustomAmount(e.target.value)}
+                  placeholder={`Mínimo R$ ${minAmount}`}
+                  className="w-full bg-white px-4 text-base focus:outline-none"
+                  style={{
+                    borderRadius: "10px",
+                    padding: "16px",
+                    fontSize: "16px",
+                    minHeight: "56px",
+                    border: `2px solid ${customAmountInvalid ? "#dc2626" : "#e5e7eb"}`,
+                  }}
+                />
+                {customAmountInvalid && (
+                  <p className="mt-1.5 text-xs font-semibold text-red-600">
+                    O valor mínimo é R$ {minAmount}.
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* E-MAIL — só assinatura mensal (Amigo APAE recorrente) */}
+          {showEmailField && (
+            <div style={{ marginBottom: "36px" }}>
+              <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+                Seu e-mail
+              </label>
+              <input
+                type="email"
+                value={payerEmail}
+                onChange={(e) => setPayerEmail(e.target.value)}
+                placeholder="seuemail@exemplo.com"
+                required
+                className="w-full border-2 border-gray-200 bg-white px-4 text-base focus:border-blue-400 focus:outline-none"
+                style={{
+                  borderRadius: "10px",
+                  padding: "16px",
+                  fontSize: "16px",
+                  minHeight: "56px",
+                }}
+              />
+              <p className="mt-1.5 text-xs text-gray-400">
+                Usamos seu e-mail apenas para gerenciar sua assinatura de Amigo
+                APAE.
+              </p>
+            </div>
+          )}
+
+          {/* MÉTODO — doação única e Amigo APAE anual (ambos são pagamento avulso) */}
+          {showPaymentMethod && (
             <div style={{ marginBottom: "36px" }}>
               <h2
                 className="text-center font-extrabold text-gray-900"
@@ -400,8 +608,6 @@ export default function DoacoesPage() {
                 ].map((m) => (
                   <button
                     key={m.id}
-                    type="button"
-                    aria-pressed={paymentMethod === m.id}
                     onClick={() => setPaymentMethod(m.id)}
                     style={{
                       display: "flex",
@@ -411,7 +617,7 @@ export default function DoacoesPage() {
                       gap: "10px",
                       padding: "20px 8px",
                       borderRadius: "12px",
-                      border: `2px solid ${paymentMethod === m.id ? COLOR_GREEN_DARK : "#e5e7eb"}`,
+                      border: `2px solid ${paymentMethod === m.id ? "#16a34a" : "#e5e7eb"}`,
                       background: paymentMethod === m.id ? "#f0fdf4" : "#fff",
                       cursor: "pointer",
                       touchAction: "manipulation",
@@ -423,7 +629,7 @@ export default function DoacoesPage() {
                     {m.icon}
                     <span
                       style={{
-                        fontSize: "13px",
+                        fontSize: "15px",
                         fontWeight: 700,
                         color: "#374151",
                       }}
@@ -436,21 +642,10 @@ export default function DoacoesPage() {
             </div>
           )}
 
-          {/* ERRO */}
-          {error && (
-            <p
-              role="alert"
-              className="mb-4 text-center text-sm font-semibold text-red-600"
-            >
-              {error}
-            </p>
-          )}
-
           {/* BOTÃO */}
           <button
-            type="button"
             onClick={handleDonate}
-            disabled={loading}
+            disabled={loading || customAmountInvalid}
             style={{
               display: "block",
               width: "100%",
@@ -459,39 +654,34 @@ export default function DoacoesPage() {
               fontWeight: 700,
               borderRadius: "12px",
               border: "none",
-              background: loading ? "#86efac" : COLOR_GREEN,
+              background:
+                loading || customAmountInvalid ? "#d1d5db" : "#22c55e",
               color: "#fff",
-              cursor: loading ? "not-allowed" : "pointer",
+              cursor:
+                loading || customAmountInvalid ? "not-allowed" : "pointer",
               touchAction: "manipulation",
               WebkitTapHighlightColor: "transparent",
               transition: "background 0.15s",
             }}
             onMouseEnter={(e) => {
-              if (!loading) e.currentTarget.style.background = COLOR_GREEN_DARK;
+              if (!loading && !customAmountInvalid)
+                e.currentTarget.style.background = "#16a34a";
             }}
             onMouseLeave={(e) => {
-              if (!loading) e.currentTarget.style.background = COLOR_GREEN;
+              if (!loading && !customAmountInvalid)
+                e.currentTarget.style.background = "#22c55e";
             }}
           >
             {loading
               ? "Processando..."
-              : donationType === "padrinho"
-                ? "Quero ser padrinho ❤️"
-                : "Fazer doação"}
+              : donationType === "amigo"
+                ? "Quero ser Amigo APAE 💙"
+                : "Fazer doação ❤️"}
           </button>
 
-          <p className="mt-3 text-center text-xs text-gray-500">
-            🔒 Pagamento processado com segurança pelo Mercado Pago
+          <p className="mt-3 mb-3 text-center text-xs text-gray-400">
+            🔒 Ambiente 100% seguro
           </p>
-
-          <div className="mt-2 text-center">
-            <Link
-              href="/apoio/doacoes"
-              className="text-xs font-semibold text-gray-500 underline"
-            >
-              Saiba mais sobre como usamos sua doação
-            </Link>
-          </div>
         </div>
       </main>
 

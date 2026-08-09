@@ -75,6 +75,15 @@ const iconApoio = (
   </svg>
 );
 
+const iconAmigo = (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 21s-7-4.5-9.5-9C.8 8.4 2 4.5 6 4c2 0 3.5 1.2 4.5 2.8C11.5 5.2 13 4 15 4c4 0 5.2 3.9 3.5 8-2.5 4.5-9.5 9-9.5 9z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 const socials = [
   {
     href: "https://instagram.com/apaesaorafael",
@@ -138,13 +147,58 @@ export default async function LinksPage() {
   const temCursosAtivos = cursos.length > 0;
 
   const links = [
-    { href: "/doacoes", label: "Fazer uma doação", icon: iconDoacao },
+    {
+      href: "/doacoes",
+      label: "Fazer uma doação",
+      icon: iconDoacao,
+      color: "#e94e77",
+      highlight: false,
+      tint: false,
+    },
+    {
+      href: "/doacoes?tipo=amigo",
+      label: "Seja Amigo APAE",
+      icon: iconAmigo,
+      color: "#3b82f6",
+      highlight: false,
+      tint: true,
+    },
     ...(temCursosAtivos
-      ? [{ href: "/cursos", label: "Cursos e oficinas", icon: iconCursos }]
+      ? [
+          {
+            href: "/cursos",
+            label: "Cursos e oficinas",
+            icon: iconCursos,
+            color: "#16a34a",
+            highlight: true,
+            tint: false,
+          },
+        ]
       : []),
-    { href: "/novidades", label: "Veja as novidades", icon: iconNovidades },
-    { href: "/apoio", label: "Apoie, seja voluntário", icon: iconApoio },
-    { href: "/", label: "Visite nosso site", icon: iconAcessarSite },
+    {
+      href: "/novidades",
+      label: "Veja as novidades",
+      icon: iconNovidades,
+      color: "#003F8A",
+      highlight: false,
+      tint: false,
+    },
+    {
+      href: "/apoio",
+      label: "Seja voluntário",
+      icon: iconApoio,
+      color: "#003F8A",
+      highlight: false,
+      tint: false,
+    },
+    {
+      href: "/",
+      label: "Visite nosso site",
+      icon: iconAcessarSite,
+      color: "#003F8A",
+      highlight: false,
+      tint: false,
+    },
   ];
 
   return (
@@ -184,31 +238,77 @@ export default async function LinksPage() {
 
         {/* BOTOES */}
         <nav className="flex flex-col gap-3">
-          {links.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "14px",
-                padding: "16px 20px",
-                borderRadius: "14px",
-                background: "#fff",
-                border: "2px solid #e5e7eb",
-                color: "#111827",
-                fontWeight: 700,
-                fontSize: "15px",
-                textDecoration: "none",
-                transition: "border 0.15s, transform 0.1s",
-              }}
-            >
-              <span style={{ color: "#003F8A", flexShrink: 0 }}>
-                {item.icon}
-              </span>
-              {item.label}
-            </Link>
-          ))}
+          {links.map((item, index) => {
+            const isFirstNonSupportItem = item.href === "/novidades";
+            return (
+              <div key={item.href}>
+                {isFirstNonSupportItem && (
+                  <p
+                    className="text-gray-400"
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                      marginTop: "8px",
+                      marginBottom: "10px",
+                      paddingLeft: "4px",
+                    }}
+                  >
+                    Conheça mais a APAE
+                  </p>
+                )}
+                <Link
+                  href={item.href}
+                  className="active:scale-95 transition-transform duration-100"
+                  style={{
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "14px",
+                    padding: "16px 20px",
+                    borderRadius: "14px",
+                    background: item.highlight
+                      ? "#f0fdf4"
+                      : item.tint
+                        ? "#eff6ff"
+                        : "#fff",
+                    border: item.highlight
+                      ? "2px solid #16a34a"
+                      : item.tint
+                        ? "2px solid #93c5fd"
+                        : "2px solid #e5e7eb",
+                    color: "#111827",
+                    fontWeight: 700,
+                    fontSize: "15px",
+                    textDecoration: "none",
+                    transition: "border 0.15s, transform 0.1s",
+                  }}
+                >
+                  <span style={{ color: item.color, flexShrink: 0 }}>
+                    {item.icon}
+                  </span>
+                  {item.label}
+                  {item.highlight && (
+                    <span
+                      style={{
+                        marginLeft: "auto",
+                        background: "#16a34a",
+                        color: "#fff",
+                        fontSize: "10px",
+                        fontWeight: 800,
+                        padding: "4px 8px",
+                        borderRadius: "999px",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      Vagas abertas
+                    </span>
+                  )}
+                </Link>
+              </div>
+            );
+          })}
         </nav>
 
         {/* REDES SOCIAIS */}
@@ -227,6 +327,7 @@ export default async function LinksPage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
+              className="active:scale-90 transition-transform duration-100"
               style={{
                 width: "46px",
                 height: "46px",

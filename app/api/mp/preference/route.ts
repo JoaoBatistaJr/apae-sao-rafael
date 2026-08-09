@@ -3,7 +3,7 @@ import { Preference } from "mercadopago";
 import { mpClient } from "@/lib/mercadopago";
 
 export async function POST(req: NextRequest) {
-  const { amount, method } = await req.json();
+  const { amount, method, title } = await req.json();
 
   if (!amount || amount < 1) {
     return NextResponse.json({ error: "Valor inválido" }, { status: 400 });
@@ -24,8 +24,8 @@ export async function POST(req: NextRequest) {
       body: {
         items: [
           {
-            id: "doacao-unica",
-            title: "Doação para APAE São Rafael",
+            id: "doacao-apae",
+            title: title || "Doação para APAE São Rafael",
             quantity: 1,
             unit_price: Number(amount),
             currency_id: "BRL",

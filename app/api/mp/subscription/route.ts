@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        reason: "Padrinho mensal APAE São Rafael",
+        reason: "Amigo APAE - Contribuição mensal",
         auto_recurring: {
           frequency: 1,
           frequency_type: "months",
