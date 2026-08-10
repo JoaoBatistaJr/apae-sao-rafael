@@ -1,70 +1,56 @@
+import Image from "next/image";
 import Link from "next/link";
+import fs from "fs";
+import path from "path";
 import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/ScrollReveal";
 
 type Depoimento = {
+  id: string;
   nome: string;
-  descricao: string; // ex: "35 anos, mãe de uma criança atendida pela APAE"
-  texto: string;
-  estrelas: number; // 1 a 5
-  videoUrl?: string; // opcional: quando existir, o card pode exibir player no lugar do texto
+  descricao: string;
+  texto: string[]; // cada item é um parágrafo
+  fotoUrl: string; // se o arquivo ainda não existir em /public, cai no avatar com iniciais
 };
 
-// Conteúdo placeholder — substituir por relatos reais aprovados pela direção da APAE.
 const depoimentos: Depoimento[] = [
   {
-    nome: "Maria Silva",
-    descricao: "35 anos, mãe de uma criança atendida pela APAE",
-    texto:
-      "A APAE foi fundamental no desenvolvimento do meu filho. Aqui, ele recebeu não só atendimento especializado, mas também muito carinho e acolhimento. Somos eternamente gratos!",
-    estrelas: 5,
+    id: "miriam-peixoto",
+    nome: "Miriam Peixoto",
+    descricao: "mãe de uma criança atendida pela APAE",
+    texto: [
+      "Para nós, a APAE é muito mais do que uma instituição; é um verdadeiro porto seguro e um lugar onde o desenvolvimento do meu filho acontece com muito amor, respeito e dedicação.",
+      "Ver a alegria dele todas as vezes que chega o dia e a hora de ir para a APAE não tem preço. Ele ama estar lá, pede sempre para ir e se envolve de coração em cada atividade. Esse carinho e esse entusiasmo mostram, na prática, o quanto ele se sente acolhido, amado e feliz naquele espaço.",
+      "Como mãe, vejo claramente o quanto a APAE contribui para o desenvolvimento, para a autonomia e para o crescimento dele no dia a dia. A evolução é contínua e nos enche de orgulho. Sou profundamente grata a toda a equipe da APAE de São Rafael pelo trabalho maravilhoso, pelo respeito à neurodiversidade e por transformarem a vida da nossa família!",
+    ],
+    fotoUrl: "/miriam-peixoto.jpeg",
   },
   {
-    nome: "José Antônio",
-    descricao: "55 anos, pai de uma criança atendida pela APAE",
-    texto:
-      "Participar das atividades da APAE transformou a nossa vida. A dedicação dos profissionais e o apoio da comunidade fazem toda a diferença para quem precisa de inclusão e respeito.",
-    estrelas: 5,
+    id: "depoimento-2",
+    nome: "[NOME-2]",
+    descricao: "mãe de um filho atendido pela APAE",
+    texto: [
+      "A APAE é uma associação de pais e amigos dos excepcionais. Ela representa, na minha vida e na de muitos pais, uma rede essencial de acolhimento, defesa de direitos e inclusão social para pessoas com deficiência intelectual e múltipla.",
+      "Na minha vida, ela trouxe orientação e o apoio de vários profissionais, me ajudando a aprender a conhecer e a conviver com outras pessoas. Na vida do meu filho, funciona como um porto seguro que transforma potencial em conquistas reais — terapias, treino para atividades básicas do dia a dia, comunicação aprimorada, novas habilidades e laços de amizade.",
+      "A APAE tem como objetivo promover a melhoria da qualidade de vida dos pais e dos nossos filhos.",
+    ],
+    fotoUrl: "/nome-2.jpeg",
   },
   {
-    nome: "Ana Paula",
-    descricao: "42 anos, mãe de uma adolescente atendida pela APAE",
-    texto:
-      "Cada avanço da minha filha é comemorado por toda a equipe como se fosse deles também. Esse cuidado genuíno faz toda a diferença no nosso dia a dia.",
-    estrelas: 5,
-  },
-  {
-    nome: "Carlos Eduardo",
-    descricao: "48 anos, voluntário da instituição",
-    texto:
-      "Ser voluntário na APAE me ensinou mais do que eu poderia imaginar. Ver o progresso de cada pessoa atendida é uma das experiências mais gratificantes que já tive.",
-    estrelas: 5,
-  },
-  {
-    nome: "Francisca Oliveira",
-    descricao: "60 anos, avó de uma criança atendida pela APAE",
-    texto:
-      "Minha neta encontrou na APAE um espaço de acolhimento que não imaginávamos possível. A equipe trata cada família com muito respeito e dedicação.",
-    estrelas: 5,
-  },
-  {
-    nome: "Pedro Henrique",
-    descricao: "38 anos, pai de uma criança atendida pela APAE",
-    texto:
-      "O acompanhamento da assistência social nos ajudou em um momento muito difícil. Hoje enxergamos um futuro muito mais possível para o nosso filho.",
-    estrelas: 5,
+    id: "francinilda",
+    nome: "Francinilda",
+    descricao: "mãe de dois filhos atendidos pela APAE",
+    texto: [
+      "A APAE representa amor, cuidado, acolhimento e esperança. Como mãe de dois filhos assistidos por essa instituição, sou profundamente grata por todo carinho, cuidado e dedicação que recebemos.",
+      "Cada conquista dos meus filhos também é da APAE, que acredita no potencial deles e caminha conosco passo a passo. Para nós, a APAE é muito mais que uma instituição, é um lugar que transforma vidas e renova a esperança todos os dias. Grata por todo apoio.",
+    ],
+    fotoUrl: "/francinilda.jpeg",
   },
 ];
 
-const avatarCores = [
-  "#1c6b42",
-  "#003F8A",
-  "#7a1633",
-  "#6c3d8a",
-  "#145e75",
-  "#7a5a00",
-];
+const avatarCores = ["#1c6b42", "#003F8A", "#7a1633"];
 
 function iniciais(nome: string) {
   return nome
@@ -73,6 +59,42 @@ function iniciais(nome: string) {
     .map((p) => p[0])
     .join("")
     .toUpperCase();
+}
+
+
+
+function existeArquivo(caminhoPublico: string) {
+  const caminhoAbsoluto = path.join(process.cwd(), "public", caminhoPublico);
+  return fs.existsSync(caminhoAbsoluto);
+}
+
+function Foto({ dep, cor }: { dep: Depoimento; cor: string }) {
+  const temFoto = existeArquivo(dep.fotoUrl);
+
+  return (
+    <div
+      className="relative w-full overflow-hidden bg-gray-100"
+      style={{ borderRadius: "24px", aspectRatio: "4 / 5" }}
+    >
+      {temFoto ? (
+        <Image
+          src={dep.fotoUrl}
+          alt={`Foto de ${dep.nome}`}
+          fill
+          sizes="(max-width: 1024px) 100vw, 480px"
+          className="object-cover"
+        />
+      ) : (
+        <div
+          className="flex h-full w-full items-center justify-center text-5xl font-bold text-white"
+          style={{ backgroundColor: cor }}
+          aria-hidden
+        >
+          {iniciais(dep.nome)}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function DepoimentosPage() {
@@ -101,69 +123,69 @@ export default function DepoimentosPage() {
       <main className="flex-1 bg-warm">
         <section
           className="bg-warm w-full"
-          style={{ paddingTop: "80px", paddingBottom: "60px" }}
+          style={{ paddingTop: "80px", paddingBottom: "40px" }}
         >
-          <div className="container-site">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              {depoimentos.map((dep, i) => (
-                <div
-                  key={dep.nome}
-                  className="flex flex-col border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
-                  style={{ borderRadius: "24px", padding: "32px" }}
-                >
-                  <span
-                    className="text-4xl text-gray-300"
-                    style={{ fontFamily: "Georgia, serif", lineHeight: 1 }}
-                    aria-hidden
+          <div className="container-site flex flex-col" style={{ gap: "80px" }}>
+            {depoimentos.map((dep, i) => {
+              const invertido = i % 2 === 1;
+              const cor = avatarCores[i % avatarCores.length];
+
+              return (
+                <ScrollReveal key={dep.id}>
+                  <div
+                    className={`flex flex-col items-center gap-10 lg:items-stretch ${
+                      invertido ? "lg:flex-row-reverse" : "lg:flex-row"
+                    }`}
                   >
-                    &ldquo;
-                  </span>
-
-                  <div style={{ marginTop: "8px", marginBottom: "16px" }}>
-                    {Array.from({ length: dep.estrelas }).map((_, s) => (
-                      <span key={s} className="text-yellow-400 text-sm">
-                        ★
-                      </span>
-                    ))}
-                  </div>
-
-                  <p
-                    className="italic text-base leading-7 text-gray-700"
-                    style={{ marginBottom: "24px", flex: 1 }}
-                  >
-                    &ldquo;{dep.texto}&rdquo;
-                  </p>
-
-                  <div className="flex items-center gap-3">
                     <div
-                      className="flex items-center justify-center rounded-full font-bold text-white"
-                      style={{
-                        width: "44px",
-                        height: "44px",
-                        backgroundColor: avatarCores[i % avatarCores.length],
-                        flexShrink: 0,
-                      }}
-                      aria-hidden
+                      className="w-full lg:w-2/5"
+                      style={{ maxWidth: "480px" }}
                     >
-                      {iniciais(dep.nome)}
+                      <Foto dep={dep} cor={cor} />
+                      <div style={{ marginTop: "8px", marginLeft: "20px" }}>
+                        <p className="font-extrabold text-gray-900">
+                          {dep.nome}
+                        </p>
+                        <p className="text-sm text-gray-500">{dep.descricao}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-extrabold text-gray-900 text-sm">
-                        {dep.nome}
-                      </p>
-                      <p className="text-sm text-gray-500">{dep.descricao}</p>
+
+                    <div className="flex w-full flex-col justify-center lg:w-3/5">
+                      <span
+                        className="text-5xl leading-0 text-gray-300"
+                        style={{ fontFamily: "Georgia, serif" }}
+                        aria-hidden
+                      >
+                        &ldquo;
+                      </span>
+                      <div
+                        className="flex flex-col gap-4"
+                        style={{ marginTop: "8px" }}
+                      >
+                        {dep.texto.map((paragrafo, p) => (
+                          <p
+                            key={p}
+                            className="text-base leading-7 text-gray-700 sm:text-lg sm:leading-8"
+                          >
+                            {paragrafo}
+                          </p>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                </ScrollReveal>
+              );
+            })}
           </div>
         </section>
 
-        {/* CTA - enviar depoimento */}
         <section
           className="w-full bg-[#003F8A]"
-          style={{ paddingTop: "80px", paddingBottom: "80px" }}
+          style={{
+            paddingTop: "80px",
+            paddingBottom: "80px",
+            marginTop: "40px",
+          }}
         >
           <div className="container-site flex flex-col items-center text-center">
             <h2

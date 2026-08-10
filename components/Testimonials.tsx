@@ -5,17 +5,17 @@ import ScrollReveal from "@/components/ScrollReveal";
 const testimonials = [
   {
     quote:
-      "A APAE foi fundamental no desenvolvimento do meu filho. Aqui, ele recebeu não só atendimento especializado, mas também muito carinho e acolhimento. Somos eternamente gratos!",
-    name: "Maria Silva",
-    role: "35 anos, mãe de uma criança atendida pela APAE",
-    initials: "MS",
+      "Para nós, a APAE é muito mais do que uma instituição; é um verdadeiro porto seguro onde o desenvolvimento do meu filho acontece com muito amor, respeito e dedicação. Ver a alegria dele a cada dia de ir para lá não tem preço.",
+    name: "Miriam Peixoto",
+    role: "mãe de uma criança atendida pela APAE",
+    initials: "MP",
   },
   {
     quote:
-      "Participar das atividades da APAE transformou a nossa vida. A dedicação dos profissionais e o apoio da comunidade fazem toda a diferença para quem precisa de inclusão e respeito.",
-    name: "José Antônio",
-    role: "55 anos, pai de uma criança atendida pela APAE",
-    initials: "JA",
+      "A APAE representa amor, cuidado, acolhimento e esperança. Como mãe de dois filhos assistidos por essa instituição, sou profundamente grata por todo carinho, cuidado e dedicação que recebemos.",
+    name: "Francinilda",
+    role: "mãe de dois filhos atendidos pela APAE",
+    initials: "F",
   },
 ];
 
@@ -96,7 +96,10 @@ export default function Testimonials() {
             className="mt-12 flex justify-center"
             style={{ paddingTop: "40px" }}
           >
-            <Link href="/depoimentos" className="btn btn-outline-primary btn-md">
+            <Link
+              href="/depoimentos"
+              className="btn btn-outline-primary btn-md"
+            >
               Veja mais Histórias
             </Link>
           </div>

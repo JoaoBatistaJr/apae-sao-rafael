@@ -1,8 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Apenas domínios usados pelo Notion para hospedar imagens.
+// Qualquer URL fora dessa lista é rejeitada antes do fetch.
+const ALLOWED_HOSTS = [
+  "notion.so",
+  "www.notion.so",
+  "prod-files-secure.s3.us-west-2.amazonaws.com",
+  "s3.us-west-2.amazonaws.com",
+  "images.unsplash.com",
+];
+
+function isAllowedUrl(rawUrl: string): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    return false;
+  }
+
+  // Só permite HTTP(S) — bloqueia file://, ftp://, etc.
+  if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+    return false;
+  }
+
+  return ALLOWED_HOSTS.some(
+    (host) => parsed.hostname === host || parsed.hostname.endsWith(`.${host}`)
+  );
+}
+
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get("url");
   if (!url) return new NextResponse("Missing url", { status: 400 });
+
+  if (!isAllowedUrl(url)) {
+    return new NextResponse("Domain not allowed", { status: 403 });
+  }
 
   try {
     const res = await fetch(url, {

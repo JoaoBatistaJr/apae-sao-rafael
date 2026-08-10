@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Client } from "@notionhq/client";
+import { unstable_cache } from "next/cache";
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 const DATABASE_ID = process.env.NOTION_NOVIDADES_DATABASE_ID!;
@@ -80,96 +81,115 @@ function toSlug(title: string): string {
     .replace(/\s+/g, "-");
 }
 
-export async function getBlocos(pageId: string): Promise<NotionBlock[]> {
-  const response = await notion.blocks.children.list({ block_id: pageId });
-  const blocos: NotionBlock[] = [];
+// Blocos de conteúdo raramente mudam depois de publicados — cache mais longo (10 min).
+const getBlocosCached = unstable_cache(
+  async (pageId: string): Promise<NotionBlock[]> => {
+    const response = await notion.blocks.children.list({ block_id: pageId });
+    const blocos: NotionBlock[] = [];
 
-  for (const block of response.results as any[]) {
-    switch (block.type) {
-      case "paragraph":
-        const paraText = richTextToString(block.paragraph?.rich_text);
-        if (paraText) blocos.push({ type: "paragraph", text: paraText });
-        break;
-      case "heading_1":
-        blocos.push({
-          type: "heading",
-          level: 1,
-          text: richTextToString(block.heading_1?.rich_text),
-        });
-        break;
-      case "heading_2":
-        blocos.push({
-          type: "heading",
-          level: 2,
-          text: richTextToString(block.heading_2?.rich_text),
-        });
-        break;
-      case "heading_3":
-        blocos.push({
-          type: "heading",
-          level: 3,
-          text: richTextToString(block.heading_3?.rich_text),
-        });
-        break;
-      case "bulleted_list_item":
-        blocos.push({
-          type: "bullet",
-          text: richTextToString(block.bulleted_list_item?.rich_text),
-        });
-        break;
-      case "numbered_list_item":
-        blocos.push({
-          type: "numbered",
-          text: richTextToString(block.numbered_list_item?.rich_text),
-        });
-        break;
-      case "quote":
-        blocos.push({
-          type: "quote",
-          text: richTextToString(block.quote?.rich_text),
-        });
-        break;
-      case "divider":
-        blocos.push({ type: "divider" });
-        break;
-      case "image":
-        const imgUrl =
-          block.image?.file?.url ?? block.image?.external?.url ?? "";
-        if (imgUrl) blocos.push({ type: "image", url: proxyUrl(imgUrl) });
-        break;
-      case "video":
-        const videoUrl = block.video?.external?.url ?? "";
-        if (videoUrl) blocos.push({ type: "video", url: videoUrl });
-        break;
+    for (const block of response.results as any[]) {
+      switch (block.type) {
+        case "paragraph":
+          const paraText = richTextToString(block.paragraph?.rich_text);
+          if (paraText) blocos.push({ type: "paragraph", text: paraText });
+          break;
+        case "heading_1":
+          blocos.push({
+            type: "heading",
+            level: 1,
+            text: richTextToString(block.heading_1?.rich_text),
+          });
+          break;
+        case "heading_2":
+          blocos.push({
+            type: "heading",
+            level: 2,
+            text: richTextToString(block.heading_2?.rich_text),
+          });
+          break;
+        case "heading_3":
+          blocos.push({
+            type: "heading",
+            level: 3,
+            text: richTextToString(block.heading_3?.rich_text),
+          });
+          break;
+        case "bulleted_list_item":
+          blocos.push({
+            type: "bullet",
+            text: richTextToString(block.bulleted_list_item?.rich_text),
+          });
+          break;
+        case "numbered_list_item":
+          blocos.push({
+            type: "numbered",
+            text: richTextToString(block.numbered_list_item?.rich_text),
+          });
+          break;
+        case "quote":
+          blocos.push({
+            type: "quote",
+            text: richTextToString(block.quote?.rich_text),
+          });
+          break;
+        case "divider":
+          blocos.push({ type: "divider" });
+          break;
+        case "image":
+          const imgUrl =
+            block.image?.file?.url ?? block.image?.external?.url ?? "";
+          if (imgUrl) blocos.push({ type: "image", url: proxyUrl(imgUrl) });
+          break;
+        case "video":
+          const videoUrl = block.video?.external?.url ?? "";
+          if (videoUrl) blocos.push({ type: "video", url: videoUrl });
+          break;
+      }
     }
-  }
 
-  return blocos;
+    return blocos;
+  },
+  ["notion-blocos-novidades"],
+  { revalidate: 600, tags: ["novidades"] }
+);
+
+export async function getBlocos(pageId: string): Promise<NotionBlock[]> {
+  return getBlocosCached(pageId);
 }
 
-export async function getNoticias(): Promise<Noticia[]> {
-  const response = await notion.databases.query({
-    database_id: DATABASE_ID,
-    filter: { property: "Publicado", checkbox: { equals: true } },
-    sorts: [{ property: "Data", direction: "descending" }],
-  });
+// Lista de notícias: cache curto (60s) — equilíbrio entre atualidade
+// e não sobrecarregar a API do Notion a cada requisição.
+const getNoticiasCached = unstable_cache(
+  async (): Promise<Noticia[]> => {
+    const response = await notion.databases.query({
+      database_id: DATABASE_ID,
+      filter: { property: "Publicado", checkbox: { equals: true } },
+      sorts: [{ property: "Data", direction: "descending" }],
+    });
 
-  return response.results.map((page: any) => {
-    const props = page.properties;
-    const titulo = getText(props["Título"]);
-    const cover = getCover(page);
-    const campoImagem = getText(props["Imagem"]);
-    const imagem = cover || driveToDirectUrl(campoImagem);
-    return {
-      id: page.id,
-      titulo,
-      descricao: getText(props["Descrição"]),
-      tag: getText(props["Tag"]),
-      imagem,
-      data: getText(props["Data"]),
-      slug: toSlug(titulo),
-    };
-  });
+    return response.results.map((page: any) => {
+      const props = page.properties;
+      const titulo = getText(props["Título"]);
+      const cover = getCover(page);
+      const campoImagem = getText(props["Imagem"]);
+      const imagem = cover || driveToDirectUrl(campoImagem);
+      return {
+        id: page.id,
+        titulo,
+        descricao: getText(props["Descrição"]),
+        tag: getText(props["Tag"]),
+        imagem,
+        data: getText(props["Data"]),
+        slug: toSlug(titulo),
+      };
+    });
+  },
+  ["notion-novidades"],
+  { revalidate: 60, tags: ["novidades"] }
+);
+
+export async function getNoticias(): Promise<Noticia[]> {
+  return getNoticiasCached();
 }
 
 export async function getNoticia(slug: string): Promise<Noticia | null> {
