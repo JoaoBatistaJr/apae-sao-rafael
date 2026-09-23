@@ -14,7 +14,12 @@ export async function POST(req: NextRequest) {
 
   const excluded_payment_types =
     method === "pix"
-      ? [{ id: "credit_card" }, { id: "debit_card" }, { id: "ticket" }]
+      ? [
+        { id: "credit_card" },
+        { id: "debit_card" },
+        { id: "prepaid_card" },
+        { id: "ticket" },
+      ]
       : method === "cartao"
         ? [{ id: "ticket" }, { id: "bank_transfer" }]
         : [{ id: "ticket" }];
