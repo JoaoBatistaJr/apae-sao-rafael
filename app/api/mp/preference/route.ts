@@ -19,10 +19,6 @@ export async function POST(req: NextRequest) {
         { id: "debit_card" },
         { id: "prepaid_card" },
         { id: "ticket" },
-        { id: "atm" },
-        { id: "digital_wallet" },
-        { id: "digital_currency" },
-        { id: "account_money" },
       ]
       : method === "cartao"
         ? [{ id: "ticket" }, { id: "bank_transfer" }]
